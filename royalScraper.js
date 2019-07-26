@@ -14,14 +14,22 @@ var options = {
 
 rp(options)
   .then(function(html) {
-    //console.log(cheerio('h1.eventlist-title' , $));
-    //let articles = $('article', html);
-    let articles = $('article', html.body);
-    
+
+    let includePastShows = true;
+
+    //Get upcoming Shows only
+    let articles = $('article', html.body).not('.eventlist-event--past');
+    if(includePastShows){articles = $('article', html.body);}
+
     for(let i=0;i<articles.length;i++){
         
+        /*
+            Before stripping out data, do a round of sub-tag checking for things link
+            <STRONG> which we know is often used for all day events D!Z for example
+        */ 
+
         //Artist
-        let artist = $(".eventlist-title-link", articles[i]).text();
+        let artist = exports.parseArtist(articles[i]);
         console.log("Artist: "+artist);
 
         //Opener
@@ -43,8 +51,15 @@ rp(options)
         console.log("Doors: "+doors);
         console.log();
     }
+    
+    console.log("Total shows: "+articles.length);
+
    })
   .catch(function(err) {
      console.log(err);
     //handle error
   });
+
+  exports.parseArtist = function(article){
+    return $(".eventlist-title-link", article).text();
+  };

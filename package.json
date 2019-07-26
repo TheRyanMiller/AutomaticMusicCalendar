@@ -1,0 +1,28 @@
+{
+  "name": "charlestonlivemusiccalendar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pohoScraper.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRyanMiller/PoHoScraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheRyanMiller/PoHoScraper/issues"
+  },
+  "homepage": "https://github.com/TheRyanMiller/PoHoScraper#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "express": "^4.17.1",
+    "mocha": "^6.2.0",
+    "request-promise": "^4.2.4"
+  }
+}
