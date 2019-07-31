@@ -1,14 +1,13 @@
 var ical = require('node-ical');
 const rp = require('request-promise');
 const url = 'https://music-farm.com/events/?ical=1&tribe_display=list';
-let icalHtml = "";
 
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+//const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 let event = {
     title: "", 
     location: "",
-    eventDate: "",
+    eventDate: {},
     time:""
 }
 
