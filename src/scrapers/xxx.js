@@ -4,7 +4,7 @@ const url = 'https://tockify.com/api/feeds/ics/tinroofschedule';
 let icalHtml = "";
 
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 let event = {
     title: "", 
     location: "Tin Roof - Charleston",
@@ -30,20 +30,22 @@ function wordInString(title, exclusions) {
 }
 
 let eventList = [];
-
 ical.fromURL(url, {}, function (err, data) {
-  for (let k in data) {
-    if (data.hasOwnProperty(k)) {
-      var ev = data[k];
-      if (data[k].type == 'VEVENT' &&  !wordInString(ev.summary.toLowerCase(), exclusions)) {
-        event.title = ev.summary; 
-        event.eventDate = ev.start;
-        event.time= ev.start.toLocaleTimeString('en-GB');
-        event.infoLink = ev.url;
-        eventList.push(ev);
+    for (let k in data) {
+      event = {};
+      if (data.hasOwnProperty(k)) {
+        var ev = data[k];
+        if (data[k].type == 'VEVENT' &&  !wordInString(ev.summary.toLowerCase(), exclusions)) {
+          event.title = ev.summary; 
+          event.eventDate = ev.start;
+          event.time= ev.start.toLocaleTimeString('en-GB');
+          event.infoLink = ev.url;
+          eventList.push(event);
+          
+        }
+        
       }
       
     }
-  }
-  console.log(eventList);
-})
+    console.log(eventList);
+  })
