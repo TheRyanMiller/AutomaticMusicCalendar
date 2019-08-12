@@ -35,11 +35,15 @@ let tinRoofEvents = require('./scrapers/tinRoofScraper.js').then(function(result
             });
         }
         
-      });
+    });
+    
   }, function(err) {
     console.log("didn't work");
     console.log(err); // Error: "It broke"
 });
+
+
+
 
 
 const insertEvents = function(db, callback) {
@@ -72,7 +76,6 @@ const searchEvent = function(db, webEvent, callback){
     collection.find(query).toArray(function(err, result){
         if(err) throw err;
         callback(result);
-        //Found it! Now let's replace
     });
     
 };
@@ -85,7 +88,7 @@ const updateEvent = function(db, webEvent, mongoEvent, callback) {
     collection.update(
         query,
         { webEvent },
-        { upsert: true }, //options
+        { upsert: false }, //options
         function(err, result) {
             if(err){
                 console.log("======HERE IT IS====")
@@ -95,6 +98,7 @@ const updateEvent = function(db, webEvent, mongoEvent, callback) {
             assert.equal(err, null);
             callback(result);
         }
+        
     )
 }
 
