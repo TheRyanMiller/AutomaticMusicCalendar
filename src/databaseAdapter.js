@@ -19,9 +19,20 @@ let tinRoofEvents = require('./scrapers/tinRoofScraper.js').then(function(result
         console.log("Connected successfully to server");
         const db = client.db(dbName);
         for(let i=0;i<webEvents.length;i++){
-            //console.log(webEvents[i]);
-            //search for this event in database
-            searchEvent(db, webEvents[i]);
+            searchEvent(db, webEvents[i], function(result){
+                //do something with the output
+                let mongoEvent = result;
+                if(mongoEvent.length>0){
+                    updateEvent(db, webEvents[i], mongoEvent, function(result){
+                        console.log("Event Modified");
+                    });
+                }
+                else{
+                    insertOneEvent(db, webEvents[i], function(){
+                        console.log("NEW EVENT INSERTED");
+                    })
+                }
+            });
         }
         
       });
@@ -29,6 +40,7 @@ let tinRoofEvents = require('./scrapers/tinRoofScraper.js').then(function(result
     console.log("didn't work");
     console.log(err); // Error: "It broke"
 });
+
 
 const insertEvents = function(db, callback) {
     // Get the documents collection
@@ -42,23 +54,48 @@ const insertEvents = function(db, callback) {
     });
 }
 
-const searchEvent = function(db, webEvent){
+const insertOneEvent = function(db, event, callback) {
+    // Get the documents collection
+    const collection = db.collection('events');
+    // Insert some documents
+    collection.insertOne(event, function(err, result) {
+        assert.equal(err, null);
+        callback(result);
+    });
+}
+
+
+const searchEvent = function(db, webEvent, callback){
     const collection = db.collection('events');
     //console.log(webEvent.title);
-    let query = {title: webEvent.title}
-    let count;
-    let resultCount = collection.find(query).count(function(err, result){
-        if(err) throw err;
-        //Found it! Now let's replace
-
-        //console.log("COUNT: "+result);
-    });
+    let query = {title: webEvent.title, eventDate: webEvent.eventDate};
     collection.find(query).toArray(function(err, result){
         if(err) throw err;
+        callback(result);
         //Found it! Now let's replace
-
-        console.log(webEvent.title+" "+result.length);
     });
+    
+};
+
+const updateEvent = function(db, webEvent, mongoEvent, callback) {
+    // Get the documents collection
+    const collection = db.collection('events');
+    // Insert some documents
+    let query = { "_id": mongoEvent._id };
+    collection.update(
+        query,
+        { webEvent },
+        { upsert: true }, //options
+        function(err, result) {
+            if(err){
+                console.log("======HERE IT IS====")
+                console.log(mongoEvent)
+                console.log("====================")
+            }
+            assert.equal(err, null);
+            callback(result);
+        }
+    )
 }
 
 

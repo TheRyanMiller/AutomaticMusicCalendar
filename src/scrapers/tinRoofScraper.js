@@ -38,10 +38,22 @@ module.exports = new Promise(function(resolve, reject){
       if (data.hasOwnProperty(k)) {
         var ev = data[k];
         if (data[k].type == 'VEVENT' &&  !wordInString(ev.summary.toLowerCase(), exclusions)) {
-          event.title = ev.summary; 
+          //Titles look like this: Forsaken Profits / Cult of Bastards / Blue Ricky $7
+          let titleArr = ev.summary.replace(/(\r\n|\n|\r)/gm, "").split(/(?=\$)/);
+          let title = "";
+          let feeInTitle = titleArr.length > 1;
+          if(feeInTitle){
+            title = titleArr.shift();
+            title = title.substring(0,title.length-1);
+          }
+          else{
+            title = titleArr[0];
+          }
+          event.title = title;
           event.eventDate = ev.start;
-          event.time= ev.start.toLocaleTimeString('en-GB');
+          event.time= ev.start.toLocaleTimeString('en-US');
           event.infoLink = ev.url;
+          event.fee = feeInTitle ? titleArr.join("") : "";
           eventList.push(event);
           
         }
