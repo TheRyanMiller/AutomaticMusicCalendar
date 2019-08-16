@@ -50,7 +50,7 @@ module.exports = new Promise(function(resolve, reject){
             title = titleArr[0];
           }
           event.title = title;
-          event.eventDate = ev.start.toString();
+          event.eventDate = new Date(new Date(ev.start).setUTCHours(0,0,0,0));
           event.time= ev.start.toLocaleTimeString('en-US');
           event.infoLink = ev.url;
           event.fee = feeInTitle ? titleArr.join("") : "";
