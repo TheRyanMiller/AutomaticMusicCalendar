@@ -3,11 +3,10 @@ import './Event_list.css';
 
 const eventList = (props) =>{
 
-  let addressItems = null;
+  let eventItems = null;
   let i=0;
-  if(props.event!==undefined){
-    addressItems = props.event.addresses.map(a=>{
-
+  if(props.events!==undefined){
+    eventItems = props.events.map(a=>{
       return (
         <li onClick={()=>props.addressDelete(a.address,props.event.id)} key={i++} >
           {a.address}
@@ -19,7 +18,7 @@ const eventList = (props) =>{
   return (
     <div className="AddressListDiv">
       <ul className="theList">
-        {addressItems}
+        {eventItems}
       </ul>
     </div>
   );
