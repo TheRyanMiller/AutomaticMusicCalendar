@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import Navbar from '../components/Navigation/navbar';
 import EventList from './EventList';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      
       listedEvents: [
         { id: '1', title: "Arist one", eventDate: "", location: "Tin Roof", infoLink:"google.com", eventTime:"", imgUrl: "" },
         { id: '2', title: 'Artist 3', eventDate: "", location: "Royal American", infoLink:"google.com", eventTime:"", imgUrl: "" },
@@ -16,6 +18,23 @@ class App extends Component {
       otherState: 'Some other value'
     }
   }
+
+  componentDidMount() {
+    this.getDataFromDb();
+    if (!this.state.intervalIsSet) {
+      let interval = setInterval(this.getDataFromDb, 100000);
+      this.setState({ intervalIsSet: interval });
+    }
+  }
+
+  getDataFromDb = () => {
+    fetch('http://localhost:3001/api/getEvents')
+      .then((data) => data.json())
+      .then((res) => {
+          this.setState({ listedEvents: res.data });
+          console.log("XXXXXXXXXXXXXXXX")
+      });
+  };
 
   addressAdd = (input,eventId) =>{
     let addressVal = input.value;
@@ -49,7 +68,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div>
         <Navbar buttonText="HOME"/>

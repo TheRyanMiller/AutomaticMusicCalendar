@@ -4,6 +4,7 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Event = require('./event');
+const TryEvent = require('./event');
 
 const API_PORT = 3001;
 const app = express();
@@ -32,11 +33,12 @@ app.use(logger('dev'));
 
 // this is our get method
 // this method fetches all available data in our database
-router.get('/getEvent', (req, res) => {
-  Event.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
+router.get('/getEvents', (req, res) => {
+    TryEvent.find((err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data })
+    })
+    .sort({ "eventDate": 1 }, );
 });
 
 // this is our update method
