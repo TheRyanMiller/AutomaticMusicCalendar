@@ -4,10 +4,11 @@ import './Event_tile.css';
 const coinImgHolder = (props) =>{
   return (
     <div className="tile">
-    <img src={props.event.imgUrl} alt={props.event.title} height="50" width="50"/>
+    <img src={props.event.imgUrl} height="50" width="50"/>
     <div className="textcontainer">
-    <p>{props.event.title}</p>
-    <p>{props.event.location}</p>
+    {props.event.title}<br />
+    {props.event.eventDate.substring(0, props.event.eventDate.indexOf("T"))}<br />
+    {props.event.location}
     </div>
     </div>
   )
