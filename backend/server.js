@@ -3,8 +3,9 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Event = require('./event');
-const TryEvent = require('./event');
+const Event = require('./schemas/event');
+const Rsvp = require('./schemas/Rsvp');
+const TryEvent = require('./schemas/event');
 
 const API_PORT = 3001;
 const app = express();
@@ -64,6 +65,25 @@ router.delete('/deleteEvent', (req, res) => {
 // this is our create methid
 // this method adds new data in our database
 router.post('/putEvent', (req, res) => {
+  let event = new Event();
+
+  const { id, message } = req.body;
+
+  if ((!id && id !== 0) || !message) {
+    return res.json({
+      success: false,
+      error: 'INVALID INPUTS',
+    });
+  }
+  event.message = message;
+  event.id = id;
+  event.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post('/putRsvp', (req, res) => {
   let event = new Event();
 
   const { id, message } = req.body;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import EventList from '../components/Event_list';
 import EventDetail from '../components/Event_detail';
 import Modal from 'react-responsive-modal';
+import axios from 'axios';
 
 class HomePageContainer extends Component {
   constructor(props){
@@ -36,14 +37,20 @@ class HomePageContainer extends Component {
 
     events[eventIdx] = event;
     this.setState({
-      selectedEvent:event,
+      selectedEvent:ev,
       showEventDetails:false,
       showModal: true
     });
   }
 
   handleModalClose = () =>{
-    this.setState({showModal:false});
+    this.setState({
+        showModal:false
+    });
+  }
+
+  addRsvp = () => {
+    axios.post('http://localhost:3001/api/putRsvp')
   }
 
   render() {
@@ -60,6 +67,8 @@ class HomePageContainer extends Component {
                 event={this.state.selectedEvent}
                 addressAdd={this.props.addressAdd}
                 addressDelete={this.props.addressDelete}
+                addRsvp={this.addRsvp}
+                removeRsvp={this.removeRsvp}
             />
         </Modal>
         <EventList

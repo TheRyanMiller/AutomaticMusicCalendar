@@ -8,14 +8,15 @@ const eventDetail = (props) => {
         <div className="header">
           <h4>{props.event.title} </h4><br />
           Date: {props.event.eventDate} <br />
-          Ticket Link: {props.event.tiketLink} <br />
+          {/*Conditional Fields*/}
+          {props.event.tiketLink ? "Ticket Link: <br>"+props.event.tiketLink : ""} <br />
             <button
-              onClick={()=>props.addressAdd(this._inputElement,props.event.id)}
+              onClick={()=>props.addRsvp(this._inputElement,props.event.id)}
               >
               RSVP
             </button>
             <button
-              onClick={()=>props.addressAdd(this._inputElement,props.event.id)}
+              onClick={()=>props.removeRsvp(this._inputElement,props.event.id)}
               >
               Remove RSVP
             </button>
