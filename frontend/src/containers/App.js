@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Navbar from '../components/Navigation/navbar';
-import EventList from './EventList';
+import HomePageContainer from './homePageContainer';
 import axios from 'axios';
 
 class App extends Component {
@@ -32,7 +32,6 @@ class App extends Component {
       .then((data) => data.json())
       .then((res) => {
           this.setState({ listedEvents: res.data });
-          console.log("XXXXXXXXXXXXXXXX")
       });
   };
 
@@ -71,7 +70,7 @@ class App extends Component {
     return (
       <div>
         <Navbar buttonText="HOME"/>
-        <EventList
+        <HomePageContainer
           events={this.state.listedEvents}
           addressAdd={this.addressAdd}
           addressDelete={this.addressDelete}

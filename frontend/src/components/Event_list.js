@@ -1,27 +1,25 @@
-import React from "react";
-import './Event_list.css';
+import React from 'react';
+import EventTile from './Event_tile';
 
 const eventList = (props) =>{
-
-  let eventItems = null;
-  let i=0;
-  if(props.events!==undefined){
-    eventItems = props.events.map(a=>{
+  let eventList = props.events.map(
+    (event,index) => {
       return (
-        <li onClick={()=>props.addressDelete(a.address,props.event.id)} key={i++} >
-          {a.address}
-        </li>
+        <EventTile
+          event={event}
+          change={(e) => props.changed(e,event.id)}
+          click={() => {
+              props.click(event);
+            }
+          }
+          key={event.id}
+          />
       )
-    });
-  }
+    }
+  )
 
-  return (
-    <div className="AddressListDiv">
-      <ul className="theList">
-        {eventItems}
-      </ul>
-    </div>
-  );
+  return eventList;
+
 }
 
 export default eventList;

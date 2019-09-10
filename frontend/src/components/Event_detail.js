@@ -1,26 +1,23 @@
 import React, { Component } from "react";
-import EventAdder from './Event_adder';
-import EventList from './Event_list';
+import EventInfo from './Event_info';
+
 
 class EventDetails extends Component {
   constructor(props){
     super(props);
     this.state = {
+      event: null
     }
   }
 
   render() {
     return (
-      <div className="CoinDetailsDiv">
-        <h1>{this.props.event.name}</h1>
-        <EventAdder
+      <div className="EventDetailsDiv">
+        <h1>{this.props.name}</h1>
+        <EventInfo
           addressAdd={this.props.addressAdd}
           event={this.props.event}
           />
-        <EventList
-          event={this.props.event}
-          addressDelete={this.props.addressDelete}
-        />
       </div>
     );
   }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import EventTileList from '../components/Event_tile_list';
-import EventDetails from '../components/Event_detail';
+import EventList from '../components/Event_list';
+import EventDetail from '../components/Event_detail';
 import Modal from 'react-responsive-modal';
 
-class EventList extends Component {
+class HomePageContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -14,10 +14,6 @@ class EventList extends Component {
     }
   }
 
-  addressAddHandler = (adress) => {
-
-  }
-
   componentDidMount(){
     //blockchain.info/q/addressbalance/1EzwoHtiXB4iFwedPr49iywjZn2nnekhoj?confirmations=6
     /*
@@ -25,13 +21,13 @@ class EventList extends Component {
       .then(response =>{
         console.log("Balance = "+response.data / 100000000 +" BTC");
       });
-
       */
   }
 
-  selectEventHandler = (id) => {
-    let eventIdx = this.props.events.findIndex(c=>{
-      return c.id === id;
+  selectEventHandler = (ev) => {
+    console.log(ev);
+    let eventIdx = this.props.events.findIndex(e=>{
+      return e.id === ev.id;
     });
 
     const events = [...this.props.events];
@@ -55,18 +51,18 @@ class EventList extends Component {
 
     return (
       <div>
-        <h1>Event List</h1>
+        <h1>Upcoming Charleston Music Events</h1>
         <Modal
           open={this.state.showModal}
           onClose={this.handleModalClose}
         >
-          <EventDetails
-            event={this.state.selectedEvent}
-            addressAdd={this.props.addressAdd}
-            addressDelete={this.props.addressDelete}
-          />
+            <EventDetail
+                event={this.state.selectedEvent}
+                addressAdd={this.props.addressAdd}
+                addressDelete={this.props.addressDelete}
+            />
         </Modal>
-        <EventTileList
+        <EventList
           events={this.props.events}
           click={this.selectEventHandler}
         />
@@ -75,4 +71,4 @@ class EventList extends Component {
   }
 }
 
-export default EventList;
+export default HomePageContainer;
