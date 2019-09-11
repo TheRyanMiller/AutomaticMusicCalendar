@@ -22,7 +22,7 @@ let tinRoofEvents = require('../scrapers/musicFarmScraper.js').then(function(raw
         assert.equal(null, err); //Ensure we have a connection
         console.log("Connected successfully to Mongo server");
         const db = client.db(dbName);
-        let loc = "The Music Farm – Charleston, 32 Ann St, Charleston, SC, 29403, United States"
+        let loc = "The Music Farm"
         searchEvent(db, loc, function(mongoEvents){
             //do something with the output
             let adminReview = [];
@@ -30,9 +30,11 @@ let tinRoofEvents = require('../scrapers/musicFarmScraper.js').then(function(raw
             let insertGroup = [];
 
             insertGroup = webEvents.filter(function(webEv){
-                //console.log(res.title, res.eventDate, "mongo");
+                //
                 let filterFlag = false;
+                //Inner loop thru database events
                 for(let i=0;i<mongoEvents.length;i++){
+                    //Check for a match between db events
                     if(mongoEvents[i].title == webEv.title && mongoEvents[i].eventDate.getTime() == webEv.eventDate.getTime() ){
                         webEv._id = mongoEvents[i]._id;
                         updateGroup.push(webEv);
@@ -40,6 +42,15 @@ let tinRoofEvents = require('../scrapers/musicFarmScraper.js').then(function(raw
                         break;
                     }
                 }
+                //Do some work on the _id value
+                let dt = webEv.eventDate;
+                let dtCode = dt.getMonth()+""+dt.getDate()+""+dt.getFullYear();
+                let venueCode = "MF";
+                let bandCode = webEv.title.replace(/\s/g, '').replace(/[^0-9a-z]/gi, '').substr(0,5).toLowerCase();
+                let newId = bandCode+dtCode+venueCode;
+                webEv._id = newId;
+                //console.log("HI IM NOT PART OF THE DB YET!", newId);
+
                 return !filterFlag;
             })
             if(insertGroup.length>0){

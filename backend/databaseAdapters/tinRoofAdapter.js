@@ -38,6 +38,15 @@ let tinRoofEvents = require('../scrapers/tinRoofScraper.js').then(function(rawWe
                         break;
                     }
                 }
+                //Do some work on the _id value
+                let dt = webEv.eventDate;
+                let dtCode = dt.getMonth()+""+dt.getDate()+""+dt.getFullYear();
+                let venueCode = "TR";
+                let bandCode = webEv.title.replace(/\s/g, '').replace(/[^0-9a-z]/gi, '').substr(0,5).toLowerCase();
+                let newId = bandCode+dtCode+venueCode;
+                webEv._id = newId;
+                //console.log("HI IM NOT PART OF THE DB YET!", newId);
+
                 return !filterFlag;
             })
             if(insertGroup.length>0){
