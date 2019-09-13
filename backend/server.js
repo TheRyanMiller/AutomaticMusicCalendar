@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Event = require('./schemas/event');
 const Rsvp = require('./schemas/Rsvp');
-const TryEvent = require('./schemas/event');
+const Event = require('./schemas/event');
 
 const API_PORT = 3001;
 const app = express();
@@ -26,6 +26,7 @@ db.once('open', () => console.log('connected to the database'));
 // checks if connection with the database is successful
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+// USE middleware are executed every time a request is receieved
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,7 +36,7 @@ app.use(logger('dev'));
 // this is our get method
 // this method fetches all available data in our database
 router.get('/getEvents', (req, res) => {
-    TryEvent.find((err, data) => {
+    Event.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data })
     })

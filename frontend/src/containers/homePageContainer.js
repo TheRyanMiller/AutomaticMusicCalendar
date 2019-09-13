@@ -49,8 +49,11 @@ class HomePageContainer extends Component {
     });
   }
 
-  addRsvp = () => {
-    axios.post('http://localhost:3001/api/putRsvp')
+  addRsvp = (user,eventId) => {
+    axios.post('http://localhost:3001/api/putRsvp');
+  }
+  removeRsvp = (user,eventId) => {
+    axios.post('http://localhost:3001/api/deleteRsvp');
   }
 
   render() {
