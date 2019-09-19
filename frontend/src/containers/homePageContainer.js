@@ -26,7 +26,6 @@ class HomePageContainer extends Component {
   }
 
   selectEventHandler = (ev) => {
-    console.log(ev);
     let eventIdx = this.props.events.findIndex(e=>{
       return e.id === ev.id;
     });
@@ -49,11 +48,28 @@ class HomePageContainer extends Component {
     });
   }
 
-  addRsvp = (user,eventId) => {
-    axios.post('http://localhost:3001/api/putRsvp');
+  addRsvp = (userId,eventId) => {
+    console.log(userId,eventId);
+    let instance = axios.create({
+      baseURL: "http://192.168.1.188:3001/api",
+      timeout: 10000,
+      headers: {'X-Custom-Header': 'foobar'}
+    });
+
+    instance.post('/addRsvp',{
+      userId: userId,
+      eventId: eventId
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });;
+
   }
-  removeRsvp = (user,eventId) => {
-    axios.post('http://localhost:3001/api/deleteRsvp');
+  removeRsvp = (userId,eventId) => {
+    axios.post('http://192.168.1.188:3001/api/deleteRsvp');
   }
 
   render() {

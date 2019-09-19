@@ -92,19 +92,31 @@ router.post('/addEvent', (req, res) => {
   });
 });
 
-router.post('/putRsvp', (req, res) => {
-  let event = new Event();
-  const { eventId, userId } = req.body;
-  if ((!eventId && eventId !== 0) || (!userId && userid !== 0)) {
+router.post('/addRsvp', (req, res) => {
+  const { userId, eventId } = req.body;
+  if (!eventId || !userId) {
     return res.json({
       success: false,
-      error: 'INVALID INPUTS',
+      error: 'Missing Inputs!',
     });
   }
-  event.findByIdAndUpdate( userId, { $push: { rsvpdEventIds: eventId }}, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
+  let userObjId = mongoose.Types.ObjectId(userId);
+  console.log("---------------------");
+  User.countDocuments({ _id: userId },(err,count) => { console.log("COUNT!!!! "+count) });
+  console.log(userObjId);
+  console.log(eventId);
+  User.countDocuments({ _id: userId },(err,count) => {
+    if(count>0){
+      User.findByIdAndUpdate( { _id : userObjId }, { $push: { rsvpdEventIds : eventId }}, (err) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true });
+      });
+    }
+    else{
+      console.log("No user found for RsvpAdd")
+    }
+  })
+  
 });
 
 // append /api for our http requests

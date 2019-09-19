@@ -28,7 +28,8 @@ class App extends Component {
   }
 
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getEvents')
+    fetch('http://192.168.1.188:3001/api/getEvents')
+    //fetch('http://localhost:3001/api/getEvents')
       .then((data) => data.json())
       .then((res) => {
           this.setState({ listedEvents: res.data });

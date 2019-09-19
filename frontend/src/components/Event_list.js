@@ -7,12 +7,12 @@ const eventList = (props) =>{
       return (
         <EventTile
           event={event}
-          change={(e) => props.changed(e,event.id)}
+          change={(e) => props.changed(e,event._id)}
           click={() => {
               props.click(event);
             }
           }
-          key={event.id}
+          key={event._id}
           />
       )
     }

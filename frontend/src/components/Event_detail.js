@@ -15,7 +15,7 @@ class EventDetails extends Component {
       <div className="EventDetailsDiv">
         <h1>{this.props.name}</h1>
         <EventInfo
-          addRsvp={this.props.removeRsvp}
+          addRsvp={this.props.addRsvp}
           removeRsvp={this.props.removeRsvp}
           event={this.props.event}
           />

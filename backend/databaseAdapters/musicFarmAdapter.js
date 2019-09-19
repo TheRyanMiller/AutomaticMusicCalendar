@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 const assert = require('assert');
 let webEvents = [];
 
@@ -45,9 +46,10 @@ let tinRoofEvents = require('../scrapers/musicFarmScraper.js').then(function(raw
                 //Do some work on the _id value
                 let dt = webEv.eventDate;
                 let dtCode = dt.getMonth()+""+dt.getDate()+""+dt.getFullYear();
-                let venueCode = "MF";
+                let venueCode = "mf";
                 let bandCode = webEv.title.replace(/\s/g, '').replace(/[^0-9a-z]/gi, '').substr(0,5).toLowerCase();
                 let newId = bandCode+dtCode+venueCode;
+                //webEv._id = ObjectID(newId);
                 webEv._id = newId;
                 //console.log("HI IM NOT PART OF THE DB YET!", newId);
 
