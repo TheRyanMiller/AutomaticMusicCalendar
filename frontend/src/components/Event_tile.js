@@ -3,6 +3,7 @@ import './Event_tile.css';
 
 const eventTile = (props) =>{
   let tile = (<div></div>);
+  let isRsvpd = (<p>WE ARE GOING!! WOOT!!!</p>);
   if(props.event.title){
     tile = (
       <div onClick={props.click}>
@@ -10,6 +11,7 @@ const eventTile = (props) =>{
           <img src={props.event.imgUrl} height="50" width="50"/>
           <div className="textcontainer">
           {props.event.title ? props.event.title : ""}<br />
+          {props.event.isRsvpd ? isRsvpd : ""}
           {props.event.eventDate ? props.event.eventDate.substring(0, props.event.eventDate.indexOf("T")) : ""}<br />
           {props.event.location ? props.event.location : ""}
           </div>

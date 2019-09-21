@@ -18,6 +18,8 @@ class EventDetails extends Component {
           addRsvp={this.props.addRsvp}
           removeRsvp={this.props.removeRsvp}
           event={this.props.event}
+          loggedInUser={this.props.loggedInUser}
+          isRsvpd={this.props.visAddRsvp}
           />
       </div>
     );

@@ -47,7 +47,14 @@ router.get('/getUsers', (req, res) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data })
   })
-  .sort({ "eventDate": 1 }, );
+});
+
+router.get('/getUserById', (req, res) => {
+  let uid = req.body;
+  User.find({_id:""},(err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data })
+  })
 });
 
 // this is our update method
@@ -102,12 +109,36 @@ router.post('/addRsvp', (req, res) => {
   }
   let userObjId = mongoose.Types.ObjectId(userId);
   console.log("---------------------");
-  User.countDocuments({ _id: userId },(err,count) => { console.log("COUNT!!!! "+count) });
   console.log(userObjId);
   console.log(eventId);
   User.countDocuments({ _id: userId },(err,count) => {
     if(count>0){
       User.findByIdAndUpdate( { _id : userObjId }, { $push: { rsvpdEventIds : eventId }}, (err) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true });
+      });
+    }
+    else{
+      console.log("No user found for RsvpAdd")
+    }
+  })
+});
+
+router.post('/removeRsvp', (req, res) => {
+  const { userId, eventId } = req.body;
+  if (!eventId || !userId) {
+    return res.json({
+      success: false,
+      error: 'Missing Inputs!',
+    });
+  }
+  let userObjId = mongoose.Types.ObjectId(userId);
+  console.log("---------------------");
+  console.log(userObjId);
+  console.log(eventId);
+  User.countDocuments({ _id: userId },(err,count) => {
+    if(count>0){
+      User.findByIdAndUpdate( { _id : userObjId }, { $pull: { rsvpdEventIds : eventId }}, (err) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true });
       });

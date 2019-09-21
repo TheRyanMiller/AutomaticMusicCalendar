@@ -2,6 +2,7 @@ import React from 'react';
 import EventTile from './Event_tile';
 
 const eventList = (props) =>{
+  
   let eventList = props.events.map(
     (event,index) => {
       return (

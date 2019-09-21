@@ -3,26 +3,31 @@ import React from "react";
 import './Event_list.css';
 
 const eventDetail = (props) => {
+  console.log("TEST",props)
     let detail = "";
+    let addRsvpButton = (
+      <button
+                onClick={()=>props.addRsvp(props.loggedInUser.id,props.event._id)}
+                >
+                RSVP
+      </button>
+    )
+    let removeRsvpButton = (
+      <button
+                onClick={()=>props.removeRsvp(props.loggedInUser.id,props.event._id)}
+                >
+                Remove RSVP
+              </button>
+    )
     if(props.event.title){
       detail = (
         <div className="eventDetailMain">
           <div className="header">
             <h4>{props.event.title ? props.event.title : "" } </h4><br />
             Date: {props.event.eventDate ? props.event.eventDate : "" } <br />
-            {/*Conditional Fields*/}
             {props.event.ticketLink ? "Ticket Link: <br>"+props.event.ticketLink : ""} <br />
-            {console.log(props.event)}
-              <button
-                onClick={()=>props.addRsvp("5d7eed9053396b2671e1314c",props.event._id)}
-                >
-                RSVP
-              </button>
-              <button
-                onClick={()=>props.removeRsvp(this._inputElement,props.event._id)}
-                >
-                Remove RSVP
-              </button>
+            { props.event.isRsvpd ? removeRsvpButton : addRsvpButton }
+              
           </div>
         </div>
       )
