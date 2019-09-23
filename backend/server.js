@@ -59,25 +59,9 @@ router.get('/getUserById', (req, res) => {
 
 router.post('/checkUser', (req, res) => {
   let user = req.body.user;
-  let lookupAttribute = "_id";
-  let lookupId = user._id;
-  let query = { lookupAttribute : lookupId};
+  let query = { uid : user.uid};
   let setValues = { 
-    accessToken: user.accessToken,
     lastLoggedIn: new Date()
-  }
-  //check if facebook or google login is used
-  if(user.isFacebook){
-    lookupId = user.facebookId;
-    lookupAttribute = "facebookId";
-    setValues.facebookId = user.facebookId;
-    query = {"facebookId" : lookupId}
-  }
-  if(user.isGoogle){
-    lookupId = user.googleId;
-    setValues.googleId = user.googleId;
-    lookupAttribute = "googleId";
-    query = {"googleId" : lookupId}
   }
 
   User.countDocuments(query,(err,count) => {

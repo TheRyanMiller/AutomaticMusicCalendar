@@ -3,13 +3,13 @@
     width:95%;
     border-collapse: separate;
     position: relative;
-    border-spacing: 0 0.5em;
+    border-spacing: 0 0.3em;
     margin: 0 auto;
 }
 
 .content-row {
     display: table-row;
-    margin: 8px auto;  
+    margin: 5px auto;  
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     width: 100%;
     transition: 0.1s;
@@ -60,4 +60,8 @@
 }
 .xlarge{
     font-size: xx-large;
+}
+
+.title{
+    text-align: center;
 }

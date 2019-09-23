@@ -4,10 +4,16 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "bootstrap-social": "^5.1.1",
+    "firebase": "^6.6.2",
+    "firebaseui": "^4.2.0",
     "moment": "^2.24.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-facebook-login": "^4.1.1",
+    "react-firebaseui": "^4.0.0",
+    "react-google-login": "^5.0.5",
+    "react-icons": "^3.7.0",
     "react-responsive-modal": "^4.0.1",
     "react-scripts": "3.1.1"
   },

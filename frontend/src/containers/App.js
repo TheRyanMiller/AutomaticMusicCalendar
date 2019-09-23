@@ -20,9 +20,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar buttonText="HOME"/>
         <HomePageContainer
-          
           />
       </div>
     );

@@ -3,7 +3,6 @@ import React from "react";
 import './Event_list.css';
 
 const eventDetail = (props) => {
-  console.log("TEST",props)
     let detail = "";
     let addRsvpButton = (
       <button

@@ -4,13 +4,10 @@ const Schema = mongoose.Schema;
 // this will be our data base's data structure 
 const UserSchema = new Schema(
   {
+    uid: String,
     name: String,
     email: String,
-    age: Number,
-    facebookId: String,
-    googleId: String,
-    pictureUrl: String,
-    accessToken: String,
+    photoUrl: String,
     lastLoggedIn: Date,
     rsvpdEventIds: [String]
   },

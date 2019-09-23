@@ -4,8 +4,17 @@ import EventDetail from '../components/Event_detail';
 import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import FacebookLogin from 'react-facebook-login';
-import '../components/Event_tile.css';
+import GoogleLogin from 'react-google-login';
 import moment from 'moment';
+import '../components/Event_tile.css';
+import './bootstrap-social.css';
+import firebase from 'firebase';
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyCEIQdLJ2J2ybB3S9QOJmWvT9an6BDFWVw",
+  authDomain: "charleston-music-1569242598820.firebaseapp.com"
+})
 
 class HomePageContainer extends Component {
   constructor(props){
@@ -17,27 +26,33 @@ class HomePageContainer extends Component {
         { id: '3', title: 'Show 1', eventDate: "", location: "Pour House", infoLink:"google.com", eventTime:"", imgUrl: "" },
         { id: '4', title: 'Show 1', eventDate: "", location: "Tin Roof", infoLink:"google.com", eventTime:"", imgUrl: "" },
       ],
+      isSignedIn: false,
       loggedInUser: null,
       showEventDetails: false,
       selectedEvent: null,
       showModal: false,
       visAddRsvp: true,
       visRemoveRsvp: true
-
     }
   }
 
-  componentDidMount() {
+  
+
+  componentDidMount = () => {
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
       let interval = setInterval(this.getDataFromDb, 100000);
       this.setState({ intervalIsSet: interval });
     }
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user })
+      if(!!user) this.signinCallback();
+      console.log("user", user)
+    })
   }
 
   getDataFromDb = () => {
     fetch('http://192.168.1.188:3001/api/getEvents')
-    //fetch('http://localhost:3001/api/getEvents')
       .then((data) => data.json())
       .then((res) => {
           let events =res.data;
@@ -46,7 +61,6 @@ class HomePageContainer extends Component {
             events[i].dateDD = moment(events[i].eventDate).format('DD');
             events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
           }
-          console.log(events)
           this.setState({ events });
       });
   };
@@ -85,7 +99,6 @@ class HomePageContainer extends Component {
       eventId: eventId
     })
     .then((response) => {
-      console.log(response);
       let user = this.state.loggedInUser;
       user.rsvpdEventIds.push(eventId);
       this.setState({
@@ -110,13 +123,9 @@ class HomePageContainer extends Component {
       eventId: eventId
     })
     .then((response) => {
-      console.log(response);
       let user = this.state.loggedInUser;
-      console.log("IDs",user.rsvpdEventIds);
-      
       let idx = user.rsvpdEventIds.indexOf(eventId);
       user.rsvpdEventIds.splice(idx);
-      console.log("AFTER IDs",user.rsvpdEventIds);
       this.setState({
         loggedInUser : user
       });
@@ -127,42 +136,43 @@ class HomePageContainer extends Component {
     });
   }
 
-  componentClicked = response => {
+  responseGoogle = response => {
 
   }
+  
+  componentClicked = response => {
+    //Action when clicking FBlogin
+  }
 
-  responseFacebook = response => {
-    let user = {
-      isGoogle: false,
-      isFacebook: true,
-      facebookId: response.id,
-      name: response.name,
-      pictureUrl: response.picture.data.url,
-      accessToken: response.accessToken,
-      email: response.email,
-      rsvpdEventIds: []
-    }
+  signinCallback = () => {
+    console.log("CHECK IF LOADED FIREBASE OBJECT",firebase.auth())
+    if(!!firebase.auth().currentUser){
+      let user = {
+        uid: firebase.auth().currentUser.uid,
+        name: firebase.auth().currentUser.displayName,
+        photoUrl: firebase.auth().currentUser.photoURL,
+        email: firebase.auth().currentUser.email,
+        rsvpdEventIds: []
+      }
+      this.setState({loggedInUser: user})
 
 
-    //Check for user in DB, if doesn't exist, then create
-    let instance = axios.create({
-      baseURL: "http://192.168.1.188:3001/api",
-      timeout: 10000,
-      headers: {'X-Custom-Header': 'foobar'}
-    });
+      //Check for user in DB, if doesn't exist, then create
+      let instance = axios.create({
+        baseURL: "http://192.168.1.188:3001/api",
+        timeout: 10000,
+        headers: {'X-Custom-Header': 'foobar'}
+      });
 
-    instance.post('/checkUser',{
-      user: user
-    })
-    .then( response => {
-      console.log("ABOUT TO SET STATE@@@!!!!!___")
-      console.log(response.data.data);
-      console.log(response.data.data.rsvpdEventIds.length);
-      this.setState({
-        loggedInUser: response.data.data
+      instance.post('/checkUser',{
+        user: user
       })
-      console.log(this.state.loggedInUser);
-    });
+      .then( response => {
+        this.setState({
+          loggedInUser: response.data.data
+        })
+      });
+    }
   }
 
   render() {
@@ -176,9 +186,41 @@ class HomePageContainer extends Component {
         }
       }
     }
+    let uiConfig = {
+      signInFlow: "popup",
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID
+      ],
+      callbacks: {
+        //signInSuccess: this.signinCallback()
+      }
+    }
+    let firebaseAuth = (
+      <div className="textcontainer">
+        <StyledFirebaseAuth
+              uiConfig={uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
+      </div>
+    )
+    let logOffButton = (<span><button onClick={()=>{
+        firebase.auth().signOut();
+        this.setState({loggedInUser:null});
+        console.log(this.state.loggedInUser)
+      }
+
+    }>Log Out</button></span>) 
+    
     return (
       <div>
-        <h1>Upcoming Charleston Music Events</h1>
+        <h2 className="title">Charleston Music Calendar</h2>
+        {this.state.isSignedIn ? 
+          logOffButton
+          : 
+          firebaseAuth
+        }
+        
         <Modal
           open={this.state.showModal}
           onClose={this.handleModalClose}
@@ -190,15 +232,7 @@ class HomePageContainer extends Component {
                 loggedInUser={this.state.loggedInUser}
             />
         </Modal>
-        { this.state.loggedInUser ? "" :
-          <FacebookLogin
-            appId="1292181117572934"
-            autoLoad={true}
-            fields="name,email,picture"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook} 
-          />
-        }
+        
         <div className="content-table">
           <EventList
             events={this.state.events}
