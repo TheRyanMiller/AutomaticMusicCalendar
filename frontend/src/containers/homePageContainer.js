@@ -3,6 +3,8 @@ import EventList from '../components/Event_list';
 import EventDetail from '../components/Event_detail';
 import Modal from 'react-responsive-modal';
 import axios from 'axios';
+import FacebookLogin from 'react-facebook-login';
+import '../components/Event_tile.css';
 
 class HomePageContainer extends Component {
   constructor(props){
@@ -14,18 +16,7 @@ class HomePageContainer extends Component {
         { id: '3', title: 'Show 1', eventDate: "", location: "Pour House", infoLink:"google.com", eventTime:"", imgUrl: "" },
         { id: '4', title: 'Show 1', eventDate: "", location: "Tin Roof", infoLink:"google.com", eventTime:"", imgUrl: "" },
       ],
-      loggedInUser: {
-        id:"5d7eed9053396b2671e1314c",
-        name: "Ryan Miller",
-        rsvpdEventIds: [
-          "yungg9242019MF",
-          "grave942019mf",
-          "drake9182019mf",
-          "hotdo8212019TR",
-          "stars8202019mf",
-          "mikel8212019TR"
-        ]
-      },
+      loggedInUser: null,
       showEventDetails: false,
       selectedEvent: null,
       showModal: false,
@@ -144,8 +135,11 @@ class HomePageContainer extends Component {
     .then((response) => {
       console.log(response);
       let user = this.state.loggedInUser;
-      user.rsvpdEventIds.indexOf(eventId);
-      user.rsvpdEventIds.splice(eventId);
+      console.log("IDs",user.rsvpdEventIds);
+      
+      let idx = user.rsvpdEventIds.indexOf(eventId);
+      user.rsvpdEventIds.splice(idx);
+      console.log("AFTER IDs",user.rsvpdEventIds);
       this.setState({
         loggedInUser : user
       });
@@ -156,13 +150,54 @@ class HomePageContainer extends Component {
     });
   }
 
+  componentClicked = response => {
+
+  }
+
+  responseFacebook = response => {
+    console.log(response)
+    let user = {
+      isGoogle: false,
+      isFacebook: true,
+      facebookId: response.id,
+      name: response.name,
+      pictureUrl: response.picture.data.url,
+      accessToken: response.accessToken,
+      email: response.email,
+      rsvpdEventIds: []
+    }
+
+
+    //Check for user in DB, if doesn't exist, then create
+    let instance = axios.create({
+      baseURL: "http://192.168.1.188:3001/api",
+      timeout: 10000,
+      headers: {'X-Custom-Header': 'foobar'}
+    });
+
+    instance.post('/checkUser',{
+      user: user
+    })
+    .then( response => {
+      console.log("ABOUT TO SET STATE@@@!!!!!___")
+      console.log(response.data.data);
+      console.log(response.data.data.rsvpdEventIds.length);
+      this.setState({
+        loggedInUser: response.data.data
+      })
+      console.log(this.state.loggedInUser);
+    });
+  }
+
   render() {
-    let evs = this.state.events;
-    let rsvps = this.state.loggedInUser.rsvpdEventIds;
-    for(let i=0;i<evs.length;i++){
-      evs[i].isRsvpd = false;
-      if(rsvps.indexOf(evs[i]._id) > -1){
-        evs[i].isRsvpd = true;
+    if(this.state.loggedInUser && this.state.loggedInUser.rsvpdEventIds.length>0){
+      let evs = this.state.events;
+      let rsvps = this.state.loggedInUser.rsvpdEventIds;
+      for(let i=0;i<evs.length;i++){
+        evs[i].isRsvpd = false;
+        if(rsvps.indexOf(evs[i]._id) > -1){
+          evs[i].isRsvpd = true;
+        }
       }
     }
     return (
@@ -179,11 +214,22 @@ class HomePageContainer extends Component {
                 loggedInUser={this.state.loggedInUser}
             />
         </Modal>
-        <EventList
-          events={this.state.events}
-          click={this.selectEventHandler}
-          loggedInUser = {this.state.loggedInUser}
-        />
+        { this.state.loggedInUser ? "" :
+          <FacebookLogin
+            appId="1292181117572934"
+            autoLoad={true}
+            fields="name,email,picture"
+            onClick={this.componentClicked}
+            callback={this.responseFacebook} 
+          />
+        }
+        <div className="content-table">
+          <EventList
+            events={this.state.events}
+            click={this.selectEventHandler}
+            loggedInUser = {this.state.loggedInUser}
+          />
+        </div>
       </div>
     );
   }

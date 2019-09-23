@@ -2,20 +2,18 @@ import React from 'react';
 import './Event_tile.css';
 
 const eventTile = (props) =>{
-  let tile = (<div></div>);
-  let isRsvpd = (<p>WE ARE GOING!! WOOT!!!</p>);
+  let tile = (<div className="content-row"></div>);
   if(props.event.title){
     tile = (
-      <div onClick={props.click}>
-        <div className="tile">
-          <img src={props.event.imgUrl} height="50" width="50"/>
-          <div className="textcontainer">
-          {props.event.title ? props.event.title : ""}<br />
-          {props.event.isRsvpd ? isRsvpd : ""}
-          {props.event.eventDate ? props.event.eventDate.substring(0, props.event.eventDate.indexOf("T")) : ""}<br />
-          {props.event.location ? props.event.location : ""}
+        <div class={"content-row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
+          <div className="col1">
+                Oct 30<br />
+                2019
           </div>
-        </div>
+          <div className="col2">
+              <b>{props.event.title ? props.event.title : ""}</b><br />
+              {props.event.location ? props.event.location : ""}
+          </div>
       </div>
     )
   }

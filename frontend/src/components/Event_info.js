@@ -7,17 +7,15 @@ const eventDetail = (props) => {
     let detail = "";
     let addRsvpButton = (
       <button
-                onClick={()=>props.addRsvp(props.loggedInUser.id,props.event._id)}
-                >
-                RSVP
+        onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
+        RSVP
       </button>
     )
     let removeRsvpButton = (
       <button
-                onClick={()=>props.removeRsvp(props.loggedInUser.id,props.event._id)}
-                >
-                Remove RSVP
-              </button>
+        onClick={()=>props.removeRsvp(props.loggedInUser._id,props.event._id)}>
+        Remove RSVP
+      </button>
     )
     if(props.event.title){
       detail = (
@@ -26,7 +24,7 @@ const eventDetail = (props) => {
             <h4>{props.event.title ? props.event.title : "" } </h4><br />
             Date: {props.event.eventDate ? props.event.eventDate : "" } <br />
             {props.event.ticketLink ? "Ticket Link: <br>"+props.event.ticketLink : ""} <br />
-            { props.event.isRsvpd ? removeRsvpButton : addRsvpButton }
+            {props.loggedInUser ? (props.event.isRsvpd ? removeRsvpButton : addRsvpButton) : "" }
               
           </div>
         </div>

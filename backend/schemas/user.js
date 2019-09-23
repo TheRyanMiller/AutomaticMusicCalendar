@@ -7,6 +7,11 @@ const UserSchema = new Schema(
     name: String,
     email: String,
     age: Number,
+    facebookId: String,
+    googleId: String,
+    pictureUrl: String,
+    accessToken: String,
+    lastLoggedIn: Date,
     rsvpdEventIds: [String]
   },
   { timestamps: true }

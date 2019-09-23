@@ -57,6 +57,51 @@ router.get('/getUserById', (req, res) => {
   })
 });
 
+router.post('/checkUser', (req, res) => {
+  let user = req.body.user;
+  let lookupAttribute = "_id";
+  let lookupId = user._id;
+  let query = { lookupAttribute : lookupId};
+  let setValues = { 
+    accessToken: user.accessToken,
+    lastLoggedIn: new Date()
+  }
+  //check if facebook or google login is used
+  if(user.isFacebook){
+    lookupId = user.facebookId;
+    lookupAttribute = "facebookId";
+    setValues.facebookId = user.facebookId;
+    query = {"facebookId" : lookupId}
+  }
+  if(user.isGoogle){
+    lookupId = user.googleId;
+    setValues.googleId = user.googleId;
+    lookupAttribute = "googleId";
+    query = {"googleId" : lookupId}
+  }
+
+  User.countDocuments(query,(err,count) => {
+    if(count>0){
+      //User is found, now get their data
+      User.findOneAndUpdate( 
+        query, {$set: setValues}, {useFindAndModify:false}, (err, data) => {
+          if (err) return res.json({ success: false, error: err 
+        });
+        return res.json({ success: true, data: data });
+      }); 
+    }
+    else{
+      user = new User(req.body.user);
+      user.lastLoggedIn = new Date();
+      user.save(
+        (err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data });
+      });
+    }
+  })
+});
+
 // this is our update method
 // this method overwrites existing data in our database
 router.post('/updateEvent', (req, res) => {
