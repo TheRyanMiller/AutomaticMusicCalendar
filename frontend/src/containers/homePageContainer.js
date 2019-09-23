@@ -5,6 +5,7 @@ import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import FacebookLogin from 'react-facebook-login';
 import '../components/Event_tile.css';
+import moment from 'moment';
 
 class HomePageContainer extends Component {
   constructor(props){
@@ -39,40 +40,16 @@ class HomePageContainer extends Component {
     //fetch('http://localhost:3001/api/getEvents')
       .then((data) => data.json())
       .then((res) => {
-          this.setState({ events: res.data });
+          let events =res.data;
+          for(let i=0; i<events.length; i++){
+            events[i].dateMMM = moment(events[i].eventDate).format('MMM');
+            events[i].dateDD = moment(events[i].eventDate).format('DD');
+            events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
+          }
+          console.log(events)
+          this.setState({ events });
       });
   };
-
-  addressAdd = (input,eventId) =>{
-    let addressVal = input.value;
-    input.value="";
-    if (addressVal !== "") {
-      let eventIdx = this.state.events.findIndex(c=>{
-        return c.id === eventId;
-      });
-      let i =0;
-      this.state.events[eventIdx].addresses.map(a=>{
-        a.key=""+i++;
-      })
-      let newIdx = this.state.events[eventIdx].addresses.length+"";
-      let newEvents = [...this.state.events];
-      newEvents[eventIdx].addresses.push({key: newIdx,address: addressVal});
-      this.setState({events : newEvents});
-    }
-  }
-
-  addressDelete = (deletedAddress,eventId) =>{
-    let addressIdx = 0;
-    let eventIdx = this.state.listedEvents.findIndex(c=>{
-      return c.id === eventId;
-    });
-    let newEvents = [...this.state.events];
-    addressIdx = newEvents[eventIdx].addresses.findIndex(a=>{
-      return a.address===deletedAddress;
-    });
-    newEvents[eventIdx].addresses.splice(addressIdx,1);
-    this.setState({listedEvents : newEvents})
-  }
 
   selectEventHandler = (ev) => {
     let eventIdx = this.state.events.findIndex(e=>{
@@ -155,7 +132,6 @@ class HomePageContainer extends Component {
   }
 
   responseFacebook = response => {
-    console.log(response)
     let user = {
       isGoogle: false,
       isFacebook: true,

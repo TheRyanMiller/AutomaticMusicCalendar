@@ -13,21 +13,25 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     width: 100%;
     transition: 0.1s;
+    border: 1px solid #C0C0C0;
 }
 
 .col1{
     display: table-cell;
-    width: 150px;
+    width: 180px;
     margin: 0 auto;
     text-align: center;
     font-size: large;
+    vertical-align: middle;
+    border: 1px solid #C0C0C0;
 }
 .col2{
     display: table-cell;
     margin: 0 auto;
     text-align: center;
-    width: 100%;
-
+    width: 85%;
+    vertical-align: middle;
+    border: 1px solid #C0C0C0;
 }
 
 .datesquare{
@@ -51,4 +55,9 @@
     margin: 0px auto;
     text-align: center;
 }
-
+.xsmall{
+    font-size: x-small;
+}
+.xlarge{
+    font-size: xx-large;
+}
