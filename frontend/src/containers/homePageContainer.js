@@ -3,8 +3,6 @@ import EventList from '../components/Event_list';
 import EventDetail from '../components/Event_detail';
 import Modal from 'react-responsive-modal';
 import axios from 'axios';
-import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
 import moment from 'moment';
 import '../components/Event_tile.css';
 import './bootstrap-social.css';
@@ -26,6 +24,7 @@ class HomePageContainer extends Component {
         { id: '3', title: 'Show 1', eventDate: "", location: "Pour House", infoLink:"google.com", eventTime:"", imgUrl: "" },
         { id: '4', title: 'Show 1', eventDate: "", location: "Tin Roof", infoLink:"google.com", eventTime:"", imgUrl: "" },
       ],
+      displayedEvents: [],
       isSignedIn: false,
       loggedInUser: null,
       showEventDetails: false,
@@ -61,16 +60,19 @@ class HomePageContainer extends Component {
             events[i].dateDD = moment(events[i].eventDate).format('DD');
             events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
           }
-          this.setState({ events });
+          this.setState({ 
+            events,
+            displayedEvents: events
+          });
       });
   };
 
   selectEventHandler = (ev) => {
-    let eventIdx = this.state.events.findIndex(e=>{
+    let eventIdx = this.state.displayedEvents.findIndex(e=>{
       return e.id === ev.id;
     });
 
-    const events = [...this.state.events];
+    const events = [...this.state.displayedEvents];
     const event = events[eventIdx];
 
     events[eventIdx] = event;
@@ -136,8 +138,15 @@ class HomePageContainer extends Component {
     });
   }
 
-  responseGoogle = response => {
-
+  searchHandler = (ev) => {
+    let searchQuery = ev.target.value.toLowerCase(),
+        displayedEvents = this.state.events.filter((el) => {
+          let searchValue = el.title.toLowerCase();
+          return searchValue.indexOf(searchQuery) !== -1;
+        })
+    this.setState({
+      displayedEvents: displayedEvents
+    })
   }
   
   componentClicked = response => {
@@ -176,14 +185,22 @@ class HomePageContainer extends Component {
   }
 
   render() {
+    let hasLooped=false;
     if(this.state.loggedInUser && this.state.loggedInUser.rsvpdEventIds.length>0){
-      let evs = this.state.events;
+      let evs = this.state.displayedEvents;
       let rsvps = this.state.loggedInUser.rsvpdEventIds;
       for(let i=0;i<evs.length;i++){
         evs[i].isRsvpd = false;
         if(rsvps.indexOf(evs[i]._id) > -1){
           evs[i].isRsvpd = true;
         }
+      }
+      hasLooped=true;
+    }
+    if(!hasLooped){
+      let evs = this.state.displayedEvents;
+      for(let i=0;i<evs.length;i++){
+        evs[i].isRsvpd = false;
       }
     }
     let uiConfig = {
@@ -206,11 +223,9 @@ class HomePageContainer extends Component {
     )
     let logOffButton = (<span><button onClick={()=>{
         firebase.auth().signOut();
-        this.setState({loggedInUser:null});
-        console.log(this.state.loggedInUser)
-      }
-
-    }>Log Out</button></span>) 
+        this.setState({loggedInUser:null, isSignedIn: false});
+      }}>
+        Log Out</button></span>) 
     
     return (
       <div>
@@ -232,10 +247,16 @@ class HomePageContainer extends Component {
                 loggedInUser={this.state.loggedInUser}
             />
         </Modal>
-        
+        <div className="center"> 
+          Search Events:
+          <input 
+            type="text" 
+            onChange={this.searchHandler}
+          />
+        </div>
         <div className="content-table">
           <EventList
-            events={this.state.events}
+            events={this.state.displayedEvents}
             click={this.selectEventHandler}
             loggedInUser = {this.state.loggedInUser}
           />

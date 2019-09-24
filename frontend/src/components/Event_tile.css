@@ -65,3 +65,10 @@
 .title{
     text-align: center;
 }
+
+.center {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    
+  }
