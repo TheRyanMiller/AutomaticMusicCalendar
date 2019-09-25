@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Navbar from '../components/Navigation/navbar';
 import HomePageContainer from './homePageContainer';
-import axios from 'axios';
+
 
 class App extends Component {
   constructor(props){

@@ -18,12 +18,7 @@ class HomePageContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
-      events: [
-        { id: '1', title: "Arist one", eventDate: "", location: "Tin Roof", infoLink:"google.com", eventTime:"", imgUrl: "" },
-        { id: '2', title: 'Artist 3', eventDate: "", location: "Royal American", infoLink:"google.com", eventTime:"", imgUrl: "" },
-        { id: '3', title: 'Show 1', eventDate: "", location: "Pour House", infoLink:"google.com", eventTime:"", imgUrl: "" },
-        { id: '4', title: 'Show 1', eventDate: "", location: "Tin Roof", infoLink:"google.com", eventTime:"", imgUrl: "" },
-      ],
+      events: [],
       displayedEvents: [],
       isSignedIn: false,
       loggedInUser: null,
@@ -31,7 +26,9 @@ class HomePageContainer extends Component {
       selectedEvent: null,
       showModal: false,
       visAddRsvp: true,
-      visRemoveRsvp: true
+      visRemoveRsvp: true,
+      searchString: "",
+      selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
 
@@ -46,7 +43,6 @@ class HomePageContainer extends Component {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
       if(!!user) this.signinCallback();
-      console.log("user", user)
     })
   }
 
@@ -138,15 +134,50 @@ class HomePageContainer extends Component {
     });
   }
 
+  
+
   searchHandler = (ev) => {
-    let searchQuery = ev.target.value.toLowerCase(),
-        displayedEvents = this.state.events.filter((el) => {
-          let searchValue = el.title.toLowerCase();
-          return searchValue.indexOf(searchQuery) !== -1;
-        })
+    let searchQuery = ev.target.value.toLowerCase();
+    this.setState({
+      searchString: searchQuery
+    },()=>this.filterEventList(searchQuery))
+  }
+
+  filterEventList = (searchString) => {
+    if(!searchString) searchString = this.state.searchString;
+    let displayedEvents = this.state.events.filter((el) => {
+    let searchValue = el.title.toLowerCase();
+    //Run Checkbox logic
+    if(this.state.selectedLocations.includes(el.location.toLowerCase())){
+      if(searchString==="" || !searchString) return true;
+      return searchValue.indexOf(searchString) !== -1;
+    }
+    return false;
+    })
     this.setState({
       displayedEvents: displayedEvents
     })
+  }
+
+  checkBoxHandler = (el) => {
+    let newLocations = [...this.state.selectedLocations];
+    if(el.target.checked){
+      newLocations.push(el.target.value.toLowerCase())
+    }
+    if(!el.target.checked){
+      for(var i = 0; i < newLocations.length; i++){ 
+        if (newLocations[i] === el.target.value.toLowerCase()) {
+          newLocations.splice(i, 1); 
+          i--;
+        }
+      }
+    }
+    this.setState({
+      selectedLocations: newLocations
+    },()=>this.filterEventList())
+    
+    //el.target.checked=!this.state.selectedLocations.includes("Tin Roof - Charleston".toLowerCase)
+    //Set State
   }
   
   componentClicked = response => {
@@ -154,7 +185,6 @@ class HomePageContainer extends Component {
   }
 
   signinCallback = () => {
-    console.log("CHECK IF LOADED FIREBASE OBJECT",firebase.auth())
     if(!!firebase.auth().currentUser){
       let user = {
         uid: firebase.auth().currentUser.uid,
@@ -183,6 +213,8 @@ class HomePageContainer extends Component {
       });
     }
   }
+
+  
 
   render() {
     let hasLooped=false;
@@ -253,6 +285,36 @@ class HomePageContainer extends Component {
             type="text" 
             onChange={this.searchHandler}
           />
+          <ul className="filterSection">
+            <li>
+              <input type="checkbox" className="myCheckbox" 
+                checked={this.state.selectedLocations.includes("The Music Farm - Charleston".toLowerCase())}
+                onChange={this.checkBoxHandler}
+                value="The Music Farm - Charleston" /> 
+                <label>The Music Farm</label>
+            </li>
+            <li>
+              <input type="checkbox" className="myCheckbox" 
+                checked={this.state.selectedLocations.includes("The Pour House".toLowerCase())}
+                onChange={this.checkBoxHandler}
+                value="The Pour House" /> 
+                <label>The Pour House</label>
+            </li>
+            <li>
+              <input type="checkbox" className="myCheckbox" 
+                checked={this.state.selectedLocations.includes("The Royal American".toLowerCase())}
+                onChange={this.checkBoxHandler}
+                value="The Royal American" /> 
+                <label>The Royal American</label>
+            </li>
+            <li>
+              <input type="checkbox" className="myCheckbox" 
+                checked={this.state.selectedLocations.includes("tin roof - charleston".toLowerCase())}
+                onChange={this.checkBoxHandler}
+                value="Tin Roof - Charleston" /> 
+                <label>Tin Roof</label>
+            </li>
+          </ul>
         </div>
         <div className="content-table">
           <EventList

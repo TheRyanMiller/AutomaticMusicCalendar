@@ -5,7 +5,7 @@ const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
   if(props.event.title){
     tile = (
-        <div class={"content-row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
+        <div className={"content-row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
           <div className="col1">
             <span className="xlarge">{props.event.dateDD}</span><br />
             <span className="xsmall">{props.event.dateMMM+", "+props.event.dateYYYY}</span>

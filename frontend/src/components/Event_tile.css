@@ -72,3 +72,15 @@
     align-items: center;
     
   }
+
+  .filterSection li {
+    list-style: none;
+    margin: 0px;
+    padding: 5px;
+    display: inline;
+     
+}
+.filterSection {
+    margin: 0px;
+    padding: 0px;
+}
