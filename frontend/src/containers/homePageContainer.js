@@ -307,7 +307,7 @@ class HomePageContainer extends Component {
                 checked={this.state.selectedLocations.includes("The Royal American".toLowerCase())}
                 onChange={this.checkBoxHandler}
                 value="The Royal American" /> 
-                <label>The Royal American</label>
+                <label>Royal American</label>
             </li>
             <li>
               <input type="checkbox" className="myCheckbox" 
