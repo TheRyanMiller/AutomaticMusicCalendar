@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "bootstrap-social": "^5.1.1",
+    "dotenv": "^8.1.0",
     "firebase": "^6.6.2",
     "firebaseui": "^4.2.0",
     "moment": "^2.24.0",

@@ -9,9 +9,10 @@ import './bootstrap-social.css';
 import firebase from 'firebase';
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
+
 firebase.initializeApp({
-  apiKey: "AIzaSyCEIQdLJ2J2ybB3S9QOJmWvT9an6BDFWVw",
-  authDomain: "charleston-music-1569242598820.firebaseapp.com"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN
 })
 
 class HomePageContainer extends Component {
@@ -217,6 +218,7 @@ class HomePageContainer extends Component {
   
 
   render() {
+    //console.log(dotenv.env.API_KEY);
     let hasLooped=false;
     if(this.state.loggedInUser && this.state.loggedInUser.rsvpdEventIds.length>0){
       let evs = this.state.displayedEvents;
@@ -299,7 +301,7 @@ class HomePageContainer extends Component {
                 onChange={this.checkBoxHandler}
                 value="The Pour House" /> 
                 <label>The Pour House</label>
-            </li>
+            </li><br />
             <li>
               <input type="checkbox" className="myCheckbox" 
                 checked={this.state.selectedLocations.includes("The Royal American".toLowerCase())}
