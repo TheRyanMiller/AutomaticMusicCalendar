@@ -35,7 +35,9 @@ app.use(logger('dev'));
 // this is our get method
 // this method fetches all available data in our database
 router.get('/getEvents', (req, res) => {
-    Event.find((err, data) => {
+    Event.find(
+      {eventDate: {$gt: new Date(new Date() - 1)}},
+      (err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data })
     })

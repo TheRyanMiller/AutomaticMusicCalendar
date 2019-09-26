@@ -18,7 +18,7 @@ const eventTile = (props) =>{
     )
   }
   return (
-    <div> {tile} </div>
+    <span> {tile} </span>
   )
 }
 

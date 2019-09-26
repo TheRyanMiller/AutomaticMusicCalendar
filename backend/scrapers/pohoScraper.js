@@ -3,20 +3,19 @@ const $ = require('cheerio');
 const url = 'https://charlestonpourhouse.com/';
 const moment = require('moment');
 
-rp(url)
-  .then(function(html) {
+module.exports = new Promise(function(resolve, reject){
+  rp(url).then(function(html) {
     const showArticles = [];
     let allArticles = $('article', html);
     let wrapper = [];
     let showHeaders = [];
-    console.log(html);
     console.log("Number of articles: "+allArticles.length);
 
     //Get all headers
     showHeaders = $('header.show-header', html); 
     //console.log(showHeaders.length);
 
-    let showList = [];
+    let eventList = [];
     let showtime = "";
     let artist = "";
     let venue = "";
@@ -26,22 +25,34 @@ rp(url)
     let fbLink = "";
     let infoLink = "";
     let ticketLink = "";
-    let show = {};
+    let event = {};
 
     //for (let i = 0; i < allArticles.length; i++) {
-    for (let i = 0; i < 9; i++) {
-      show = {};
-      artist = $('h3', allArticles[i]).text();
+    for (let i = 0; i < allArticles.length; i++) {
+      event = {};
+      let artistsArr = [];
+      $('h3', allArticles[i]).each(function(i, elem) {
+        artistsArr[i] = $(this).text();
+      });
+      artist = artistsArr.join(", ");//$('h3', allArticles[i]).contents();
       venue = $('h2', allArticles[i]).text();
       //Handle Date
-      showtime = $('.show-day', allArticles[i]).text();
-      let re1 = new RegExp(', (.*?), ');
-      let dateString = re1.exec(showtime)[0].substring(2,re1.exec(showtime)[0].length-4);
-      let monthName = dateString.substring(0,dateString.indexOf(' '));
-      let monthNum = "";
-      let date = "";
-      let yearString = "";
-      let dateObject = {};
+      dateStr = $('.show-day', allArticles[i]).text();
+      let newItem;
+      let da=[];
+      dateStr.split(",").map(function(item) {
+        item = item.trim();
+        newItem = item.split(" ");
+        if(newItem.length>1){
+            newItem.map((i)=>{
+                da.push(i);
+            })
+        }
+        else{
+            da.push(item);
+        }
+      });
+      let eventDate = new Date(moment(da[3]+"-"+da[1]+"-"+da[2], 'YYYY-MMMM-DD'));
 
       //Get info
       let leftColumn = {};
@@ -56,46 +67,17 @@ rp(url)
         }
       }
       
-
-      try {
-        monthNum = monthNameToNum(monthName); //Give this an error checker
-        date = dateString.substring(dateString.indexOf(' ')+1);
-        yearString = showtime.substring(showtime.length-4,showtime.length)
-        //Build date object
-        dateObject = new Date(monthNum+"-"+date+"-"+yearString);
-      }
-      catch(error) {
-        console.error(error);
-        // expected output: ReferenceError: nonExistentFunction is not defined
-        // Note - error messages will vary depending on browser
-      }
-      
-      //Build the show object
-      console.log(i+".) "+allArticles[i].attribs.id);
-      show.showtime = dateObject;
-      show.artist = artist;
-      show.venue = venue;
-      show.ticketLink = ticketLink;
-      showList.push(show);
+      event.eventDate = eventDate;
+      event.title = artist;
+      event.location = "The Pour House";
+      event.stage = venue;
+      event.ticketLink = ticketLink;
+      eventList.push(event);
     }
-
-    //console.log(showList);
+    resolve(eventList);
   })
   .catch(function(err) {
     //handle error
     console.log(err);
   });
-
-var months = [
-    'January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September',
-    'October', 'November', 'December'
-    ];
-
-function monthNumToName(monthnum) {
-    return months[monthnum - 1] || '';
-}
-function monthNameToNum(monthname) {
-    var month = months.indexOf(monthname);
-    return month ? month + 1 : 0;
-}
+});
