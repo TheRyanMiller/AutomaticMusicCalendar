@@ -14,7 +14,7 @@ node_modules/
 
 # misc
 .env
-/frontend/.env
+frontend/.env
 .DS_Store
 .env.local
 .env.development.local
