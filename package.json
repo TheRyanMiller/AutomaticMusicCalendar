@@ -10,11 +10,16 @@
     "test": "./node_modules/.bin/mocha --reporter spec",
     "client": "cd frontend && npm start",
     "server": "cd backend && node ./server.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TheRyanMiller/PoHoScraper.git"
+  },
+  "engines": {
+    "node": "10.16.0"
   },
   "author": "",
   "license": "ISC",

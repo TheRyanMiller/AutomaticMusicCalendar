@@ -4,7 +4,8 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Event = require('./schemas/event');
-const User = require('./schemas/user')
+const User = require('./schemas/user');
+const path = require("path");
 
 const API_PORT = 3001;
 const app = express();
@@ -16,7 +17,7 @@ const dbRoute = 'mongodb://localhost:27017/chslivemusic';
 const dbName = 'chslivemusic';
 
 // connects our back end code with the database
-mongoose.connect(dbRoute, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || dbRoute, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
@@ -31,6 +32,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 // this is our get method
 // this method fetches all available data in our database
@@ -185,4 +187,7 @@ router.post('/removeRsvp', (req, res) => {
 app.use('/api', router);
 
 // launch our backend into a port
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
