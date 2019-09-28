@@ -6,14 +6,12 @@ const logger = require('morgan');
 const Event = require('./schemas/event');
 const User = require('./schemas/user');
 const path = require("path");
+require('dotenv').config()
 
 const API_PORT = 3001;
 const app = express();
 app.use(cors());
 const router = express.Router();
-
-// this is our MongoDB database
-const dbName = 'chslivemusic';
 
 // connects our back end code with the database
 mongoose.connect(process.env.MONGODB_CXN || process.env.MONGO_URL_DEV, { useNewUrlParser: true });
