@@ -189,4 +189,4 @@ app.use('/api', router);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
-app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+app.listen(PORT || API_PORT, () => console.log(`LISTENING ON PORT ${PORT || API_PORT}`));
