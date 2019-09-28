@@ -48,7 +48,7 @@ class HomePageContainer extends Component {
   }
 
   getDataFromDb = () => {
-    fetch('http://192.168.1.188:3001/api/getEvents')
+    fetch(process.env.PROD_API || process.env.REACT_APP_API)
       .then((data) => data.json())
       .then((res) => {
           let events =res.data;
@@ -88,7 +88,7 @@ class HomePageContainer extends Component {
 
   addRsvp = (userId,eventId) => {
     let instance = axios.create({
-      baseURL: "http://192.168.1.188:3001/api",
+      baseURL: process.env.PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
     });
@@ -112,7 +112,7 @@ class HomePageContainer extends Component {
   }
   removeRsvp = (userId,eventId) => {
     let instance = axios.create({
-      baseURL: "http://192.168.1.188:3001/api",
+      baseURL: process.env.PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
     });
@@ -199,7 +199,7 @@ class HomePageContainer extends Component {
 
       //Check for user in DB, if doesn't exist, then create
       let instance = axios.create({
-        baseURL: "http://192.168.1.188:3001/api",
+        baseURL: process.env.PROD_API || process.env.REACT_APP_API,
         timeout: 10000,
         headers: {'X-Custom-Header': 'foobar'}
       });

@@ -13,11 +13,10 @@ app.use(cors());
 const router = express.Router();
 
 // this is our MongoDB database
-const dbRoute = 'mongodb://localhost:27017/chslivemusic';
 const dbName = 'chslivemusic';
 
 // connects our back end code with the database
-mongoose.connect(process.env.MONGODB_URI || dbRoute, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_CXN || process.env.MONGO_URL_DEV, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
