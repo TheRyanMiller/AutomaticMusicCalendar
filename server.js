@@ -14,11 +14,12 @@ app.use(cors());
 const router = express.Router();
 
 // connects our back end code with the database
-mongoose.connect(process.env.MONGODB_CXN || process.env.MONGO_URL_DEV, { useNewUrlParser: true });
+let dbString = process.env.MONGODB_CXN || process.env.MONGO_URL_DEV;
+mongoose.connect(dbString, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
-db.once('open', () => console.log('connected to the database'));
+db.once('open', () => console.log('connected to the database... '+ dbString));
 
 // checks if connection with the database is successful
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
