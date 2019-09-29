@@ -36,6 +36,8 @@ class HomePageContainer extends Component {
   
 
   componentDidMount = () => {
+    let url = process.env.PROD_API || process.env.REACT_APP_API;
+    console.log("API URL using: ",url+"/getEvents");
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
       let interval = setInterval(this.getDataFromDb, 100000);
