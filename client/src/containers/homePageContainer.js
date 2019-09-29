@@ -49,6 +49,7 @@ class HomePageContainer extends Component {
 
   getDataFromDb = () => {
     let url = process.env.PROD_API || process.env.REACT_APP_API;
+    console.log("API URL using: ",url+"/getEvents");
     fetch(url+"/getEvents")
       .then((data) => data.json())
       .then((res) => {
