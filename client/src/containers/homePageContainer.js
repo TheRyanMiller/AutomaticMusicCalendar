@@ -51,30 +51,31 @@ class HomePageContainer extends Component {
 
   getDataFromDb = () => {
     let url = process.env.PROD_API || process.env.REACT_APP_API;
-    console.log("API URL using: ",url+"/getEvents");
-    fetch(url+"/getEvents",{
+    url = url+"/getEvents";
+    console.log("API URL using: ",url);
+    fetch(url,{
       headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
        }
 
     })
-      .then((data) => {
-        console.log(data)
-        data.json()
+    .then((res) => {
+      let events;
+      res.json().then((data)=>{
+        events=data.data;
+        for(let i=0; i<events.length; i++){
+          events[i].dateMMM = moment(events[i].eventDate).format('MMM');
+          events[i].dateDD = moment(events[i].eventDate).format('DD');
+          events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
+        }
+        this.setState({ 
+          events: events,
+          displayedEvents: events
+        });
       })
-      .then((res) => {
-          let events =res.data;
-          for(let i=0; i<events.length; i++){
-            events[i].dateMMM = moment(events[i].eventDate).format('MMM');
-            events[i].dateDD = moment(events[i].eventDate).format('DD');
-            events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
-          }
-          this.setState({ 
-            events,
-            displayedEvents: events
-          });
-      });
+          
+    });
   };
 
   selectEventHandler = (ev) => {
