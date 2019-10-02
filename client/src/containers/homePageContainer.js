@@ -37,7 +37,6 @@ class HomePageContainer extends Component {
 
   componentDidMount = () => {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
-    console.log("API URL using: ",url+"/getEvents");
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
       let interval = setInterval(this.getDataFromDb, 100000);
@@ -68,6 +67,9 @@ class HomePageContainer extends Component {
           events[i].dateMMM = moment(events[i].eventDate).format('MMM');
           events[i].dateDD = moment(events[i].eventDate).format('DD');
           events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
+          events[i].dateDOW = moment(events[i].eventDate).format('dddd');
+          //console.log(moment().weekday(events[i].dateDOW))
+          //console.log(moment(events[i].eventDate).format('dddd'))
         }
         this.setState({ 
           events: events,
@@ -295,9 +297,7 @@ class HomePageContainer extends Component {
                 loggedInUser={this.state.loggedInUser}
             />
         </Modal>
-        <div className="center"> 
-        PROD API value: {process.env.REACT_APP_PROD_API} + {process.env.REACT_APP_PROD_API+"/getEvents"}
-        <br />
+        <div className="center">
           Search Events:
           <input 
             type="text" 

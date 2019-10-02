@@ -4,6 +4,8 @@ import './Event_list.css';
 
 const eventDetail = (props) => {
     let detail = "";
+    let ticketLink = (<a href={props.event.ticketLink} target="_blank" >Ticket Link</a>)
+    let date = (<span>Date: {props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD} </span>)
     let addRsvpButton = (
       <button
         onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
@@ -21,8 +23,8 @@ const eventDetail = (props) => {
         <div className="eventDetailMain">
           <div className="header">
             <h4>{props.event.title ? props.event.title : "" } </h4><br />
-            Date: {props.event.eventDate ? props.event.eventDate : "" } <br />
-            {props.event.ticketLink ? "Ticket Link: <br>"+props.event.ticketLink : ""} <br />
+            {props.event.eventDate ? date : "" } <br />
+            {props.event.ticketLink ? ticketLink : ""} <br />
             {props.loggedInUser ? (props.event.isRsvpd ? removeRsvpButton : addRsvpButton) : "" }
               
           </div>
