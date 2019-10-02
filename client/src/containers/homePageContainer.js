@@ -296,6 +296,8 @@ class HomePageContainer extends Component {
             />
         </Modal>
         <div className="center"> 
+        PROD API value: {process.env.PROD_API} + {process.env.PROD_API+"/getEvents"}
+        <br />
           Search Events:
           <input 
             type="text" 
