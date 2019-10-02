@@ -36,7 +36,7 @@ class HomePageContainer extends Component {
   
 
   componentDidMount = () => {
-    let url = process.env.PROD_API || process.env.REACT_APP_API;
+    let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     console.log("API URL using: ",url+"/getEvents");
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
@@ -50,7 +50,7 @@ class HomePageContainer extends Component {
   }
 
   getDataFromDb = () => {
-    let url = process.env.PROD_API || process.env.REACT_APP_API;
+    let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
     console.log("API URL using: ",url);
     fetch(url,{
@@ -102,7 +102,7 @@ class HomePageContainer extends Component {
 
   addRsvp = (userId,eventId) => {
     let instance = axios.create({
-      baseURL: process.env.PROD_API || process.env.REACT_APP_API,
+      baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
     });
@@ -213,7 +213,7 @@ class HomePageContainer extends Component {
 
       //Check for user in DB, if doesn't exist, then create
       let instance = axios.create({
-        baseURL: process.env.PROD_API || process.env.REACT_APP_API,
+        baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
         timeout: 10000,
         headers: {'X-Custom-Header': 'foobar'}
       });
@@ -296,7 +296,7 @@ class HomePageContainer extends Component {
             />
         </Modal>
         <div className="center"> 
-        PROD API value: {process.env.PROD_API} + {process.env.PROD_API+"/getEvents"}
+        PROD API value: {process.env.REACT_APP_PROD_API} + {process.env.REACT_APP_PROD_API+"/getEvents"}
         <br />
           Search Events:
           <input 
