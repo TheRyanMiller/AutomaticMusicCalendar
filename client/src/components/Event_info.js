@@ -5,7 +5,7 @@ import './Event_list.css';
 const eventDetail = (props) => {
     let detail = "";
     let ticketLink = (<a href={props.event.ticketLink} target="_blank" >Ticket Link</a>)
-    let date = (<span>Date: {props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD} </span>)
+    let date = (<span>{props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD} </span>)
     let addRsvpButton = (
       <button
         onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
