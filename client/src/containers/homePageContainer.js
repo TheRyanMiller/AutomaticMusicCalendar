@@ -10,10 +10,16 @@ import firebase from 'firebase';
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 
+
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID
+  databaseURL: "https://charleston-live-music-calendar.firebaseio.com",
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: "",
+  messagingSenderId: "269138770604",
+  appId: "1:269138770604:web:7922b780f534171f963d09",
+  measurementId: "G-MSQCVTQQ7H"
 })
 
 class HomePageContainer extends Component {
@@ -47,6 +53,7 @@ class HomePageContainer extends Component {
       this.setState({ isSignedIn: !!user })
       if(!!user) this.signinCallback();
     })
+    console.log(process.env.REACT_APP_FIREBASE_API_KEY);
   }
 
   getDataFromDb = () => {
