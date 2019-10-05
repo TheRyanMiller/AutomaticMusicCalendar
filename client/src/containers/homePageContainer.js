@@ -35,6 +35,7 @@ class HomePageContainer extends Component {
       showModal: false,
       visAddRsvp: true,
       visRemoveRsvp: true,
+      hideSpinner: false,
       searchString: "",
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
@@ -46,14 +47,14 @@ class HomePageContainer extends Component {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 100000);
+      let interval = setInterval(this.getDataFromDb, 1000000);
       this.setState({ intervalIsSet: interval });
     }
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
       if(!!user) this.signinCallback();
     })
-    console.log(process.env.REACT_APP_FIREBASE_API_KEY);
+    console.log("FIREBASE API KEY: ",process.env.REACT_APP_FIREBASE_API_KEY);
   }
 
   getDataFromDb = () => {
@@ -75,13 +76,14 @@ class HomePageContainer extends Component {
           events[i].dateMMM = moment(events[i].eventDate).format('MMM');
           events[i].dateDD = moment(events[i].eventDate).format('DD');
           events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
-          events[i].dateDOW = moment(events[i].eventDate).format('dddd');
+          events[i].dateDOW = moment(events[i].eventDate).format('dddd').substr(0,3);
           //console.log(moment().weekday(events[i].dateDOW))
           //console.log(moment(events[i].eventDate).format('dddd'))
         }
         this.setState({ 
           events: events,
-          displayedEvents: events
+          displayedEvents: events,
+          hideSpinner: true
         });
       })
           
@@ -288,6 +290,7 @@ class HomePageContainer extends Component {
     return (
       <div>
         <h2 className="title">Charleston Music Calendar</h2>
+        <p className="center">Home | My Attended List | About</p>
         {this.state.isSignedIn ? 
           logOffButton
           : 
@@ -313,35 +316,45 @@ class HomePageContainer extends Component {
           />
           <ul className="filterSection">
             <li>
-              <input type="checkbox" className="myCheckbox" 
+                <label>
+                <input type="checkbox" className="myCheckbox" 
                 checked={this.state.selectedLocations.includes("The Music Farm - Charleston".toLowerCase())}
                 onChange={this.checkBoxHandler}
                 value="The Music Farm - Charleston" /> 
-                <label>The Music Farm</label>
+                The Music Farm</label>
             </li>
             <li>
+              <label>
               <input type="checkbox" className="myCheckbox" 
                 checked={this.state.selectedLocations.includes("The Pour House".toLowerCase())}
                 onChange={this.checkBoxHandler}
                 value="The Pour House" /> 
-                <label>The Pour House</label>
+                The Pour House</label>
             </li><br />
             <li>
+              <label>
               <input type="checkbox" className="myCheckbox" 
                 checked={this.state.selectedLocations.includes("The Royal American".toLowerCase())}
                 onChange={this.checkBoxHandler}
                 value="The Royal American" /> 
-                <label>Royal American</label>
+                Royal American</label>
             </li>
             <li>
+              <label>
               <input type="checkbox" className="myCheckbox" 
                 checked={this.state.selectedLocations.includes("tin roof - charleston".toLowerCase())}
                 onChange={this.checkBoxHandler}
                 value="Tin Roof - Charleston" /> 
-                <label>Tin Roof</label>
+                Tin Roof</label>
             </li>
           </ul>
         </div>
+        <div className="center">
+          <div hidden={this.state.hideSpinner} className="spinner-border text-dark center" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        </div>
+        
         <div className="content-table">
           <EventList
             events={this.state.displayedEvents}
