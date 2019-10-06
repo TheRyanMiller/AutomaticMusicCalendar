@@ -1,5 +1,6 @@
 import React from 'react';
 import './Event_tile.css';
+import Aux from '../hoc/Auxx';
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
@@ -19,7 +20,7 @@ const eventTile = (props) =>{
     )
   }
   return (
-    <span> {tile} </span>
+    <Aux> {tile} </Aux>
   )
 }
 

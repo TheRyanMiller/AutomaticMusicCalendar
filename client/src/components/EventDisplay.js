@@ -1,35 +1,19 @@
 import React, { Component } from 'react';
-import EventList from '../components/Event_list';
-import EventDetail from '../components/Event_detail';
+import { Route, Link } from 'react-router-dom';
+import EventList from './Event_list';
+import EventDetail from './Event_detail';
 import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import moment from 'moment';
-import '../components/Event_tile.css';
-import './bootstrap-social.css';
-import firebase from 'firebase';
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import './Event_tile.css';
 
-
-
-firebase.initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  databaseURL: "https://charleston-live-music-calendar.firebaseio.com",
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: "",
-  messagingSenderId: "269138770604",
-  appId: "1:269138770604:web:7922b780f534171f963d09",
-  measurementId: "G-MSQCVTQQ7H"
-})
 
 class HomePageContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
       events: [],
-      displayedEvents: [],
-      isSignedIn: false,
-      loggedInUser: null,
+      displayedEvents: [],      
       showEventDetails: false,
       selectedEvent: null,
       showModal: false,
@@ -37,6 +21,7 @@ class HomePageContainer extends Component {
       visRemoveRsvp: true,
       hideSpinner: false,
       searchString: "",
+      showEvents: true,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
@@ -50,11 +35,7 @@ class HomePageContainer extends Component {
       let interval = setInterval(this.getDataFromDb, 1000000);
       this.setState({ intervalIsSet: interval });
     }
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({ isSignedIn: !!user })
-      if(!!user) this.signinCallback();
-    })
-    console.log("FIREBASE API KEY: ",process.env.REACT_APP_FIREBASE_API_KEY);
+    
   }
 
   getDataFromDb = () => {
@@ -211,38 +192,6 @@ class HomePageContainer extends Component {
     //Action when clicking FBlogin
   }
 
-  signinCallback = () => {
-    if(!!firebase.auth().currentUser){
-      let user = {
-        uid: firebase.auth().currentUser.uid,
-        name: firebase.auth().currentUser.displayName,
-        photoUrl: firebase.auth().currentUser.photoURL,
-        email: firebase.auth().currentUser.email,
-        rsvpdEventIds: []
-      }
-      this.setState({loggedInUser: user})
-
-
-      //Check for user in DB, if doesn't exist, then create
-      let instance = axios.create({
-        baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
-        timeout: 10000,
-        headers: {'X-Custom-Header': 'foobar'}
-      });
-
-      instance.post('/checkUser',{
-        user: user
-      })
-      .then( response => {
-        this.setState({
-          loggedInUser: response.data.data
-        })
-      });
-    }
-  }
-
-  
-
   render() {
     //console.log(dotenv.env.API_KEY);
     let hasLooped=false;
@@ -263,39 +212,10 @@ class HomePageContainer extends Component {
         evs[i].isRsvpd = false;
       }
     }
-    let uiConfig = {
-      signInFlow: "popup",
-      signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID
-      ],
-      callbacks: {
-        //signInSuccess: this.signinCallback()
-      }
-    }
-    let firebaseAuth = (
-      <div className="textcontainer">
-        <StyledFirebaseAuth
-              uiConfig={uiConfig}
-              firebaseAuth={firebase.auth()}
-            />
-      </div>
-    )
-    let logOffButton = (<span><button onClick={()=>{
-        firebase.auth().signOut();
-        this.setState({loggedInUser:null, isSignedIn: false});
-      }}>
-        Log Out</button></span>) 
+    
     
     return (
       <div>
-        <h2 className="title">Charleston Music Calendar</h2>
-        <p className="center">Home | My Attended List | About</p>
-        {this.state.isSignedIn ? 
-          logOffButton
-          : 
-          firebaseAuth
-        }
         
         <Modal
           open={this.state.showModal}
@@ -309,12 +229,13 @@ class HomePageContainer extends Component {
             />
         </Modal>
         <div className="center">
-          Search Events:
+          <div className="filterSection">
+          <span className="center">Filters:<br />
           <input 
             type="text" 
             onChange={this.searchHandler}
-          />
-          <ul className="filterSection">
+          /></span>
+          <ul >
             <li>
                 <label>
                 <input type="checkbox" className="myCheckbox" 
@@ -322,7 +243,7 @@ class HomePageContainer extends Component {
                 onChange={this.checkBoxHandler}
                 value="The Music Farm - Charleston" /> 
                 The Music Farm</label>
-            </li>
+            </li> <br />
             <li>
               <label>
               <input type="checkbox" className="myCheckbox" 
@@ -338,7 +259,7 @@ class HomePageContainer extends Component {
                 onChange={this.checkBoxHandler}
                 value="The Royal American" /> 
                 Royal American</label>
-            </li>
+            </li> <br />
             <li>
               <label>
               <input type="checkbox" className="myCheckbox" 
@@ -348,6 +269,7 @@ class HomePageContainer extends Component {
                 Tin Roof</label>
             </li>
           </ul>
+        </div>
         </div>
         <div className="center">
           <div hidden={this.state.hideSpinner} className="spinner-border text-dark center" role="status">
