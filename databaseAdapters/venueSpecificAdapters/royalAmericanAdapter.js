@@ -5,7 +5,9 @@ let webEvents = [];
 
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
+let url = 'mongodb://localhost:27017';
+url = "mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
+
 
 // Database Name
 const dbName = 'chslivemusic';
@@ -13,25 +15,29 @@ const dbName = 'chslivemusic';
 // Create a new MongoClient
 const client = new MongoClient(url,{useNewUrlParser: true } );
 
-let tinRoofEvents = require('../scrapers/tinRoofScraper.js').then(function(rawWebEvents) {
+let royalEvents = require('../../scrapers/royalScraper.js').then(function(rawWebEvents) {
     //Only match events in future
     let webEvents = rawWebEvents.filter(function(ev){
         return ev.eventDate.getTime() >= new Date().getTime();
     })
+    //console.log(webEvents)
     client.connect(function(err) {
         assert.equal(null, err); //Ensure we have a connection
         console.log("Connected successfully to Mongo server");
         const db = client.db(dbName);
-        searchEvent(db, "Tin Roof - Charleston", function(mongoEvents){
+        let loc = "The Royal American"
+        searchEvent(db, loc, function(mongoEvents){
             //do something with the output
             let adminReview = [];
             let updateGroup = [];
             let insertGroup = [];
 
             insertGroup = webEvents.filter(function(webEv){
-                //console.log(res.title, res.eventDate, "mongo");
+                //
                 let filterFlag = false;
+                //Inner loop thru database events
                 for(let i=0;i<mongoEvents.length;i++){
+                    //Check for a match between db events
                     if(mongoEvents[i].title == webEv.title && mongoEvents[i].eventDate.getTime() == webEv.eventDate.getTime() ){
                         webEv._id = mongoEvents[i]._id;
                         updateGroup.push(webEv);
@@ -42,7 +48,7 @@ let tinRoofEvents = require('../scrapers/tinRoofScraper.js').then(function(rawWe
                 //Do some work on the _id value
                 let dt = webEv.eventDate;
                 let dtCode = dt.getMonth()+""+dt.getDate()+""+dt.getFullYear();
-                let venueCode = "TR";
+                let venueCode = "ra";
                 let bandCode = webEv.title.replace(/\s/g, '').replace(/[^0-9a-z]/gi, '').substr(0,5).toLowerCase();
                 let newId = bandCode+dtCode+venueCode;
                 //webEv._id = ObjectID(newId);
@@ -68,7 +74,6 @@ let tinRoofEvents = require('../scrapers/tinRoofScraper.js').then(function(rawWe
         });
         
     });
-    
   }, function(err) {
     console.log("didn't work");
     console.log(err); // Error: "It broke"
@@ -83,7 +88,9 @@ const insertEvents = function(db, eventList, callback) {
     const collection = db.collection('events');
     // Insert some documents
     collection.insertMany(
-        eventList, function(err, result) {
+        eventList, 
+        {ordered: false}, //this will cotinue if duplicates errors are found
+        function(err, result) {
             assert.equal(err, null);
             console.log("Inserted "+eventList.length+" documents into the collection");
             callback(result);
@@ -94,7 +101,7 @@ const insertEvents = function(db, eventList, callback) {
 const searchEvent = function(db, location, callback){
     const collection = db.collection('events');
     //console.log(webEvent.title);
-    let query = { eventDate: { $gte: new Date() } };
+    let query = { eventDate: { $gte: new Date() }, location: location };
     collection.find(query).toArray(function(err, result){
         if(err) throw err;
         console.log("SEARCH RESULTS: "+result.length);
@@ -127,5 +134,3 @@ const updateEvent = function(db, event, callback) {
         
     )
 }
-
-

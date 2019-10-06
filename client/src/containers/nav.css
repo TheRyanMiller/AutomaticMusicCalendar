@@ -28,3 +28,8 @@
     color: orange;
     text-decoration: none;
 }
+
+.active {
+    color: purple;
+    border-bottom: 4px solid white;
+}

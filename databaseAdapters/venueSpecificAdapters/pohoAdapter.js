@@ -5,7 +5,8 @@ let webEvents = [];
 
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
+let url = 'mongodb://localhost:27017';
+url = "mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
 
 // Database Name
 const dbName = 'chslivemusic';
@@ -13,7 +14,7 @@ const dbName = 'chslivemusic';
 // Create a new MongoClient
 const client = new MongoClient(url,{useNewUrlParser: true } );
 
-let musicFarmEvents = require('../scrapers/musicFarmScraper.js').then(function(rawWebEvents) {
+let pohoEvents = require('../../scrapers/pohoScraper.js').then(function(rawWebEvents) {
     //Only match events in future
     let webEvents = rawWebEvents.filter(function(ev){
         return ev.eventDate.getTime() >= new Date().getTime();
@@ -23,7 +24,7 @@ let musicFarmEvents = require('../scrapers/musicFarmScraper.js').then(function(r
         assert.equal(null, err); //Ensure we have a connection
         console.log("Connected successfully to Mongo server");
         const db = client.db(dbName);
-        let loc = "The Music Farm"
+        let loc = "The Pour House"
         searchEvent(db, loc, function(mongoEvents){
             //do something with the output
             let adminReview = [];
@@ -46,7 +47,7 @@ let musicFarmEvents = require('../scrapers/musicFarmScraper.js').then(function(r
                 //Do some work on the _id value
                 let dt = webEv.eventDate;
                 let dtCode = dt.getMonth()+""+dt.getDate()+""+dt.getFullYear();
-                let venueCode = "mf";
+                let venueCode = "ph";
                 let bandCode = webEv.title.replace(/\s/g, '').replace(/[^0-9a-z]/gi, '').substr(0,5).toLowerCase();
                 let newId = bandCode+dtCode+venueCode;
                 //webEv._id = ObjectID(newId);
@@ -72,7 +73,6 @@ let musicFarmEvents = require('../scrapers/musicFarmScraper.js').then(function(r
         });
         
     });
-    
   }, function(err) {
     console.log("didn't work");
     console.log(err); // Error: "It broke"
@@ -88,6 +88,7 @@ const insertEvents = function(db, eventList, callback) {
     // Insert some documents
     collection.insertMany(
         eventList, 
+        {ordered: false}, //this will cotinue if duplicates errors are found
         function(err, result) {
             assert.equal(err, null);
             console.log("Inserted "+eventList.length+" documents into the collection");
@@ -132,5 +133,3 @@ const updateEvent = function(db, event, callback) {
         
     )
 }
-
-

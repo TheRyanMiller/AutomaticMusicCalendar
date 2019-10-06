@@ -9,7 +9,6 @@ module.exports = new Promise(function(resolve, reject){
     let allArticles = $('article', html);
     let wrapper = [];
     let showHeaders = [];
-    console.log("Number of articles: "+allArticles.length);
 
     //Get all headers
     showHeaders = $('header.show-header', html); 

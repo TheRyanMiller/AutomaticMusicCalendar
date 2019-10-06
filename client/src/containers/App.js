@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink, IndexLink, Link } from "react-router-dom";
 import './App.css';
 import './nav.css';
 import firebase from 'firebase';
@@ -116,11 +116,19 @@ class App extends Component {
         <h2 className="title">Charleston Music Calendar</h2>
         <nav className="Nav">
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/myevents">My Events</Link></li>
-            <li><Link onClick={() => this.setState({showModal: true})} >Login</Link></li>
-            <li><Link to="/logout">Log out</Link></li>
+            <li><NavLink exact activeStyle={{
+                  fontWeight: "bold",
+                  borderBottomColor: "purple",
+                  borderBottomWidth: 2,
+                  color: "purple"
+                }} to="/">Home</NavLink></li>
+            <li><NavLink activeStyle={{
+                  fontWeight: "bold",
+                  borderBottomColor: "purple",
+                  borderBottomWidth: 2,
+                  color: "purple"
+                }} to="/about">About</NavLink></li>
+            <li><Link activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
           </ul>
         </nav>
         
