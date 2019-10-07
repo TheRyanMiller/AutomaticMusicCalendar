@@ -8,12 +8,12 @@
   padding: 10px;
   font-size: 16px;
   margin: auto;
-  background-color: #0066FF;
+  background-color: white;
   color: #FFF;
   border: 2px solid #0066FF;
 }
 .addressListMain .header button:hover {
-  background-color: #003399;
+  background-color: white;
   border: 2px solid #003399;
   cursor: pointer;
 }
@@ -32,7 +32,7 @@
 
 .EventDetailsDiv {
   color: #333;
-  background-color: rgba(206, 213, 255,.5);
+  background-color: white;
   padding: 15px;
   margin: 20px auto;
   border-radius: 5px;

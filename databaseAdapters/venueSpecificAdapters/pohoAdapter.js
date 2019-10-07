@@ -5,8 +5,7 @@ let webEvents = [];
 
 
 // Connection URL
-let url = 'mongodb://localhost:27017';
-url = "mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
+let url = process.env.MONGO_PROD_URL || 'mongodb://localhost:27017';
 
 // Database Name
 const dbName = 'chslivemusic';

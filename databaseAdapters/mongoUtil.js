@@ -1,7 +1,7 @@
 const MongoClient = require( 'mongodb' ).MongoClient;
-const url = "mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
+require('dotenv').config()
 
-
+let url = process.env.MONGO_PROD_URL || 'mongodb://localhost:27017';
 var _db;
 var mongoClient;
 

@@ -5,8 +5,8 @@ import { withRouter  } from "react-router-dom";
 const about = (props) =>{
   
   let about = (
-      <div>Charleston Music Calendar is a website designed to be a one-stop-shop for 
-          people interested in learning about live music events in Charleston, South Carolina.
+      <div>Charleston Music Calendar (CMC) is a website designed to make it simple to see 
+        all of Charleston's upcoming live music events in one place.
           <br /><br />
           
           This site works by scraping data from the websites of a few of my favorite 

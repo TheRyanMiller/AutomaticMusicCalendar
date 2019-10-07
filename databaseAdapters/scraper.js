@@ -3,11 +3,7 @@ const ObjectID = require('mongodb').ObjectID;
 const assert = require('assert');
 var mongoUtil = require( './mongoUtil' );
 let webEvents = [];
-
-
-// Connection URL
-let url = 'mongodb://localhost:27017';
-url = "mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
+require('dotenv').config();
 
 let scrapeObs = [{
     locAcronym:"TR",
@@ -45,6 +41,7 @@ module.exports.myScraper = function(){
                 let updateCount = 0;
                 let insertCount = 0;
                 let webCount = webEvents.length;
+                console.log("In scraper for "+scrapeObs[i].location);
                 searchEvent(mongoUtil.getDb(), scrapeObs[i].location, function(mongoEvents){
                     searchCount = mongoEvents.length;
                     //do something with the output
@@ -99,6 +96,7 @@ module.exports.myScraper = function(){
 
                     insertScrapeLog(mongoUtil.getDb(),scrapeLog,function(result){
                         completedScrapes++;
+                        console.log(scrapeLog);
                         if(result) console.log("Db sync "+ completedScrapes +"/"+scrapeObs.length+" successful "+scrapeObs[completedScrapes-1].locAcronym);
                         if(scrapeObs.length === completedScrapes){
                             console.log("Scrape logs written to database.")

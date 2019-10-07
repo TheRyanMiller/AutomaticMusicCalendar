@@ -27,7 +27,8 @@ class App extends Component {
     this.state = {
       isSignedIn: false,
       loggedInUser: null,
-      showModal: false
+      showModal: false,
+      hideSpinner: false,
     }
   }
 
@@ -47,8 +48,11 @@ class App extends Component {
         email: firebase.auth().currentUser.email,
         rsvpdEventIds: []
       }
-      this.setState({loggedInUser: user})
-
+      this.setState({
+        loggedInUser: user,
+        showModal: false
+      })
+      console.log("APP Level: ",this.state.loggedInUser)
 
       //Check for user in DB, if doesn't exist, then create
       let instance = axios.create({
@@ -95,7 +99,7 @@ class App extends Component {
             />
       </div>
     )
-    let logOffButton = (<span><button onClick={()=>{
+    let logOffButton = (<span><br /><br /><button onClick={()=>{
         firebase.auth().signOut();
         this.setState({loggedInUser:null, isSignedIn: false});
       }}>
@@ -118,21 +122,24 @@ class App extends Component {
           <ul>
             <li><NavLink exact activeStyle={{
                   fontWeight: "bold",
-                  borderBottomColor: "purple",
+                  borderBottomColor: "#CCCC00",
                   borderBottomWidth: 2,
-                  color: "purple"
+                  color: "#CCCC00"
                 }} to="/">Home</NavLink></li>
             <li><NavLink activeStyle={{
                   fontWeight: "bold",
-                  borderBottomColor: "purple",
+                  borderBottomColor: "#CCCC00",
                   borderBottomWidth: 2,
-                  color: "purple"
+                  color: "#CCCC00"
                 }} to="/about">About</NavLink></li>
-            <li><Link activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
+            <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
           </ul>
         </nav>
-        
-        <Route path="/" exact component={EventDisplay} />
+        {console.log("Just before route...... ", this.state.loggedInUser)}
+        <Route path="/" exact 
+          render={(props) => <EventDisplay {...props} />
+          }
+          />
         <Route path="/about" exact component={About} />
         
         

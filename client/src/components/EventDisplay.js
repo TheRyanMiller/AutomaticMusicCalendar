@@ -11,7 +11,10 @@ import './Event_tile.css';
 class HomePageContainer extends Component {
   constructor(props){
     super(props);
+    console.log("props!!: ",props);
     this.state = {
+      loggedInUser: props.loggedInUser,
+      isSignedIn: props.isSignedIn,
       events: [],
       displayedEvents: [],      
       showEventDetails: false,
@@ -19,9 +22,9 @@ class HomePageContainer extends Component {
       showModal: false,
       visAddRsvp: true,
       visRemoveRsvp: true,
-      hideSpinner: false,
       searchString: "",
       showEvents: true,
+      hideSpinner: false,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
@@ -41,7 +44,6 @@ class HomePageContainer extends Component {
   getDataFromDb = () => {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
-    console.log("API URL using: ",url);
     fetch(url,{
       headers : { 
         'Content-Type': 'application/json',
@@ -119,7 +121,7 @@ class HomePageContainer extends Component {
   }
   removeRsvp = (userId,eventId) => {
     let instance = axios.create({
-      baseURL: process.env.PROD_API || process.env.REACT_APP_API,
+      baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
     });
@@ -195,6 +197,7 @@ class HomePageContainer extends Component {
   render() {
     //console.log(dotenv.env.API_KEY);
     let hasLooped=false;
+    console.log("USER",this.state.loggedInUser)
     if(this.state.loggedInUser && this.state.loggedInUser.rsvpdEventIds.length>0){
       let evs = this.state.displayedEvents;
       let rsvps = this.state.loggedInUser.rsvpdEventIds;
@@ -272,9 +275,20 @@ class HomePageContainer extends Component {
         </div>
         </div>
         <div className="center">
-          <div hidden={this.state.hideSpinner} className="spinner-border text-dark center" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+          <div hidden={this.state.hideSpinner} className="sk-circle">
+            <div className="sk-circle1 sk-child"></div>
+            <div className="sk-circle2 sk-child"></div>
+            <div className="sk-circle3 sk-child"></div>
+            <div className="sk-circle4 sk-child"></div>
+            <div className="sk-circle5 sk-child"></div>
+            <div className="sk-circle6 sk-child"></div>
+            <div className="sk-circle7 sk-child"></div>
+            <div className="sk-circle8 sk-child"></div>
+            <div className="sk-circle9 sk-child"></div>
+            <div className="sk-circle10 sk-child"></div>
+            <div className="sk-circle11 sk-child"></div>
+            <div className="sk-circle12 sk-child"></div>
+          </div>
         </div>
         
         <div className="content-table">
