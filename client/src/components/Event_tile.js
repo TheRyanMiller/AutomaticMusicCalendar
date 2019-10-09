@@ -6,7 +6,7 @@ const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
   if(props.event.title){
     let deck = "";
-    if(props.event.stage && props.event.stage == "Deck Stage"){
+    if(props.event.stage && props.event.stage === "Deck Stage"){
       deck=(
         <span className="small">
            (DECK STAGE)

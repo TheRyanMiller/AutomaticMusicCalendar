@@ -3,9 +3,11 @@ import { withRouter  } from "react-router-dom";
 
 
 const about = (props) =>{
-  
+  var divStyle = {
+    padding: "10px"
+  };
   let about = (
-      <div>Charleston Music Calendar (CMC) is a website designed to make it simple to see 
+      <div style={divStyle}>Charleston Music Calendar (CMC) is a website designed to make it simple to see 
         all of Charleston's upcoming live music events in one place.
           <br /><br />
           
@@ -13,7 +15,7 @@ const about = (props) =>{
           local venues, and then aggregating it all together into a viewable and 
           searchable form. If you find any bugs, please report them to my <a href="https://github.com/TheRyanMiller/CharlestonLiveMusicCalendar/issues">GitHub project</a>.
           <br /><br />
-          I hope to contiue slowly adding features to this site.
+          I hope to continue adding features over time. Thank you for visiting!
 
       </div>
   )
