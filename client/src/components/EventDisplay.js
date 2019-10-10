@@ -148,6 +148,11 @@ class HomePageContainer extends Component {
 
   searchHandler = (ev) => {
     let searchQuery = ev.target.value.toLowerCase();
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      ev.target.blur();
+      console.log("Enter Pressed")
+    }
     this.setState({
       searchString: searchQuery
     },()=>this.filterEventList(searchQuery))
@@ -236,7 +241,7 @@ class HomePageContainer extends Component {
           <span className="center">Filters:<br />
           <input 
             type="text" 
-            onChange={this.searchHandler}
+            onKeyPress={this.searchHandler}
           /></span>
           <ul >
             <li>

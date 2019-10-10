@@ -122,15 +122,15 @@ class App extends Component {
           <ul>
             <li><NavLink exact activeStyle={{
                   fontWeight: "bold",
-                  borderBottomColor: "#CCCC00",
+                  borderBottomColor: "#000000",
                   borderBottomWidth: 2,
-                  color: "#CCCC00"
+                  color: "#000000"
                 }} to="/">Home</NavLink></li>
             <li><NavLink activeStyle={{
                   fontWeight: "bold",
-                  borderBottomColor: "#CCCC00",
+                  borderBottomColor: "#000000",
                   borderBottomWidth: 2,
-                  color: "#CCCC00"
+                  color: "#000000"
                 }} to="/about">About</NavLink></li>
             <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
           </ul>
@@ -141,9 +141,6 @@ class App extends Component {
           }
           />
         <Route path="/about" exact component={About} />
-        
-        
-
       </Router>
     );
   }

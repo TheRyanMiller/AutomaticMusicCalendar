@@ -10,28 +10,65 @@
 .content-row {
     display: table-row;
     margin: 5px auto;  
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     width: 100%;
     transition: 0.1s;
-    border: 1px solid #C0C0C0;
+    border: 1px solid rgba(255, 49, 255, 0.2);
 }
+
+
+
+.raColor{
+  background: blue;
+}
+
+.phColor{
+  background: red;
+}
+
+.mfColor{
+  background: yellow;
+}
+.trColor{
+  background: green;
+}
+
+
 
 .col1{
     display: table-cell;
-    width: 180px;
+    width: 200px;
     margin: 0 auto;
     text-align: center;
     font-size: large;
     vertical-align: middle;
     border: 1px solid #C0C0C0;
+    
 }
 .col2{
     display: table-cell;
     margin: 0 auto;
     text-align: center;
-    width: 80%;
+    width: 70%;
     vertical-align: middle;
-    border: 1px solid #C0C0C0;
+    border-top: 1px solid #C0C0C0;
+    border-bottom: 1px solid #C0C0C0;
+    /*border-right: 1px solid #C0C0C0;*/
+    border-left: 1px solid #C0C0C0;
+}
+.rowEdge{
+  display: table-cell;
+  margin: 5px auto;
+  top: 0px;
+  right: 0px;
+  width: 40px;
+  margin: 0 auto;
+  padding: 4px;
+  text-align: center;
+  vertical-align: middle;
+  border-top: 1px solid #C0C0C0;
+  border-bottom: 1px solid #C0C0C0;
+  /*border-left: 1px solid #C0C0C0;*/
+  border-right: 1px solid #C0C0C0;
 }
 
 .datesquare{
@@ -45,8 +82,7 @@
 
 
 .content-table .content-row:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    background-color: #ffff99;
+    background-color: #f8f8e9;
 }
 
 
@@ -73,19 +109,23 @@
     
   }
 
-  .filterSection li {
-    list-style: none;
-    margin: 0px;
-    padding: 5px;
-    display: inline;
-     
+.filterSection li {
+  list-style: none;
+  margin: 0px;
+  padding: 5px;
+  display: inline;   
 }
+
+h2 {
+  margin-bottom: 0px;
+}
+
 .filterSection {
     margin: 3px;
-    width: 65%;
-    padding: 8px;
+    width: 250px;
+    padding: 10px;
     background-color: rgb(240, 240, 240);
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(34, 30, 34, 0.2);
     border-radius: 10px;
     border: 1px solid #C0C0C0;
 }

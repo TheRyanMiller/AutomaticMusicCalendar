@@ -19,7 +19,7 @@ module.exports = new Promise(function(resolve, reject){
     .then(function(html) {
 
         let includePastShows = true;
-
+        let royalBaseUrl="https://www.theroyalamerican.com";
         //Get upcoming Shows only
         let articles = $('article', html.body).not('.eventlist-event--past');
         if(includePastShows){articles = $('article', html.body);}
@@ -35,6 +35,7 @@ module.exports = new Promise(function(resolve, reject){
           
             //Artist
             let title = exports.parseArtist(articles[i]);
+            let showUrl = $(".eventlist-title-link", articles[i]).attr('href');;
 
             //Date
             let dateStr = "";
@@ -87,8 +88,10 @@ module.exports = new Promise(function(resolve, reject){
             event.eventDate = eventDate;
             if(doors && doors!="")event.time= doors;
             if(cover && cover!="")event.fee = cover;
+            event.locAcronym = "ra";
             //event.infoLink = ev.url;
             //event.fee = feeInTitle ? titleArr.join("") : "";
+            if(showUrl && showUrl!="") event.showUrl=royalBaseUrl+showUrl;
             eventList.push(event);
             
         }

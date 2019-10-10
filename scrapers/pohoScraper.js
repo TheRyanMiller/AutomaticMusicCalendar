@@ -71,6 +71,7 @@ module.exports = new Promise(function(resolve, reject){
       event.location = "The Pour House";
       event.stage = venue;
       event.ticketLink = ticketLink;
+      event.locAcronym = "ph";
       eventList.push(event);
     }
     resolve(eventList);
