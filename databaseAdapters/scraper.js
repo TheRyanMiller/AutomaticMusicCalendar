@@ -13,7 +13,7 @@ let scrapeObs = [{
 {
     locAcronym:"MF",
     location:"The Music Farm - Charleston",
-    scraperFile:'../scrapers/musicFarmScraper.js'
+    scraperFile:'../scrapers/musicFarmScraperv2.js'
 },
 {
     locAcronym:"RA",
@@ -159,6 +159,10 @@ const updateEvent = function(db, event, callback) {
                 time: event.time,
                 infoLink: event.infoLink,
                 fee: event.fee,
+                showUrl: event.showUrl,
+                location: event.location,
+                doorsTime: event.doorsTime,
+                showTime: event.showTime,
                 updateDate: new Date()
             } },
         { upsert: false }, //options

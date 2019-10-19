@@ -1,81 +1,3 @@
-.content-table {
-    display: table; 
-    width:95%;
-    border-collapse: separate;
-    position: relative;
-    border-spacing: 0 0.3em;
-    margin: 0 auto;
-}
-
-.content-row {
-    display: table-row;
-    border-radius: 25px;
-    margin: 5px auto;  
-    width: 100%;
-    transition: 0.1s;
-    border: 1px solid rgba(255, 49, 255, 0.2);
-}
-
-
-
-.raColor{
-  background: blue;
-}
-
-.phColor{
-  background: red;
-}
-
-.mfColor{
-  background: yellow;
-}
-.trColor{
-  background: green;
-}
-
-
-
-.col1{
-    display: table-cell;
-    width: 200px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: large;
-    vertical-align: middle;
-    border: 1px solid #C0C0C0;
-    
-}
-.col2{
-    display: table-cell;
-    margin: 0 auto;
-    text-align: center;
-    width: 70%;
-    vertical-align: middle;
-    border-top: 1px solid #C0C0C0;
-    border-bottom: 1px solid #C0C0C0;
-    /*border-right: 1px solid #C0C0C0;*/
-    border-left: 1px solid #C0C0C0;
-}
-.rowEdge{
-  display: table-cell;
-  margin: 5px auto;
-  top: 0px;
-  right: 0px;
-  width: 40px;
-  margin: 0 auto;
-  padding: 4px;
-  text-align: center;
-  vertical-align: middle;
-  border-top: 1px solid #C0C0C0;
-  border-bottom: 1px solid #C0C0C0;
-  /*border-left: 1px solid #C0C0C0;*/
-  border-right: 1px solid #C0C0C0;
-}
-
-.datesquare{
-    color: black;
-    width: 80px;
-}
 
 .rsvpd {
     background-color: #daebe8;
@@ -126,7 +48,7 @@ h2 {
     width: 250px;
     padding: 10px;
     background-color: rgb(240, 240, 240);
-    box-shadow: 0 2px 2px 0 rgba(34, 30, 34, 0.2);
+    box-shadow: 0 2px 2px 0 rgb(120, 0, 150);
     border-radius: 10px;
     border: 1px solid #C0C0C0;
 }

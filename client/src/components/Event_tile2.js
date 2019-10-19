@@ -25,7 +25,7 @@ const eventTile = (props) =>{
       );
     }
     tile = (
-        <div className={"content-row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
+        <div className={"row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
           
           <div className="col1">
             <span className="large">{props.event.dateDOW}</span><br />
@@ -37,7 +37,7 @@ const eventTile = (props) =>{
               {props.event.location ? props.event.location+" " : ""}
               {deck=="" ? "" : deck}
           </div>
-          <div className={"rowEdge"}>
+          <div className={"col3 center"}>
             <img src={img} alt="Venue Logo"></img>
           </div>
           
@@ -46,7 +46,7 @@ const eventTile = (props) =>{
     )
   }
   return (
-    <Aux> {tile} </Aux>
+    <Aux className="container"> {tile} </Aux>
   )
 }
 

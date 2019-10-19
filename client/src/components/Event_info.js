@@ -10,16 +10,27 @@ import raimg from '../assets/sizedlogos/ra.png';
 const eventDetail = (props) => {
     let detail = "";
     let img;
-    if(props.event.locAcronym == "ra") img=raimg;
-    if(props.event.locAcronym == "ph") img=phimg;
-    if(props.event.locAcronym == "tr") img=trimg;
-    if(props.event.locAcronym == "mf") img=mfimg;
+    if(props.event.locAcronym === "ra") img=raimg;
+    if(props.event.locAcronym === "ph") img=phimg;
+    if(props.event.locAcronym === "tr") img=trimg;
+    if(props.event.locAcronym === "mf") img=mfimg;
+    let title;
+    let showTime = (<span>{props.event.showTime ? props.event.showTime : ""} <br /></span>);
+    if(props.event.showUrl || !props.event.showUrl===""){
+      title = (<span><h3><a href={props.event.showUrl} target="_blank" >{props.event.title}</a></h3><br /></span>);
+    }
+    else{
+      title = (<h3>{props.event.title ? props.event.title : "" } </h3>);
+    }
+    if(props.event.showTime && props.event.doorsTime){
+      showTime = (<span className="small">Show: {props.event.showTime} (doors: {props.event.doorsTime}) <br /></span>);
+    }
     let ticketLink = (<span><a href={props.event.ticketLink} target="_blank" >Ticket Link</a><br /></span>)
-    let facebookLink = (<a href={props.event.facebookLink} target="_blank" >Facebook Event Link</a>)
+    let fbLink = (<span><a href={props.event.fbLink} target="_blank" >Facebook Event Link</a><br /></span>)
     let date = (<span className="center">{props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD}, {props.event.dateYYYY} </span>)
-    let fee = (<span>Fee: {props.event.fee}</span>);
+    let fee = (<span>Fee: {props.event.fee} <br /></span>);
     let opener = (<span>{props.event.opener} <br /><br /></span>);
-    let showTime = (<span></span>);
+    
     let logo = (<span className="center"><img className="center" src={img} alt="Venue Logo"></img></span>);
     let br = (<span><br /></span>);
     let addRsvpButton = (
@@ -38,14 +49,16 @@ const eventDetail = (props) => {
       detail = (
         <div className="eventDetailMain">
           {logo}<br />
-            {props.event.eventDate ? date : "" }
             
-            <h3>{props.event.title ? props.event.title : "" } </h3>
-            {props.event.opener ? opener : br } 
-            {props.event.fee ? fee : "Fee: N/A"} <br />
+            
+            {title}
+            {props.event.eventDate ? date : "" }
+            {showTime}
+            {props.event.opener ? opener : "" } 
+            {props.event.fee ? fee : ""}
             {props.event.ticketLink ? ticketLink : ""}
-            {props.event.facebookLink ? facebookLink : "Facebook Link: N/A"} <br />
-            {props.event.showTime ? showTime : "Show Time: N/A"} <br />            
+            {props.event.fbLink ? fbLink : ""}
+                       
             {props.loggedInUser ? (props.event.isRsvpd ? removeRsvpButton : addRsvpButton) : "" }
             
         </div>

@@ -5,7 +5,7 @@ import EventDetail from './Event_detail';
 import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import moment from 'moment';
-import './Event_tile2.css';
+import './Event_tile.css';
 
 
 class EventDisplay extends Component {
@@ -225,7 +225,17 @@ class EventDisplay extends Component {
     return (
       <div>
         
-        
+        <Modal
+          open={this.state.showModal}
+          onClose={this.handleModalClose}
+        >
+            <EventDetail
+                event={this.state.selectedEvent}
+                addRsvp={this.addRsvp}
+                removeRsvp={this.removeRsvp}
+                loggedInUser={this.state.loggedInUser}
+            />
+        </Modal>
         <div className="center">
           <div className="filterSection">
           <span className="center">Filters:<br />
@@ -233,7 +243,7 @@ class EventDisplay extends Component {
             type="text" 
             onKeyPress={this.searchHandler}
           /></span>
-          <ul className="filterOptions">
+          <ul >
             <li>
                 <label>
                 <input type="checkbox" className="myCheckbox" 
@@ -286,27 +296,14 @@ class EventDisplay extends Component {
           </div>
         </div>
         
-        <div className="center content-table">
+        <div className="content-table">
           <EventList
-            className="center"
             events={this.state.displayedEvents}
             click={this.selectEventHandler}
             loggedInUser = {this.state.loggedInUser}
           />
         </div>
-        <Modal
-          open={this.state.showModal}
-          onClose={this.handleModalClose}
-        >
-            <EventDetail
-                event={this.state.selectedEvent}
-                addRsvp={this.addRsvp}
-                removeRsvp={this.removeRsvp}
-                loggedInUser={this.state.loggedInUser}
-            />
-        </Modal>
       </div>
-
     );
   }
 }

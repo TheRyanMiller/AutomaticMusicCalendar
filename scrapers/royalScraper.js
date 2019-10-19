@@ -35,7 +35,7 @@ module.exports = new Promise(function(resolve, reject){
           
             //Artist
             let title = exports.parseArtist(articles[i]);
-            let showUrl = $(".eventlist-title-link", articles[i]).attr('href');;
+            let showUrl = $(".eventlist-title-link", articles[i]).attr('href');
 
             //Date
             let dateStr = "";

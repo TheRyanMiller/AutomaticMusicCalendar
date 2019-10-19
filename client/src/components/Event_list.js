@@ -1,5 +1,5 @@
 import React from 'react';
-import EventTile from './Event_tile';
+import EventTile from './Event_tile2';
 
 const eventList = (props) =>{
   
@@ -7,6 +7,7 @@ const eventList = (props) =>{
     (event,index) => {
       return (
         <EventTile
+          className="center"
           event={event}
           change={(e) => props.changed(e,event._id)}
           click={() => {

@@ -25,14 +25,50 @@ module.exports = new Promise(function(resolve, reject){
     let infoLink = "";
     let ticketLink = "";
     let event = {};
+    let showUrl = "";
+    let table;
+    let tbody;
+    let rowText;
 
     //for (let i = 0; i < allArticles.length; i++) {
     for (let i = 0; i < allArticles.length; i++) {
       event = {};
       let artistsArr = [];
+
+      /*
+        URLS!
+      */
+      //Show url
+      showUrl = $('a', allArticles[i]).attr('href');
+      //Facebook Event Url
+      fbLink = $('.rsvp-button', allArticles[i]).attr('href');
+      
+      /*
+        SHOW DETAILS
+      */
       $('h3', allArticles[i]).each(function(i, elem) {
         artistsArr[i] = $(this).text();
       });
+
+      table = $('table.show-details', allArticles[i]);
+      tbody = $('tbody', table);
+      
+      $('tr', tbody).each(function(i, elem) {
+        rowText = $(this).text();
+        if(rowText.toLowerCase().indexOf("cover")>-1){
+          cover=rowText.substr(6,rowText.length-1).trim();
+        };
+        if(rowText.toLowerCase().indexOf("doors")>-1){
+          doorsTime=rowText.substr(6,rowText.length-1).trim();
+        };
+        if(rowText.toLowerCase().indexOf("show")>-1){
+          showTime=rowText.substr(5,rowText.length-1).trim();
+        };
+
+      });
+      
+      console.log("artist: ",artist)
+
       artist = artistsArr.join(", ");//$('h3', allArticles[i]).contents();
       venue = $('h2', allArticles[i]).text();
       //Handle Date
@@ -55,7 +91,6 @@ module.exports = new Promise(function(resolve, reject){
 
       //Get info
       let leftColumn = {};
-      let rightColumn = {};
       let infoColumns = $('.col-xs-12.col-sm-6', allArticles[i]);
       if($(infoColumns[0]).html().trim().length > 0){
         leftColumn = infoColumns[0];
@@ -72,7 +107,13 @@ module.exports = new Promise(function(resolve, reject){
       event.stage = venue;
       event.ticketLink = ticketLink;
       event.locAcronym = "ph";
+      if(showUrl) event.showUrl = showUrl;
+      if(fbLink) event.fbLink = fbLink;
+      if(doorsTime) event.doorsTime = doorsTime;
+      if(showTime) event.showTime = showTime;
+      if(cover) event.cover = cover;
       eventList.push(event);
+
     }
     resolve(eventList);
   })
