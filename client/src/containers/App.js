@@ -106,41 +106,43 @@ class App extends Component {
         Log Out</button></span>) 
 
     return (
-      <Router>
-        <Modal
-          open={this.state.showModal}
-          onClose={this.handleModalClose}
-        >
-          {this.state.isSignedIn ? 
-          logOffButton
-          : 
-          firebaseAuth
-        }
-        </Modal>
-        <h2 className="title">Charleston Music Calendar</h2>
-        <nav className="Nav">
-          <ul>
-            <li><NavLink exact activeStyle={{
-                  fontWeight: "bold",
-                  borderBottomColor: "#000000",
-                  borderBottomWidth: 2,
-                  color: "#000000"
-                }} to="/">Home</NavLink></li>
-            <li><NavLink activeStyle={{
-                  fontWeight: "bold",
-                  borderBottomColor: "#000000",
-                  borderBottomWidth: 2,
-                  color: "#000000"
-                }} to="/about">About</NavLink></li>
-            <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
-          </ul>
-        </nav>
-        {console.log("Just before route...... ", this.state.loggedInUser)}
-        <Route path="/" exact 
-          render={(props) => <EventDisplay {...props} />
+      <Router >
+        <div>
+          <Modal
+            open={this.state.showModal}
+            onClose={this.handleModalClose}
+          >
+            {this.state.isSignedIn ? 
+            logOffButton
+            : 
+            firebaseAuth
           }
-          />
-        <Route path="/about" exact component={About} />
+          </Modal>
+          <h2 className="title fontColor">Charleston Music Calendar</h2>
+          <nav className="Nav">
+            <ul className="fontColor">
+              <li><NavLink exact activeStyle={{
+                    fontWeight: "bold",
+                    borderBottomColor: "#000000",
+                    borderBottomWidth: 2,
+                    color: "rgb(238, 238, 238)"
+                  }} to="/">Home</NavLink></li>
+              <li><NavLink activeStyle={{
+                    fontWeight: "bold",
+                    borderBottomColor: "#000000",
+                    borderBottomWidth: 2,
+                    color: "rgb(238, 238, 238)"
+                  }} to="/about">About</NavLink></li>
+              <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
+            </ul>
+          </nav>
+          {console.log("Just before route...... ", this.state.loggedInUser)}
+          <Route path="/" exact 
+            render={(props) => <EventDisplay {...props} />
+            }
+            />
+          <Route path="/about" exact component={About} />
+          </div>
       </Router>
     );
   }

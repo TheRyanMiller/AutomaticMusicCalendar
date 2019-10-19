@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter  } from "react-router-dom";
+import '../containers/App.css';
 
 
 const about = (props) =>{
@@ -7,7 +8,7 @@ const about = (props) =>{
     padding: "10px"
   };
   let about = (
-      <div style={divStyle}>Charleston Music Calendar (CMC) is a website designed to make it simple to see 
+      <div className="fontColor" style={divStyle}>Charleston Music Calendar (CMC) is a website designed to make it simple to see 
         all of Charleston's upcoming live music events in one place.
           <br /><br />
           

@@ -4,7 +4,9 @@
   flex-direction: column;
   justify-content: space-between;
     align-content: flex-start;
-
+}
+.fontColor{
+  color: rgb(238, 238, 238);
 }
 .row {
   display: flex;

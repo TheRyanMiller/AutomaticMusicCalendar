@@ -3,7 +3,6 @@
   background-color: #daebe8;
 }
 
-
 .content-table .content-row:hover {
   background-color: #f8f8e9;
   border-collapse: separate;
@@ -20,7 +19,9 @@
 .xlarge{
   font-size: xx-large;
 }
-
+.fontColor{
+  color: rgb(238, 238, 238);
+}
 .title{
   text-align: center;
 }
@@ -33,10 +34,10 @@
 }
 
 .filterSection li {
-list-style: none;
-margin: 0px;
-padding: 5px;
-display: inline;   
+  list-style: none;
+  margin: 0px;
+  padding: 5px;
+  display: inline;   
 }
 
 h2 {
@@ -47,10 +48,8 @@ margin-bottom: 0px;
   margin: 3px;
   width: 250px;
   padding: 10px;
-  background-color: rgb(240, 240, 240);
-  box-shadow: 0 2px 2px 0 rgba(34, 30, 34, 0.2);
-  border-radius: 10px;
-  border: 1px solid #C0C0C0;
+  background-color: rgb(42, 43, 124);
+  border-radius: 3px;
 }
 .sk-circle {
   margin: 100px auto;
@@ -71,7 +70,7 @@ margin-bottom: 0px;
   margin: 0 auto;
   width: 15%;
   height: 15%;
-  background-color: #333;
+  background-color: white;
   border-radius: 100%;
   -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
           animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;

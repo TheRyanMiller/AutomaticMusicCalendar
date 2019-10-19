@@ -227,7 +227,7 @@ class EventDisplay extends Component {
         
         
         <div className="center">
-          <div className="filterSection">
+          <div className="filterSection fontColor">
           <span className="center">Filters:<br />
           <input 
             type="text" 

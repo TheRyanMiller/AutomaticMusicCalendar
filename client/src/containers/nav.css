@@ -20,7 +20,7 @@
 
 .Nav a{
     text-decoration: none;
-    color: black;
+    color: rgb(238, 238, 238);
 }
 
 .Nav a:hover,
@@ -31,7 +31,7 @@
 
 .active {
     color: 	black;
-    border-bottom: 4px solid black;
+    border-bottom: 4px solid white;
 }
 
 input[type="color"],
