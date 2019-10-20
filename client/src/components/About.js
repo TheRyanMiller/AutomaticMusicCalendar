@@ -10,14 +10,16 @@ const about = (props) =>{
     width:"80%"
   };
   let about = (
-      <div className="fontColor about" style={divStyle}>Charleston Music Calendar (CMC) is a website I designed to make it simple to see 
-        all of Charleston's upcoming live music events in one place.
+      <div className="fontColor about" style={divStyle}>Charleston Music Calendar is a project I created to aggregate local 
+      music events onto a single web page.
           <br /><br />
-          This site automatically scrapes data directly from the websites of a few of my favorite 
-          local venues, and then aggregating it all together into a viewable and 
-          searchable form. If you find any bugs, please report them to my <a href="https://github.com/TheRyanMiller/CharlestonLiveMusicCalendar/issues">GitHub project</a>.
+          This site automatically scrapes concert data directly from the websites of a few of my favorite 
+          local venues. All of the events are then organized and presented here in an always-up-to-date, 
+          searchable form. 
           <br /><br />
-          I hope to continue adding features over time. Thank you for visiting!
+          <a href="https://github.com/TheRyanMiller/CharlestonLiveMusicCalendar">GitHub project</a><br />
+          <a href="https://github.com/TheRyanMiller/CharlestonLiveMusicCalendar/issues">Report an Issue</a>
+          
 
       </div>
   )
