@@ -12,10 +12,9 @@ import './EventDisplay.css';
 class EventDisplay extends Component {
   constructor(props){
     super(props);
-    console.log("props!!: ",props);
     this.state = {
-      loggedInUser: props.loggedInUser,
-      isSignedIn: props.isSignedIn,
+      loggedInUser: this.props.loggedInUser,
+      isSignedIn: this.props.isSignedIn,
       events: [],
       displayedEvents: [],      
       showEventDetails: false,
@@ -26,8 +25,13 @@ class EventDisplay extends Component {
       searchString: "",
       showEvents: true,
       hideSpinner: false,
+      activeLoadingOverlay: false,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
+    this.setState({
+      loggedInUser: this.props.loggedInUser,
+      isSignedIn: this.props.isSignedIn
+    })
   }
 
   
@@ -39,7 +43,6 @@ class EventDisplay extends Component {
       let interval = setInterval(this.getDataFromDb, 1000000);
       this.setState({ intervalIsSet: interval });
     }
-    
   }
 
   getDataFromDb = () => {
@@ -61,8 +64,6 @@ class EventDisplay extends Component {
           events[i].dateDD = moment(events[i].eventDate).format('DD');
           events[i].dateYYYY = moment(events[i].eventDate).format('YYYY');
           events[i].dateDOW = moment(events[i].eventDate).format('dddd').substr(0,3);
-          //console.log(moment().weekday(events[i].dateDOW))
-          //console.log(moment(events[i].eventDate).format('dddd'))
         }
         this.setState({ 
           events: events,
@@ -97,6 +98,7 @@ class EventDisplay extends Component {
   }
 
   addRsvp = (userId,eventId) => {
+    this.props.loadingSpinner()
     let instance = axios.create({
       baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
@@ -108,19 +110,21 @@ class EventDisplay extends Component {
       eventId: eventId
     })
     .then((response) => {
-      let user = this.state.loggedInUser;
+      let user = this.props.loggedInUser;
       user.rsvpdEventIds.push(eventId);
       this.setState({
         loggedInUser : user
       });
+      this.props.loadingSpinner()
         
     })
     .catch(function (error) {
       console.log(error);
     });
-
   }
+
   removeRsvp = (userId,eventId) => {
+    this.props.loadingSpinner()
     let instance = axios.create({
       baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
@@ -132,12 +136,13 @@ class EventDisplay extends Component {
       eventId: eventId
     })
     .then((response) => {
-      let user = this.state.loggedInUser;
+      let user = this.props.loggedInUser;
       let idx = user.rsvpdEventIds.indexOf(eventId);
       user.rsvpdEventIds.splice(idx);
       this.setState({
         loggedInUser : user
       });
+      this.props.loadingSpinner()
         
     })
     .catch(function (error) {
@@ -145,14 +150,11 @@ class EventDisplay extends Component {
     });
   }
 
-  
-
   searchHandler = (ev) => {
     let searchQuery = ev.target.value.toLowerCase();
     if (ev.key === "Enter") {
       ev.preventDefault();
       ev.target.blur();
-      console.log("Enter Pressed")
     }
     this.setState({
       searchString: searchQuery
@@ -191,22 +193,13 @@ class EventDisplay extends Component {
     this.setState({
       selectedLocations: newLocations
     },()=>this.filterEventList())
-    
-    //el.target.checked=!this.state.selectedLocations.includes("Tin Roof - Charleston".toLowerCase)
-    //Set State
-  }
-  
-  componentClicked = response => {
-    //Action when clicking FBlogin
   }
 
   render() {
-    //console.log(dotenv.env.API_KEY);
     let hasLooped=false;
-    console.log("USER",this.state.loggedInUser)
-    if(this.state.loggedInUser && this.state.loggedInUser.rsvpdEventIds.length>0){
+    if(this.props.loggedInUser && this.props.loggedInUser.rsvpdEventIds.length>0){
       let evs = this.state.displayedEvents;
-      let rsvps = this.state.loggedInUser.rsvpdEventIds;
+      let rsvps = this.props.loggedInUser.rsvpdEventIds;
       for(let i=0;i<evs.length;i++){
         evs[i].isRsvpd = false;
         if(rsvps.indexOf(evs[i]._id) > -1){
@@ -222,14 +215,11 @@ class EventDisplay extends Component {
       }
     }
     
-    
     return (
       <div>
-        
-        
         <div className="center">
           <div className="filterSection fontColor">
-          <span className="center">Filters:<br />
+          <span className="center">Search:<br />
           <input 
             type="text" 
             onKeyPress={this.searchHandler}
@@ -292,7 +282,7 @@ class EventDisplay extends Component {
             className="center"
             events={this.state.displayedEvents}
             click={this.selectEventHandler}
-            loggedInUser = {this.state.loggedInUser}
+            loggedInUser = {this.props.loggedInUser}
           />
         </div>
         <Modal
@@ -307,11 +297,10 @@ class EventDisplay extends Component {
                 event={this.state.selectedEvent}
                 addRsvp={this.addRsvp}
                 removeRsvp={this.removeRsvp}
-                loggedInUser={this.state.loggedInUser}
+                loggedInUser={this.props.loggedInUser}
             />
         </Modal>
       </div>
-
     );
   }
 }

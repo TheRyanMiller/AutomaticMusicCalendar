@@ -2,6 +2,36 @@
 .rsvpd {
   background-color: #daebe8;
 }
+._loading_overlay_overlay{
+  z-index:2000;
+  position: absolute;
+  vertical-align: middle;
+  margin: auto 0;
+  text-align: center;
+  
+}
+._loading_overlay_content{
+  z-index:2000;
+  position: absolute;
+  vertical-align: middle;
+  margin: auto 0;
+  left: 40%;
+  margin-left: -50px;
+  top: 300px;
+}
+._loading_overlay_spinner{
+  position: absolute;
+  z-index:2000;
+  vertical-align: middle;
+  margin: auto 0;
+  
+  bottom: 50%;
+}
+._loading_overlay_wrapper{
+  vertical-align: middle;
+  margin: auto 0;
+  text-align: center;
+}
 
 .content-table .content-row:hover {
   background-color: #f8f8e9;

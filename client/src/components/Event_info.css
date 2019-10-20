@@ -5,4 +5,26 @@
 h3{
     padding: 0px;
     margin: 10px 0px 10px 0; 
+    font-size: 25px;
+}
+.rsvpbutton{
+    border-radius: 10px;   
+    background-color: #bfccda;
+    border-color: #062f61;
+    color: #4b4f56;
+    transition: 200ms cubic-bezier(.08,.52,.52,1) background-color, 200ms cubic-bezier(.08,.52,.52,1) box-shadow, 200ms cubic-bezier(.08,.52,.52,1) transform;
+}
+
+.titlespacing{
+    padding: 0px;
+    margin: 0px;
+    line-height: 0.9;
+}
+
+.openers{
+    font-size: 14px;
+    font-style: italic; 
+}
+.date{
+    font-size: 14px;
 }

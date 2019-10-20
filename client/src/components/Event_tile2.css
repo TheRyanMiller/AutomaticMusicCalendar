@@ -16,12 +16,15 @@
   max-width: 800px;
   border: 1px solid rgb(0, 0, 0);
   margin: 5px 5px 5px 5px;
-  border: 2px solid #0e3363;
+  border: 2px solid #051a36;
   background: rgb(51, 51, 51);
   padding: 9px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   box-shadow: 1px 1px 1px #000000;
+}
+.rsvpd{
+  background: rgb(66, 3, 14);
 }
 .row:hover{
   background-color: rgb(27, 38, 83);
@@ -31,13 +34,16 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  vertical-align: middle;
   
 }
 
 .col1 {
   flex: 1;
-  max-width: 150px;
+  max-width: 75px;
   min-width: 55px;
+  vertical-align: middle;
+  margin: auto 0;
 }
 
 .col2 {
@@ -46,18 +52,28 @@
 
 .col3 {
   flex: 1;
-  max-width: 85px;
-  min-width: 60px;
+  max-width: 75px;
+  min-width: 55px;
   text-align: center;
   vertical-align: middle;
   }
 
+.titleline{
+  margin: 10px 0px 50px 0px;
+  line-height: 1.2;
+}
+.locationline{
+  margin: 10px 0px 50px 0px;
+  font-size: 13px;
+}
 .center{
   text-align: center;
   vertical-align: middle;
   margin: auto 0px
 }
-
+.deck{
+  font-size: 10px;
+}
 .small{
   font-size: 12px;
 }

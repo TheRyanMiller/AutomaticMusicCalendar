@@ -15,19 +15,31 @@ const eventDetail = (props) => {
     if(props.event.locAcronym === "tr") img=trimg;
     if(props.event.locAcronym === "mf") img=mfimg;
     let title;
+    let date = (<span className="date">{props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD}, {props.event.dateYYYY} <br /></span>)
     let showTime = (<span>{props.event.showTime ? props.event.showTime : ""} <br /></span>);
+    let opener = (<span className="openers">{props.event.opener} <br /></span>);
     if(props.event.showUrl || !props.event.showUrl===""){
-      title = (<span className="center"><h3><a href={props.event.showUrl} target="_blank" >{props.event.title}</a></h3><br /><br /></span>);
+      title = (<div className="titlespacing">
+        {date}
+        <span className="">
+        <h3><a href={props.event.showUrl} target="_blank" >{props.event.title}</a></h3>
+        {opener}
+        <br /><br /></span>
+        </div>);
     }
     else{
-      title = (<h3 className="center">{props.event.title ? props.event.title : "" } <br /><br /></h3>);
+      title = (<div className="titlespacing">
+        {date}
+        <h3 className="">{props.event.title ? props.event.title : "" } <br />
+      {opener}
+      <br /><br /></h3></div>);
     }
     if(props.event.showTime && props.event.doorsTime){
       showTime = (<span className="small">Show: {props.event.showTime} (doors: {props.event.doorsTime}) <br /></span>);
     }
-    let date = (<span >{props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD}, {props.event.dateYYYY} <br /></span>)
+    
     let fee = (<span className="small">Fee: {props.event.fee} <br /></span>);
-    let opener = (<span>Opener(s): {props.event.opener} <br /></span>);
+    
 
     let ticketLink = (<span className="small"><a href={props.event.ticketLink} target="_blank" >Ticket Link</a><br /></span>)
     let fbLink = (<span className="small"><a href={props.event.fbLink} target="_blank" >Facebook Event Link</a><br /></span>)
@@ -51,13 +63,13 @@ const eventDetail = (props) => {
     let logo = (<span className="center"><img className="center" src={img} alt="Venue Logo"></img></span>);
     let br = (<span><br /></span>);
     let addRsvpButton = (
-      <button
+      <button className="rsvpbutton center"
         onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
         RSVP
       </button>
     )
     let removeRsvpButton = (
-      <button
+      <button className="rsvpbutton center"
         onClick={()=>props.removeRsvp(props.loggedInUser._id,props.event._id)}>
         Remove RSVP
       </button>
@@ -66,9 +78,8 @@ const eventDetail = (props) => {
       detail = (
         <div className="eventDetailMain">            
             {title}
-            {props.event.eventDate ? date : "" }
             {showTime}
-            {props.event.opener ? opener : "" } 
+            
             {props.event.fee ? fee : ""}
             {links}
                        

@@ -8,6 +8,7 @@ import About from '../components/About';
 import EventDisplay from '../components/EventDisplay';
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
+import LoadingOverlay from 'react-loading-overlay';
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -29,6 +30,7 @@ class App extends Component {
       loggedInUser: null,
       showModal: false,
       hideSpinner: false,
+      activeLoadingOverlay: false
     }
   }
 
@@ -39,6 +41,11 @@ class App extends Component {
     })
   }
 
+  loadingSpinner = () =>{
+    this.setState({
+      activeLoadingOverlay: !this.state.activeLoadingOverlay
+    })
+  }
   signinCallback = () => {
     if(!!firebase.auth().currentUser){
       let user = {
@@ -52,7 +59,6 @@ class App extends Component {
         loggedInUser: user,
         showModal: false
       })
-      console.log("APP Level: ",this.state.loggedInUser)
 
       //Check for user in DB, if doesn't exist, then create
       let instance = axios.create({
@@ -78,6 +84,15 @@ class App extends Component {
     });
   }
 
+  MyEventDisplay = () => {
+    return (
+      <EventDisplay 
+        loggedInUser={this.state.loggedInUser}
+        isSignedIn={this.state.isSignedIn}
+        loadingSpinner={this.loadingSpinner}
+      />
+    );
+  }
 
 
   render() {
@@ -107,45 +122,51 @@ class App extends Component {
 
     return (
       <Router >
-        <div>
-          <Modal
-            open={this.state.showModal}
-            onClose={this.handleModalClose}
-          >
-            {this.state.isSignedIn ? 
-            logOffButton
-            : 
-            firebaseAuth
-          }
-          </Modal>
-          <div className="title fontColor">
-            <span className="title1">Charleston</span><br />
-            <span className="title2">Music Calendar</span>
-          </div>
-          <nav className="Nav">
-            <ul className="fontColor">
-              <li><NavLink exact activeStyle={{
-                    fontWeight: "bold",
-                    borderBottomColor: "white",
-                    borderBottomWidth: 2,
-                    color: "rgb(238, 238, 238)"
-                  }} to="/">Home</NavLink></li>
-              <li><NavLink activeStyle={{
-                    fontWeight: "bold",
-                    borderBottomColor: "white",
-                    borderBottomWidth: 2,
-                    color: "rgb(238, 238, 238)"
-                  }} to="/about">About</NavLink></li>
-              <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
-            </ul>
-          </nav>
-          {console.log("Just before route...... ", this.state.loggedInUser)}
-          <Route path="/" exact 
-            render={(props) => <EventDisplay {...props} />
-            }
-            />
-          <Route path="/about" exact component={About} />
-          </div>
+        <LoadingOverlay
+          active={this.state.activeLoadingOverlay}
+          spinner={true}
+          text="Loading..."
+        >
+          <div>
+            <Modal
+              open={this.state.showModal}
+              onClose={this.handleModalClose}
+            >
+              {this.state.isSignedIn ? 
+                logOffButton
+                : 
+                firebaseAuth
+              }
+            </Modal>
+            <div className="title fontColor">
+              <span className="title1">Charleston</span><br />
+              <span className="title2">Music Calendar</span>
+            </div>
+            <nav className="Nav">
+              <ul className="fontColor">
+                <li><NavLink exact activeStyle={{
+                      fontWeight: "bold",
+                      borderBottomColor: "white",
+                      borderBottomWidth: 2,
+                      color: "rgb(238, 238, 238)"
+                    }} to="/">Home</NavLink></li>
+                <li><NavLink activeStyle={{
+                      fontWeight: "bold",
+                      borderBottomColor: "white",
+                      borderBottomWidth: 2,
+                      color: "rgb(238, 238, 238)"
+                    }} to="/about">About</NavLink></li>
+                <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
+              </ul>
+            </nav>
+            <Route path="/" exact 
+              render={
+                this.MyEventDisplay
+              }
+              />
+            <Route path="/about" exact component={About} />
+            </div>
+        </LoadingOverlay>
       </Router>
     );
   }

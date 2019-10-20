@@ -13,14 +13,19 @@ const eventTile = (props) =>{
   if(props.event.locAcronym === "ph") img=phimg;
   if(props.event.locAcronym === "tr") img=trimg;
   if(props.event.locAcronym === "mf") img=mfimg;
+  let location = props.event.location ? props.event.location : "";
+  if(location==="The Music Farm - Charleston") location = "Music Farm";
+  if(location==="The Pour House") location = "Pour House";
+  if(location==="Tin Roof - Charleston") location = "Tin Roof";
+  if(location==="The Royal American") location = "Royal American";
 
   let edgeColor = props.event.locAcronym+"Color";
   if(props.event.title){
     let deck = "";
     if(props.event.stage && props.event.stage === "Deck Stage"){
       deck=(
-        <span className="small">
-           (DECK STAGE)
+        <span className="deck">
+            (DECK)
         </span>
       );
     }
@@ -33,8 +38,8 @@ const eventTile = (props) =>{
           </div>
           
           <div className="col2">
-              <b>{props.event.title ? props.event.title : ""}</b><br />
-              {props.event.location ? props.event.location+" " : ""}
+              <span className="titleline"><b>{props.event.title ? props.event.title : ""}</b></span><br />
+              <span className="locationline">{location}  </span>
               {deck=="" ? "" : deck}
           </div>
           <div className={"col3 center"}>

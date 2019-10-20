@@ -6,3 +6,10 @@
 a{
     color: white;
 }
+
+.customModal{
+    z-index:2;
+}
+.customOverlay{
+    z-index:2;
+}
