@@ -63,16 +63,20 @@ const eventDetail = (props) => {
     let logo = (<span className="center"><img className="center" src={img} alt="Venue Logo"></img></span>);
     let br = (<span><br /></span>);
     let addRsvpButton = (
-      <button className="rsvpbutton center"
-        onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
-        RSVP
-      </button>
+      <div className="center">
+        <button className="rsvpbutton center"
+          onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
+          Save to My List
+        </button>
+      </div>
     )
     let removeRsvpButton = (
-      <button className="rsvpbutton center"
-        onClick={()=>props.removeRsvp(props.loggedInUser._id,props.event._id)}>
-        Remove RSVP
-      </button>
+      <div className="center">
+        <button className="rsvpbutton center"
+          onClick={()=>props.removeRsvp(props.loggedInUser._id,props.event._id)}>
+          Remove from My List
+        </button>
+      </div>
     )
     if(props.event.title){
       detail = (
@@ -82,7 +86,8 @@ const eventDetail = (props) => {
             
             {props.event.fee ? fee : ""}
             {links}
-                       
+            <br />
+            <br />
             {props.loggedInUser ? (props.event.isRsvpd ? removeRsvpButton : addRsvpButton) : "" }
             
         </div>

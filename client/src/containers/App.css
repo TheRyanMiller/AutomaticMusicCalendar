@@ -2,6 +2,9 @@
 .rsvpd {
   background-color: #daebe8;
 }
+.about{
+  text-align: left
+}
 ._loading_overlay_overlay{
   z-index:2000;
   position: absolute;
