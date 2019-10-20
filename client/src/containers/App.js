@@ -118,18 +118,21 @@ class App extends Component {
             firebaseAuth
           }
           </Modal>
-          <h2 className="title fontColor">Charleston Music Calendar</h2>
+          <div className="title fontColor">
+            <span className="title1">Charleston</span><br />
+            <span className="title2">Music Calendar</span>
+          </div>
           <nav className="Nav">
             <ul className="fontColor">
               <li><NavLink exact activeStyle={{
                     fontWeight: "bold",
-                    borderBottomColor: "#000000",
+                    borderBottomColor: "white",
                     borderBottomWidth: 2,
                     color: "rgb(238, 238, 238)"
                   }} to="/">Home</NavLink></li>
               <li><NavLink activeStyle={{
                     fontWeight: "bold",
-                    borderBottomColor: "#000000",
+                    borderBottomColor: "white",
                     borderBottomWidth: 2,
                     color: "rgb(238, 238, 238)"
                   }} to="/about">About</NavLink></li>

@@ -16,6 +16,7 @@
 .Nav li{
     display: inline-block;
     margin: 10px 20px 40px 10px;
+    font-size: small;
 }
 
 .Nav a{
@@ -30,7 +31,7 @@
 }
 
 .active {
-    color: 	black;
+    color: 	rgb(230, 230, 230);
     border-bottom: 4px solid white;
 }
 

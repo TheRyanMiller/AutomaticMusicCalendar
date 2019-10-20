@@ -6,6 +6,7 @@ import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import moment from 'moment';
 import './Event_tile2.css';
+import './EventDisplay.css';
 
 
 class EventDisplay extends Component {
@@ -297,6 +298,10 @@ class EventDisplay extends Component {
         <Modal
           open={this.state.showModal}
           onClose={this.handleModalClose}
+          classNames={{
+            overlay: "customOverlay",
+            modal: "customModal"
+          }}
         >
             <EventDetail
                 event={this.state.selectedEvent}

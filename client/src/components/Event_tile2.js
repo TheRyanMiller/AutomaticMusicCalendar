@@ -1,10 +1,10 @@
 import React from 'react';
 import './Event_tile2.css';
 import Aux from '../hoc/Auxx';
-import mfimg from '../assets/sizedlogos/mf.png';
-import phimg from '../assets/sizedlogos/ph.png';
-import trimg from '../assets/sizedlogos/tr.png';
-import raimg from '../assets/sizedlogos/ra.png';
+import mfimg from '../assets/sizedlogos/invertedcolor/mf.png';
+import phimg from '../assets/sizedlogos/invertedcolor/ph.png';
+import trimg from '../assets/sizedlogos/invertedcolor/tr.png';
+import raimg from '../assets/sizedlogos/invertedcolor/ra.png';
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
@@ -25,11 +25,11 @@ const eventTile = (props) =>{
       );
     }
     tile = (
-        <div className={"row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
+        <div className={"fontColor row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
           
           <div className="col1">
             <span className="large">{props.event.dateDOW}</span><br />
-            <span className="small">{props.event.dateMMM+", "+props.event.dateDD}</span><span className="small"></span><br />
+            <span className="small">{props.event.dateMMM+". "+props.event.dateDD}</span><span className="small"></span><br />
           </div>
           
           <div className="col2">

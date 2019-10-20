@@ -1,24 +1,30 @@
 .container{
-  width: 80%;
+  width: 75%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
     align-content: flex-start;
 }
 .fontColor{
-  color: rgb(238, 238, 238);
+  color: white;
 }
 .row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 95%;
+  width: 85%;
   max-width: 800px;
-  border-radius: 15px;
   border: 1px solid rgb(0, 0, 0);
-  background: rgb(227,227,252);
-  background: linear-gradient(90deg, rgba(227,227,252,1) 0%, rgba(240,240,255,1) 5%, rgba(255,255,255,1) 100%);
-  margin: 2px 2px 2px 2px;
+  margin: 5px 5px 5px 5px;
+  border: 2px solid #0e3363;
+  background: rgb(51, 51, 51);
+  padding: 9px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  box-shadow: 1px 1px 1px #000000;
+}
+.row:hover{
+  background-color: rgb(27, 38, 83);
 }
 
 .col {
@@ -83,3 +89,12 @@ font-size: 16px;
 }
 
 
+.customOverlay {
+  background:  rgba(197, 197, 197, 0.76);
+}
+.customModal {
+  background:  rgb(58, 58, 58);
+  max-width: 500px;
+  width: 100%;
+  border: 3px black;
+}
