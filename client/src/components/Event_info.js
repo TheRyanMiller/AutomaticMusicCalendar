@@ -6,6 +6,8 @@ import mfimg from '../assets/sizedlogos/mf.png';
 import phimg from '../assets/sizedlogos/ph.png';
 import trimg from '../assets/sizedlogos/tr.png';
 import raimg from '../assets/sizedlogos/ra.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 
 const eventDetail = (props) => {
     let detail = "";
@@ -63,10 +65,10 @@ const eventDetail = (props) => {
     let logo = (<span className="center"><img className="center" src={img} alt="Venue Logo"></img></span>);
     let br = (<span><br /></span>);
     let addRsvpButton = (
-      <div className="center">
+      <div className="center nowrap">
         <button className="rsvpbutton center"
           onClick={()=>props.addRsvp(props.loggedInUser._id,props.event._id)}>
-          Save to My List
+          <FontAwesomeIcon className="nowrap" icon={faCheckCircle} /> Add to "My List"
         </button>
       </div>
     )
@@ -74,7 +76,7 @@ const eventDetail = (props) => {
       <div className="center">
         <button className="rsvpbutton center"
           onClick={()=>props.removeRsvp(props.loggedInUser._id,props.event._id)}>
-          Remove from My List
+           <FontAwesomeIcon className="iconColorAdded" icon={faCheckCircle} /> Added
         </button>
       </div>
     )
@@ -83,7 +85,6 @@ const eventDetail = (props) => {
         <div className="eventDetailMain">            
             {title}
             {showTime}
-            
             {props.event.fee ? fee : ""}
             {links}
             <br />

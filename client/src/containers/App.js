@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink, IndexLink, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
 import './App.css';
 import './nav.css';
 import firebase from 'firebase';
@@ -146,13 +146,13 @@ class App extends Component {
               <ul className="fontColor">
                 <li><NavLink exact activeStyle={{
                       fontWeight: "bold",
-                      borderBottomColor: "white",
+                      borderBottomColor: "#0e2d57",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/">Home</NavLink></li>
                 <li><NavLink activeStyle={{
                       fontWeight: "bold",
-                      borderBottomColor: "white",
+                      borderBottomColor: "#0e2d57",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/about">About</NavLink></li>

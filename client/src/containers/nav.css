@@ -26,13 +26,13 @@
 
 .Nav a:hover,
 .Nav a:active {
-    color: orange;
+    color: #0e2d57;
     text-decoration: none;
 }
 
 .active {
     color: 	rgb(230, 230, 230);
-    border-bottom: 4px solid white;
+    border-bottom: 4px solid #0e2d57;
 }
 
 input[type="color"],

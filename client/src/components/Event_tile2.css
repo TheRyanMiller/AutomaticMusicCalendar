@@ -16,7 +16,7 @@
   max-width: 800px;
   border: 1px solid rgb(0, 0, 0);
   margin: 5px 5px 5px 5px;
-  border: 2px solid #051a36;
+  border: 2px solid #0e2d57;
   background: rgb(51, 51, 51);
   padding: 9px;
   -moz-border-radius: 10px;
@@ -86,22 +86,6 @@ font-size: 16px;
 
 .filterOptions{
   text-align: left;
-}
-
-
-.raColor{
-  background: blue;
-}
-
-.phColor{
-  background: red;
-}
-
-.mfColor{
-  background: yellow;
-}
-.trColor{
-  background: green;
 }
 
 

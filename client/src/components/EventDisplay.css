@@ -13,3 +13,6 @@ a{
 .customOverlay{
     z-index:2;
 }
+input, select, textarea{
+    color: #0e2d57;
+}
