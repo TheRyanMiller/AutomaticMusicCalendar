@@ -42,7 +42,7 @@ class App extends Component {
       if(!!user) this.signinCallback();
     })
     //Google Analytics
-    ReactGA.initialize('UA-123791717-1');
+    ReactGA.initialize('UA-150723157-1');
     ReactGA.pageview('/homepage');
   }
 
@@ -191,7 +191,7 @@ class App extends Component {
                     () => {this.setState({showModal: true});
                     ReactGA.event({
                       category: 'User',
-                      action: 'Create an Account'
+                      action: 'Clicked Login'
                     })
                   }} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
               </ul>

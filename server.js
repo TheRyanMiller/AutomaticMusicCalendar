@@ -59,7 +59,7 @@ router.get('/getEvents', (req, res) => {
     }
     else{
       Event.find(
-        {eventDate: {$gt: new Date(new Date() - 1)}},
+        {eventDate: {$gt: new Date(new Date() - 2)}},
         (err, data) => {
           if (err) return res.json({ success: false, error: err });
           return res.json({ success: true, data: data })
