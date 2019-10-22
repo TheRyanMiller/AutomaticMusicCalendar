@@ -56,7 +56,7 @@ class EventDisplay extends Component {
     if(eventFilter === "My List"){
       url = url+"?uid="+this.props.loggedInUser._id;
     }
-    //console.log(url);
+    console.log("fetch URL " + url);
     fetch(url,{
       headers : { 
         'Content-Type': 'application/json',
