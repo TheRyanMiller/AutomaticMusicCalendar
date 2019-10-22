@@ -46,6 +46,7 @@ class App extends Component {
       activeLoadingOverlay: !this.state.activeLoadingOverlay
     })
   }
+
   signinCallback = () => {
     if(!!firebase.auth().currentUser){
       let user = {
@@ -90,7 +91,7 @@ class App extends Component {
       <EventDisplay 
         loggedInUser={this.state.loggedInUser}
         isSignedIn={this.state.isSignedIn}
-        loadingSpinner={this.state.loadingSpinner}
+        loadingSpinner={this.loadingSpinner}
         isMyList={true}
       />
     );
@@ -100,7 +101,7 @@ class App extends Component {
       <EventDisplay 
         loggedInUser={this.state.loggedInUser}
         isSignedIn={this.state.isSignedIn}
-        loadingSpinner={this.state.loadingSpinner}
+        loadingSpinner={this.loadingSpinner}
         isMyList={false}
       />
     );
@@ -108,7 +109,6 @@ class App extends Component {
 
 
   render() {
-    var hideStyle = "display:none;"
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [

@@ -38,7 +38,10 @@ class EventDisplay extends Component {
       {hideResultMessage: true}
     )
     let eventFilter = "";
-    if(this.props.isMyList && this.props.loggedInUser && this.props.loggedInUser._id) eventFilter = "My List";
+    if(this.props.isMyList && this.props.loggedInUser && this.props.loggedInUser._id){
+      eventFilter = "My List";
+      console.log(this.props.loggedInUser.rsvpdEventIds)
+    }
     this.getDataFromDb(eventFilter);
     /*
     if (!this.state.intervalIsSet) {
@@ -49,11 +52,11 @@ class EventDisplay extends Component {
   }
 
   getDataFromDb = (eventFilter) => {
-    
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
     if(eventFilter === "My List"){
-      url = url+"/getEvents?uid="+this.props.loggedInUser._id;
+      console.log("USER ID: ",this.props.loggedInUser._id)
+      url = url+"?uid="+this.props.loggedInUser._id;
     }
     console.log(url)
     fetch(url,{
@@ -63,14 +66,8 @@ class EventDisplay extends Component {
        }
     })
     .then((res) => {
-      console.log("RES!: ",res)
-      if (!res.ok) {
-        this.setState({
-          hideSpinner: true
-        })
-        throw Error(res.statusText);
-      }
       let events;
+      
       res.json().then((data)=>{
         events=data.data;
         for(let i=0; i<events.length; i++){
@@ -87,7 +84,7 @@ class EventDisplay extends Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        console.log("failed to parse JSON: ", error);
         this.setState({
           hideSpinner: true,
           hideResultMessage: false
@@ -95,7 +92,6 @@ class EventDisplay extends Component {
       });
           
     })
-    
   };
 
   selectEventHandler = (ev) => {
