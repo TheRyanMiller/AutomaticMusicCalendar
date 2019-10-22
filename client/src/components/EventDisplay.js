@@ -4,6 +4,7 @@ import EventDetail from './Event_detail';
 import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import moment from 'moment';
+import ResultMessage from './ResultMessage';
 import './Event_tile2.css';
 import './EventDisplay.css';
 
@@ -25,6 +26,7 @@ class EventDisplay extends Component {
       showEvents: true,
       hideSpinner: false,
       activeLoadingOverlay: false,
+      hideResultMessage: true,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
@@ -32,29 +34,42 @@ class EventDisplay extends Component {
   
 
   componentDidMount = () => {
+    this.setState(
+      {hideResultMessage: true}
+    )
     let eventFilter = "";
-    if(this.props.isMyList) eventFilter = "My List";
-    this.getDataFromDb();
+    if(this.props.isMyList && this.props.loggedInUser && this.props.loggedInUser._id) eventFilter = "My List";
+    this.getDataFromDb(eventFilter);
+    /*
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000000);
+      let interval = setInterval(this.getDataFromDb(eventFilter), 1000000);
       this.setState({ intervalIsSet: interval });
     }
+    */
   }
 
   getDataFromDb = (eventFilter) => {
+    
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
     if(eventFilter === "My List"){
       url = url+"/getEvents?uid="+this.props.loggedInUser._id;
     }
+    console.log(url)
     fetch(url,{
       headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
        }
-
     })
     .then((res) => {
+      console.log("RES!: ",res)
+      if (!res.ok) {
+        this.setState({
+          hideSpinner: true
+        })
+        throw Error(res.statusText);
+      }
       let events;
       res.json().then((data)=>{
         events=data.data;
@@ -67,11 +82,20 @@ class EventDisplay extends Component {
         this.setState({ 
           events: events,
           displayedEvents: events,
-          hideSpinner: true
+          hideSpinner: true,
+          hideResultMessage: true
         });
       })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          hideSpinner: true,
+          hideResultMessage: false
+        })
+      });
           
-    });
+    })
+    
   };
 
   selectEventHandler = (ev) => {
@@ -260,6 +284,10 @@ class EventDisplay extends Component {
         </div>
         </div>
         <div className="center">
+        <ResultMessage 
+            hide={this.state.hideResultMessage}
+            className={this.state.hideResultMessage ? "hidden" : "hidden"}
+          />
           <div hidden={this.state.hideSpinner} className="sk-circle">
             <div className="sk-circle1 sk-child"></div>
             <div className="sk-circle2 sk-child"></div>
@@ -277,6 +305,7 @@ class EventDisplay extends Component {
         </div>
         
         <div className="center content-table">
+         
           <EventList
             className="center"
             events={this.state.displayedEvents}

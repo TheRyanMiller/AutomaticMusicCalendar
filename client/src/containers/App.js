@@ -85,12 +85,23 @@ class App extends Component {
     });
   }
 
-  MyEventDisplay = () => {
+  MyListEventDisplay = () => {
     return (
       <EventDisplay 
         loggedInUser={this.state.loggedInUser}
         isSignedIn={this.state.isSignedIn}
-        loadingSpinner={this.loadingSpinner}
+        loadingSpinner={this.state.loadingSpinner}
+        isMyList={true}
+      />
+    );
+  }
+  EventDisplay = () => {
+    return (
+      <EventDisplay 
+        loggedInUser={this.state.loggedInUser}
+        isSignedIn={this.state.isSignedIn}
+        loadingSpinner={this.state.loadingSpinner}
+        isMyList={false}
       />
     );
   }
@@ -157,7 +168,8 @@ class App extends Component {
                       borderBottomColor: "#0e2d57",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
-                      }} to="/mylist">My List</NavLink></li>
+                      }} 
+                      to="/mylist">My List</NavLink></li>
                 <li><NavLink activeStyle={{
                       fontWeight: "bold",
                       borderBottomColor: "#0e2d57",
@@ -169,12 +181,12 @@ class App extends Component {
             </nav>
             <Route path="/" exact 
               render={
-                this.MyEventDisplay
+                this.EventDisplay
               }
               />
             <Route path="/mylist" exact 
               render={
-                this.MyEventDisplay
+                this.MyListEventDisplay
               }
               /> 
             <Route path="/about" exact component={About} />

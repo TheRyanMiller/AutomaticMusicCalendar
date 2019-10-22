@@ -16,3 +16,4 @@ a{
 input, select, textarea{
     color: #0e2d57;
 }
+.hidden { display:none; }
