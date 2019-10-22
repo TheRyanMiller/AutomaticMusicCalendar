@@ -12,8 +12,20 @@ a{
 }
 .customOverlay{
     z-index:2;
+    
 }
 input, select, textarea{
     color: #0e2d57;
 }
 .hidden { display:none; }
+button{
+    border-radius: 10px;
+    padding: 8px;
+    white-space: nowrap;
+    display:inline;
+    font-size: 14px;
+    background-color: #bfccda;
+    border-color: #062f61;
+    color: #4b4f56;
+    transition: 200ms cubic-bezier(.08,.52,.52,1) background-color, 200ms cubic-bezier(.08,.52,.52,1) box-shadow, 200ms cubic-bezier(.08,.52,.52,1) transform;
+}

@@ -67,7 +67,6 @@ module.exports = new Promise(function(resolve, reject){
 
       });
       
-      console.log("artist: ",artist)
 
       artist = artistsArr.join(", ");//$('h3', allArticles[i]).contents();
       venue = $('h2', allArticles[i]).text();

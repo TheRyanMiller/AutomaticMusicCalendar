@@ -2,7 +2,6 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 const assert = require('assert');
 var mongoUtil = require( './mongoUtil' );
-let webEvents = [];
 require('dotenv').config();
 
 let scrapeObs = [{

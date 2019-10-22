@@ -53,11 +53,9 @@ module.exports = new Promise(function(resolve, reject){
 
             //Date
             dateStr = $(".singleEventDate", eventDivs[i]).text();
-            console.log(dateStr)
             let currentMonth = moment().month();
             let targetMonth = moment(new Date(dateStr+' 2019')).month();
-            year = moment().year(); 
-            console.log(currentMonth+ ' ' + targetMonth)
+            year = moment().year();
             if(targetMonth < currentMonth){
               year = moment().year()+1; 
             }
@@ -71,8 +69,7 @@ module.exports = new Promise(function(resolve, reject){
             if(fee) event.fee = fee;
             event.locAcronym = "MF";
             if(showUrl) event.showUrl = showUrl;
-
-            console.log(event);
+            eventList.push(event);
 
             /*
             if(opener && opener!="")event.opener = opener;

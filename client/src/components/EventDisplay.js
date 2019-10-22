@@ -40,7 +40,6 @@ class EventDisplay extends Component {
     let eventFilter = "";
     if(this.props.isMyList && this.props.loggedInUser && this.props.loggedInUser._id){
       eventFilter = "My List";
-      console.log(this.props.loggedInUser.rsvpdEventIds)
     }
     this.getDataFromDb(eventFilter);
     /*
@@ -55,10 +54,9 @@ class EventDisplay extends Component {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
     if(eventFilter === "My List"){
-      console.log("USER ID: ",this.props.loggedInUser._id)
       url = url+"?uid="+this.props.loggedInUser._id;
     }
-    console.log(url)
+    //console.log(url);
     fetch(url,{
       headers : { 
         'Content-Type': 'application/json',
@@ -80,8 +78,17 @@ class EventDisplay extends Component {
           events: events,
           displayedEvents: events,
           hideSpinner: true,
-          hideResultMessage: true
         });
+        if(events.length===0){
+          this.setState({
+            hideResultMessage: false
+          })
+        }
+        else{
+          this.setState({
+            hideResultMessage: true
+          })
+        }
       })
       .catch(error => {
         console.log("failed to parse JSON: ", error);

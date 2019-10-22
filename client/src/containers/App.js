@@ -112,15 +112,15 @@ class App extends Component {
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID //,firebase.auth.FacebookAuthProvider.PROVIDER_ID
       ],
       callbacks: {
         //signInSuccess: this.signinCallback()
       }
     }
     let firebaseAuth = (
-      <div className="textcontainer">
+      <div className="textcontainer fontColor">
+        Sign in to save your personalized event list and history.
         <StyledFirebaseAuth
               uiConfig={uiConfig}
               firebaseAuth={firebase.auth()}
@@ -144,12 +144,17 @@ class App extends Component {
             <Modal
               open={this.state.showModal}
               onClose={this.handleModalClose}
-            >
+              classNames={{
+                overlay: "customOverlay",
+                modal: "customModal"
+              }}
+            ><div className="center">
               {this.state.isSignedIn ? 
                 logOffButton
                 : 
                 firebaseAuth
               }
+              </div>
             </Modal>
             <div className="title fontColor">
               <span className="title1">Charleston</span><br />
