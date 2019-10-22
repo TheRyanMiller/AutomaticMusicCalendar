@@ -69,7 +69,7 @@ module.exports = new Promise(function(resolve, reject){
             if(eventTimes.start) event.showTime = eventTimes.start;
             event.location = "The Music Farm";
             if(fee) event.fee = fee;
-            event.locAcronym = "mf";
+            event.locAcronym = "MF";
             if(showUrl) event.showUrl = showUrl;
 
             console.log(event);

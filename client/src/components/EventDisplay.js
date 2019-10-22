@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
 import EventList from './Event_list';
 import EventDetail from './Event_detail';
 import Modal from 'react-responsive-modal';
@@ -28,16 +27,13 @@ class EventDisplay extends Component {
       activeLoadingOverlay: false,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
-    this.setState({
-      loggedInUser: this.props.loggedInUser,
-      isSignedIn: this.props.isSignedIn
-    })
   }
 
   
 
   componentDidMount = () => {
-    let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
+    let eventFilter = "";
+    if(this.props.isMyList) eventFilter = "My List";
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
       let interval = setInterval(this.getDataFromDb, 1000000);
@@ -45,9 +41,12 @@ class EventDisplay extends Component {
     }
   }
 
-  getDataFromDb = () => {
+  getDataFromDb = (eventFilter) => {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
+    if(eventFilter === "My List"){
+      url = url+"/getEvents?uid="+this.props.loggedInUser._id;
+    }
     fetch(url,{
       headers : { 
         'Content-Type': 'application/json',
@@ -164,13 +163,13 @@ class EventDisplay extends Component {
   filterEventList = (searchString) => {
     if(!searchString) searchString = this.state.searchString;
     let displayedEvents = this.state.events.filter((el) => {
-    let searchValue = el.title.toLowerCase();
-    //Run Checkbox logic
-    if(this.state.selectedLocations.includes(el.location.toLowerCase())){
-      if(searchString==="" || !searchString) return true;
-      return searchValue.indexOf(searchString) !== -1;
-    }
-    return false;
+      let searchValue = el.title.toLowerCase();
+      //Run Checkbox logic
+      if(this.state.selectedLocations.includes(el.location.toLowerCase())){
+        if(searchString==="" || !searchString) return true;
+        return searchValue.indexOf(searchString) !== -1;
+      }
+      return false;
     })
     this.setState({
       displayedEvents: displayedEvents
@@ -222,7 +221,7 @@ class EventDisplay extends Component {
           <span className="center">Search:<br />
           <input 
             type="text" 
-            onKeyPress={this.searchHandler}
+            onKeyUp={this.searchHandler}
           /></span>
           <ul className="filterOptions">
             <li>

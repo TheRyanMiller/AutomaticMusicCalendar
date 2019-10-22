@@ -88,7 +88,7 @@ module.exports = new Promise(function(resolve, reject){
             event.eventDate = eventDate;
             if(doors && doors!="")event.time= doors;
             if(cover && cover!="")event.fee = cover;
-            event.locAcronym = "ra";
+            event.locAcronym = "RA";
             //event.infoLink = ev.url;
             //event.fee = feeInTitle ? titleArr.join("") : "";
             if(showUrl && showUrl!="") event.showUrl=royalBaseUrl+showUrl;

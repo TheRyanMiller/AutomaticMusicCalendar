@@ -3,7 +3,8 @@
   background-color: #daebe8;
 }
 .about{
-  text-align: left
+  text-align: left;
+  max-width: 450px;
 }
 ._loading_overlay_overlay{
   z-index:2000;

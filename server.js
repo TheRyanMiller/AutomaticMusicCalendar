@@ -6,7 +6,7 @@ const logger = require('morgan');
 const Event = require('./schemas/event');
 const User = require('./schemas/user');
 const path = require("path");
-require('dotenv').config()
+require('dotenv').config();
 
 const API_PORT = 3001;
 const app = express();
@@ -35,13 +35,47 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 // this is our get method
 // this method fetches all available data in our database
 router.get('/getEvents', (req, res) => {
-    Event.find(
-      {eventDate: {$gt: new Date(new Date() - 1)}},
-      (err, data) => {
-        if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true, data: data })
-    })
-    .sort({ "eventDate": 1 }, );
+    if(req.query.uid){
+      let query = {_id:req.query.uid};
+      User.findOne(
+        query,{"_id":0},
+        (err, data) => {
+            if (err) return res.json({ success: false, error: err })
+            if(data && data.rsvpdEventIds){
+              query = {_id: {$in : data.rsvpdEventIds} };
+              Event.find(
+                  query,
+                  (err, data) => {
+                    if (err) return res.json({ success: false, error: err })
+                    return res.json({ success: true, data: data });
+              })
+            }
+            else{
+              return res.json({ success: true, data: data });
+            }
+        }
+      )
+      .sort({ "eventDate": -1 });
+    }
+    else{
+      Event.find(
+        {eventDate: {$gt: new Date(new Date() - 1)}},
+        (err, data) => {
+          if (err) return res.json({ success: false, error: err });
+          return res.json({ success: true, data: data })
+      })
+      .sort({ "eventDate": 1 }, );
+    }
+});
+
+router.get('/myList?:id', (req, res) => {
+  Event.find(
+    {eventDate: {$gt: new Date(new Date() - 1)}},
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data })
+  })
+  .sort({ "eventDate": 1 }, );
 });
 
 router.get('/getUsers', (req, res) => {

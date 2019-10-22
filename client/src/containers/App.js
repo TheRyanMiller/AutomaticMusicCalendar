@@ -57,6 +57,7 @@ class App extends Component {
       }
       this.setState({
         loggedInUser: user,
+        isSignedIn: true,
         showModal: false
       })
 
@@ -96,6 +97,7 @@ class App extends Component {
 
 
   render() {
+    var hideStyle = "display:none;"
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [
@@ -150,13 +152,19 @@ class App extends Component {
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/">Home</NavLink></li>
+                <li style={{display: this.state.isSignedIn ? "" : "none"}}><NavLink exact activeStyle={{
+                      fontWeight: "bold",
+                      borderBottomColor: "#0e2d57",
+                      borderBottomWidth: 2,
+                      color: "rgb(238, 238, 238)"
+                      }} to="/mylist">My List</NavLink></li>
                 <li><NavLink activeStyle={{
                       fontWeight: "bold",
                       borderBottomColor: "#0e2d57",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/about">About</NavLink></li>
-                <li><Link to="/" activeClassName="active" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
+                <li><Link to="/" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
               </ul>
             </nav>
             <Route path="/" exact 
@@ -164,6 +172,11 @@ class App extends Component {
                 this.MyEventDisplay
               }
               />
+            <Route path="/mylist" exact 
+              render={
+                this.MyEventDisplay
+              }
+              /> 
             <Route path="/about" exact component={About} />
             </div>
         </LoadingOverlay>

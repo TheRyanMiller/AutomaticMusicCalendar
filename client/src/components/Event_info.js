@@ -2,21 +2,12 @@ import React from "react";
 //import './Event_detail.css';
 import './Event_list.css';
 import './Event_info.css';
-import mfimg from '../assets/sizedlogos/mf.png';
-import phimg from '../assets/sizedlogos/ph.png';
-import trimg from '../assets/sizedlogos/tr.png';
-import raimg from '../assets/sizedlogos/ra.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 
 const eventDetail = (props) => {
-    let detail = "";
-    let img;
-    if(props.event.locAcronym === "ra") img=raimg;
-    if(props.event.locAcronym === "ph") img=phimg;
-    if(props.event.locAcronym === "tr") img=trimg;
-    if(props.event.locAcronym === "mf") img=mfimg;
     let title;
+    let detail = (<span></span>);
     let date = (<span className="date">{props.event.dateDOW}, {props.event.dateMMM} {props.event.dateDD}, {props.event.dateYYYY} <br /></span>)
     let showTime = (<span>{props.event.showTime ? props.event.showTime : ""} <br /></span>);
     let opener = (<span className="openers">{props.event.opener} <br /></span>);
@@ -24,7 +15,7 @@ const eventDetail = (props) => {
       title = (<div className="titlespacing">
         {date}
         <span className="">
-        <h3><a href={props.event.showUrl} target="_blank" >{props.event.title}</a></h3>
+        <h3><a href={props.event.showUrl} target="_blank" rel="noopener noreferrer">{props.event.title}</a></h3>
         {opener}
         <br /><br /></span>
         </div>);
@@ -41,29 +32,23 @@ const eventDetail = (props) => {
     }
     
     let fee = (<span className="small">Fee: {props.event.fee} <br /></span>);
-    
-
-    let ticketLink = (<span className="small"><a href={props.event.ticketLink} target="_blank" >Ticket Link</a><br /></span>)
-    let fbLink = (<span className="small"><a href={props.event.fbLink} target="_blank" >Facebook Event Link</a><br /></span>)
     let links = (<span></span>);
     if(props.event.ticketLink){
       if(props.event.fbLink){
-        links = (<span className="small"><a href={props.event.ticketLink} target="_blank" >
-          Ticket Link</a>  //  <a href={props.event.fbLink} target="_blank" >Facebook Event
+        links = (<span className="small"><a href={props.event.ticketLink} rel="noopener noreferrer" target="_blank" >
+          Ticket Link</a>  /  <a href={props.event.fbLink} target="_blank" rel="noopener noreferrer">Facebook Event
             </a>
           </span>
         )
       }
       else{
-        links = (<span className="small"><a href={props.event.ticketLink} target="_blank" >Ticket Link</a><br /></span>)
+        links = (<span className="small"><a href={props.event.ticketLink} target="_blank" rel="noopener noreferrer">Ticket Link</a><br /></span>)
       }
     }
     else if (props.event.fbLink){
-      links = (<span className="small"><a href={props.event.fbLink} target="_blank" >Facebook Event</a><br /></span>)
+      links = (<span className="small"><a href={props.event.fbLink} target="_blank" rel="noopener noreferrer">Facebook Event</a><br /></span>)
     }
     
-    let logo = (<span className="center"><img className="center" src={img} alt="Venue Logo"></img></span>);
-    let br = (<span><br /></span>);
     let addRsvpButton = (
       <div className="center nowrap">
         <button className="rsvpbutton center"

@@ -19,7 +19,6 @@ const eventTile = (props) =>{
   if(location==="Tin Roof - Charleston") location = "Tin Roof";
   if(location==="The Royal American") location = "Royal American";
 
-  let edgeColor = props.event.locAcronym+"Color";
   if(props.event.title){
     let deck = "";
     if(props.event.stage && props.event.stage === "Deck Stage"){
@@ -40,7 +39,7 @@ const eventTile = (props) =>{
           <div className="col2">
               <span className="titleline"><b>{props.event.title ? props.event.title : ""}</b></span><br />
               <span className="locationline">{location}  </span>
-              {deck=="" ? "" : deck}
+              {deck==="" ? "" : deck}
           </div>
           <div className={"col3 center"}>
             <img src={img} alt="Venue Logo"></img>
