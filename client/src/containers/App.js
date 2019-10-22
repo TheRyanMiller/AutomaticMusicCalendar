@@ -164,20 +164,20 @@ class App extends Component {
               <ul className="fontColor">
                 <li><NavLink exact activeStyle={{
                       fontWeight: "bold",
-                      borderBottomColor: "#0e2d57",
+                      borderBottomColor: "rgb(74, 88, 146)",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/">Home</NavLink></li>
                 <li style={{display: this.state.isSignedIn ? "" : "none"}}><NavLink exact activeStyle={{
                       fontWeight: "bold",
-                      borderBottomColor: "#0e2d57",
+                      borderBottomColor: "rgb(74, 88, 146)",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                       }} 
                       to="/mylist">My List</NavLink></li>
                 <li><NavLink activeStyle={{
                       fontWeight: "bold",
-                      borderBottomColor: "#0e2d57",
+                      borderBottomColor: "rgb(74, 88, 146)",
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/about">About</NavLink></li>
