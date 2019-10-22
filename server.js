@@ -58,8 +58,9 @@ router.get('/getEvents', (req, res) => {
       .sort({ "eventDate": -1 });
     }
     else{
+      let targetDate = new Date(new Date().setDate(new Date().getDate()-1));
       Event.find(
-        {eventDate: {$gt: new Date(new Date() - 2)}},
+        {eventDate: {$gt: targetDate}},
         (err, data) => {
           if (err) return res.json({ success: false, error: err });
           return res.json({ success: true, data: data })

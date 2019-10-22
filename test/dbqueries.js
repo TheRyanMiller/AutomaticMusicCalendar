@@ -21,7 +21,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 /*
         Queries
-*/
+
 let uid = "5d9729821ba646001730ae1a";
 let query = {_id:uid};
 User.findOne(
@@ -33,10 +33,17 @@ User.findOne(
             query,
             (err, data) => {
               if (err) return err;
-              console.log(data);
+              //console.log(data);
               return data;  
-        })
-
-        
+        })        
     }
 )
+*/
+let targetDate = new Date(new Date().setDate(new Date().getDate()-1)) 
+Event.find(
+    {eventDate: {$gt: targetDate}},
+    (err, data) => {
+      if (err) console.log(data)
+      return console.log(data)
+  })
+  .sort({ "eventDate": 1 }, );

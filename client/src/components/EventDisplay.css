@@ -3,21 +3,24 @@
     color: white;
 }
 
-a{
+a {
     color: white;
 }
 
-.customModal{
+.customModal {
     z-index:2;
 }
-.customOverlay{
-    z-index:2;
-    
+
+.customOverlay {
+    z-index:2;    
 }
+
 input, select, textarea{
     color: #0e2d57;
 }
+
 .hidden { display:none; }
+
 button{
     border-radius: 10px;
     padding: 8px;
