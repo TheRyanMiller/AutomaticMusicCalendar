@@ -1,18 +1,34 @@
 import React from 'react';
 import './Event_tile2.css';
 import Aux from '../hoc/Auxx';
-import mfimg from '../assets/sizedlogos/invertedcolor/mf.png';
-import phimg from '../assets/sizedlogos/invertedcolor/ph.png';
-import trimg from '../assets/sizedlogos/invertedcolor/tr.png';
-import raimg from '../assets/sizedlogos/invertedcolor/ra.png';
+import mfimg from '../assets/midimages/mf.png';
+import phimg from '../assets/midimages/ph.png';
+import trimg from '../assets/midimages/tr.png';
+import raimg from '../assets/midimages/ra3.png';
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
-  let img;
-  if(props.event.locAcronym === "ra") img=raimg;
-  if(props.event.locAcronym === "ph") img=phimg;
-  if(props.event.locAcronym === "tr") img=trimg;
-  if(props.event.locAcronym === "mf") img=mfimg;
+  let img, height, width;
+  if(props.event.locAcronym === "ra") {
+    img=raimg;
+    width="45";
+    height="28";
+  }
+  if(props.event.locAcronym === "ph") {
+    img=phimg;
+    width="40";
+    height="40";
+  }
+  if(props.event.locAcronym === "tr") {
+    img=trimg;
+    width="40";
+    height="28";
+  }
+  if(props.event.locAcronym === "mf"){
+    img=mfimg;
+    width="40";
+    height="28";
+  }
   let location = props.event.location ? props.event.location : "";
   if(location==="The Music Farm - Charleston") location = "Music Farm";
   if(location==="The Pour House") location = "Pour House";
@@ -42,7 +58,7 @@ const eventTile = (props) =>{
               {deck==="" ? "" : deck}
           </div>
           <div className={"col3 center"}>
-            <img src={img} alt="Venue Logo"></img>
+            <img width={width} height={height} src={img} alt="Venue Logo"></img>
           </div>
           
           

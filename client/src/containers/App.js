@@ -9,6 +9,7 @@ import EventDisplay from '../components/EventDisplay';
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
 import LoadingOverlay from 'react-loading-overlay';
+import ReactGA from 'react-ga';
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -35,10 +36,14 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    //Firebase Authentication
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
       if(!!user) this.signinCallback();
     })
+    //Google Analytics
+    ReactGA.initialize('UA-123791717-1');
+    ReactGA.pageview('/homepage');
   }
 
   loadingSpinner = () =>{
@@ -96,6 +101,7 @@ class App extends Component {
       />
     );
   }
+
   EventDisplay = () => {
     return (
       <EventDisplay 
@@ -120,7 +126,7 @@ class App extends Component {
     }
     let firebaseAuth = (
       <div className="textcontainer fontColor">
-        Sign in to save your personalized event list and history.
+        <br /><br />Sign in to save your personalized event list and history.
         <StyledFirebaseAuth
               uiConfig={uiConfig}
               firebaseAuth={firebase.auth()}
@@ -181,7 +187,13 @@ class App extends Component {
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/about">About</NavLink></li>
-                <li><Link to="/" onClick={() => this.setState({showModal: true})} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
+                <li><Link to="/" onClick={
+                    () => {this.setState({showModal: true});
+                    ReactGA.event({
+                      category: 'User',
+                      action: 'Create an Account'
+                    })
+                  }} >{this.state.isSignedIn ? "Log Out" : "Login"}</Link></li>
               </ul>
             </nav>
             <Route path="/" exact 
