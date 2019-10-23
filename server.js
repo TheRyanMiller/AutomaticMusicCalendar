@@ -69,16 +69,6 @@ router.get('/getEvents', (req, res) => {
     }
 });
 
-router.get('/myList?:id', (req, res) => {
-  Event.find(
-    {eventDate: {$gt: new Date(new Date() - 1)}},
-    (err, data) => {
-      if (err) return res.json({ success: false, error: err });
-      return res.json({ success: true, data: data })
-  })
-  .sort({ "eventDate": 1 }, );
-});
-
 router.get('/getUsers', (req, res) => {
   User.find((err, data) => {
       if (err) return res.json({ success: false, error: err });

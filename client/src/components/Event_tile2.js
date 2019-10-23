@@ -58,7 +58,7 @@ const eventTile = (props) =>{
               {deck==="" ? "" : deck}
           </div>
           <div className={"col3 center"}>
-            <img width={width} height={height} src={img} alt="Venue Logo"></img>
+            <img width={width} height={height} src={img} alt="Venue logo"></img>
           </div>
           
           

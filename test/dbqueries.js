@@ -38,7 +38,7 @@ User.findOne(
         })        
     }
 )
-*/
+
 let targetDate = new Date(new Date().setDate(new Date().getDate()-1)) 
 Event.find(
     {eventDate: {$gt: targetDate}},
@@ -47,3 +47,15 @@ Event.find(
       return console.log(data)
   })
   .sort({ "eventDate": 1 }, );
+*/
+Event.update(
+    {location: "The Music Farm"},
+    {location: "The Music Farm - Charleston"},
+    {
+      upsert: false,
+      multi: true,
+    },(err, data) => {
+        if (err) console.log(data)
+        return console.log(data)
+    })
+ 
