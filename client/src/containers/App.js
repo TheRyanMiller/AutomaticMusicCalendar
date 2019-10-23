@@ -118,7 +118,7 @@ class App extends Component {
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID //,firebase.auth.FacebookAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID ,firebase.auth.FacebookAuthProvider.PROVIDER_ID
       ],
       callbacks: {
         //signInSuccess: this.signinCallback()
