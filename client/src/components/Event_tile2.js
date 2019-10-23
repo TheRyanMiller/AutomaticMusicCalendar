@@ -1,34 +1,9 @@
 import React from 'react';
 import './Event_tile2.css';
 import Aux from '../hoc/Auxx';
-import mfimg from '../assets/midimages/mf.png';
-import phimg from '../assets/midimages/ph.png';
-import trimg from '../assets/midimages/tr.png';
-import raimg from '../assets/midimages/ra3.png';
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
-  let img, height, width;
-  if(props.event.locAcronym === "ra") {
-    img=raimg;
-    width="45";
-    height="28";
-  }
-  if(props.event.locAcronym === "ph") {
-    img=phimg;
-    width="40";
-    height="40";
-  }
-  if(props.event.locAcronym === "tr") {
-    img=trimg;
-    width="40";
-    height="28";
-  }
-  if(props.event.locAcronym === "mf"){
-    img=mfimg;
-    width="40";
-    height="28";
-  }
   let location = props.event.location ? props.event.location : "";
   if(location==="The Music Farm - Charleston") location = "Music Farm";
   if(location==="The Pour House") location = "Pour House";
@@ -58,7 +33,7 @@ const eventTile = (props) =>{
               {deck==="" ? "" : deck}
           </div>
           <div className={"col3 center"}>
-            <img width={width} height={height} src={img} alt="Venue logo"></img>
+            <img width={props.imgWidth} height={props.imgHeight} src={props.img} alt="Venue logo"></img>
           </div>
           
           
