@@ -64,7 +64,6 @@ class EventDisplay extends Component {
     })
     .then((res) => {
       let events;
-      
       res.json().then((data)=>{
         events=data.data;
         for(let i=0; i<events.length; i++){

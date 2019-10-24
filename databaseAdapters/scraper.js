@@ -24,11 +24,13 @@ let scrapeObs = [{
     location:"The Pour House",
     scraperFile:'../scrapers/pohoScraper.js'
 }];
-module.exports.myScraper = function(){
+
+module.exports = () => new Promise(function(resolve, reject){
     mongoUtil.connectToServer(function(err,client){
         if (err) console.log(err);
         console.log("connected!!!!");
         let scrapeLog = {};
+        let scrapeResults = [];
         let completedScrapes = 0;
         for(let i=0;i<scrapeObs.length;i++){
             require(scrapeObs[i].scraperFile).then(function(rawWebEvents) {
@@ -39,6 +41,7 @@ module.exports.myScraper = function(){
                 let searchCount = 0;
                 let updateCount = 0;
                 let insertCount = 0;
+                
                 let webCount = webEvents.length;
                 console.log("In scraper for "+scrapeObs[i].location);
                 searchEvent(mongoUtil.getDb(), scrapeObs[i].location, function(mongoEvents){
@@ -65,8 +68,6 @@ module.exports.myScraper = function(){
                                 break;
                             }
                         }
-                        //Do some work on the _id value
-                        
                         return !filterFlag;
                     })
                     if(insertGroup.length>0){
@@ -78,8 +79,6 @@ module.exports.myScraper = function(){
                     if(updateGroup.length>0){
                         for(let i=0;i<updateGroup.length;i++){
                             updateEvent(mongoUtil.getDb(), updateGroup[i], function(){
-                                //do after update
-                                
                             })
                         }
                         updateCount = updateGroup.length;
@@ -95,12 +94,15 @@ module.exports.myScraper = function(){
 
                     insertScrapeLog(mongoUtil.getDb(),scrapeLog,function(result){
                         completedScrapes++;
-                        console.log(scrapeLog);
+                        scrapeResults.push(scrapeLog);
+                        //console.log(scrapeLog);
                         if(result) console.log("Db sync "+ completedScrapes +"/"+scrapeObs.length+" successful "+scrapeObs[completedScrapes-1].locAcronym);
                         if(scrapeObs.length === completedScrapes){
                             console.log("Scrape logs written to database.")
                             mongoUtil.closeCxn();
+                            resolve(scrapeResults);
                         }
+                        
                     })
                 });
                 
@@ -108,6 +110,8 @@ module.exports.myScraper = function(){
         }
     })
 }
+)
+
 const insertScrapeLog = function(db, log, callback) {
     // Get the documents collection
     const collection = db.collection('scrapelog');
