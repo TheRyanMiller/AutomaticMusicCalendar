@@ -194,7 +194,7 @@ class App extends Component {
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/about">About</NavLink></li>
-                <li style={{display: this.checkAdmin() ? "" : ""}}><NavLink  activeStyle={{
+                <li style={{display: this.checkAdmin() ? "" : "none"}}><NavLink  activeStyle={{
                       fontWeight: "bold",
                       borderBottomColor: "rgb(74, 88, 146)",
                       borderBottomWidth: 2,
