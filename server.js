@@ -6,6 +6,9 @@ const logger = require('morgan');
 const Event = require('./schemas/event');
 const User = require('./schemas/user');
 const path = require("path");
+//const require
+
+
 require('dotenv').config();
 
 const API_PORT = 3001;
@@ -84,6 +87,17 @@ router.get('/getUserById', (req, res) => {
   })
 });
 
+router.post('/refreshEvents', (req, res) => {
+  require('../CharlestonLiveMusicCalendar/databaseAdapters/scraper')()
+    .then(function(scrapeLog){
+      console.log("should return a result: ");
+      return res.json({ success: true, data: scrapeLog });
+    })
+    .catch(function(err){
+      console.log(err);
+      return res.json({ success: false, error: err });
+    });
+});
 router.post('/checkUser', (req, res) => {
   let user = req.body.user;
   let query = { uid : user.uid};

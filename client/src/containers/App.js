@@ -5,6 +5,7 @@ import './nav.css';
 import firebase from 'firebase';
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import About from '../components/About';
+import Admin from '../components/Admin';
 import EventDisplay from '../components/EventDisplay';
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
@@ -112,13 +113,19 @@ class App extends Component {
       />
     );
   }
-
+  
+  checkAdmin = () =>{
+    console.log(this.state.loggedInUser && this.state.loggedInUser.isAdmin)
+    if(this.state.loggedInUser && this.state.loggedInUser.isAdmin) return true;
+    return false;
+  }
 
   render() {
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID ,firebase.auth.FacebookAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID 
+        ,firebase.auth.FacebookAuthProvider.PROVIDER_ID
       ],
       callbacks: {
         //signInSuccess: this.signinCallback()
@@ -187,6 +194,12 @@ class App extends Component {
                       borderBottomWidth: 2,
                       color: "rgb(238, 238, 238)"
                     }} to="/about">About</NavLink></li>
+                <li style={{display: this.checkAdmin() ? "" : ""}}><NavLink  activeStyle={{
+                      fontWeight: "bold",
+                      borderBottomColor: "rgb(74, 88, 146)",
+                      borderBottomWidth: 2,
+                      color: "rgb(238, 238, 238)"
+                    }} to="/admin">Admin</NavLink></li>
                 <li><Link to="/" onClick={
                     () => {this.setState({showModal: true});
                     ReactGA.event({
@@ -207,6 +220,7 @@ class App extends Component {
               }
               /> 
             <Route path="/about" exact component={About} />
+            <Route path="/admin" exact component={Admin} />
             </div>
         </LoadingOverlay>
       </Router>
