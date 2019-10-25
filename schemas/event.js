@@ -11,7 +11,9 @@ const EventSchema = new Schema(
     infoLink: String,
     fee: String,
     location: String,
+    locAcronym: String,
     message: String
+    
   },
   { timestamps: true }
 );

@@ -9,25 +9,27 @@ const eventList = (props) =>{
   let img;
   let width;
   let height;
+  let la = "";
   
   let eventList = props.events.map(
     (event,index) => {
-      if(event.locAcronym === "ra") {
+      if(event.locAcronym) la = event.locAcronym.toLowerCase();
+      if(la === "ra") {
         img=raimg;
         width="45";
         height="28";
       }
-      if(event.locAcronym === "ph") {
+      if(la === "ph") {
         img=phimg;
         width="40";
         height="40";
       }
-      if(event.locAcronym === "tr") {
+      if(la === "tr") {
         img=trimg;
         width="40";
         height="28";
       }
-      if(event.locAcronym === "mf"){
+      if(la === "mf"){
         img=mfimg;
         width="40";
         height="28";
