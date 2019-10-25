@@ -24,7 +24,7 @@ module.exports = new Promise(function(resolve, reject){
           event.eventDate = new Date(new Date(ev.start).setUTCHours(0,0,0,0));
           event.time= ev.start.toLocaleTimeString('en-US');
           event.infoLink = ev.url;
-          event.locAcronym = "mf";
+          event.locAcronym = "MF";
           eventList.push(event);
         }
         

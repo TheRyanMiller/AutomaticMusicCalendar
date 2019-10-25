@@ -70,19 +70,6 @@ module.exports = new Promise(function(resolve, reject){
             event.locAcronym = "MF";
             if(showUrl) event.showUrl = showUrl;
             eventList.push(event);
-
-            /*
-            if(opener && opener!="")event.opener = opener;
-            event.location = "The Music Farm";
-            event.eventDate = eventDate;
-            if(doors && doors!="")event.time= doors;
-            if(cover && cover!="")event.fee = cover;
-            event.locAcronym = "ra";
-            //event.infoLink = ev.url;
-            //event.fee = feeInTitle ? titleArr.join("") : "";
-            if(showUrl && showUrl!="") event.showUrl=royalBaseUrl+showUrl;
-            eventList.push(event);
-            */
         }
         
         resolve(eventList);

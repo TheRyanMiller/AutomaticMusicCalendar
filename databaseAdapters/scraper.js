@@ -30,7 +30,8 @@ module.exports = () => new Promise(function(resolve, reject){
         if (err) console.log(err);
         console.log("connected!!!!");
         let scrapeLog = {};
-        let scrapeResults = [];
+        let scrapeArr = [];
+        let finalLog = {};
         let completedScrapes = 0;
         for(let i=0;i<scrapeObs.length;i++){
             require(scrapeObs[i].scraperFile).then(function(rawWebEvents) {
@@ -43,7 +44,6 @@ module.exports = () => new Promise(function(resolve, reject){
                 let insertCount = 0;
                 
                 let webCount = webEvents.length;
-                console.log("In scraper for "+scrapeObs[i].location);
                 searchEvent(mongoUtil.getDb(), scrapeObs[i].location, function(mongoEvents){
                     searchCount = mongoEvents.length;
                     //do something with the output
@@ -83,6 +83,7 @@ module.exports = () => new Promise(function(resolve, reject){
                         }
                         updateCount = updateGroup.length;
                     }
+                    
                     scrapeLog = {
                         "location":scrapeObs[i].location,
                         "insertCount":insertCount,
@@ -91,19 +92,19 @@ module.exports = () => new Promise(function(resolve, reject){
                         "webCount":webCount,
                         "scrapeDate": new Date()
                     }
-
-                    insertScrapeLog(mongoUtil.getDb(),scrapeLog,function(result){
-                        completedScrapes++;
-                        scrapeResults.push(scrapeLog);
-                        //console.log(scrapeLog);
-                        if(result) console.log("Db sync "+ completedScrapes +"/"+scrapeObs.length+" successful "+scrapeObs[completedScrapes-1].locAcronym);
-                        if(scrapeObs.length === completedScrapes){
-                            console.log("Scrape logs written to database.")
+                    
+                    //console.log(scrapeLog);
+                    completedScrapes++;
+                    scrapeArr.push(scrapeLog);
+                    console.log("Db sync "+ completedScrapes +"/"+scrapeObs.length+" successful "+scrapeObs[completedScrapes-1].locAcronym);
+                    if(scrapeObs.length === completedScrapes){
+                        finalLog = compileLog(scrapeArr,mongoUtil.getDb(),function(log){
+                            console.log("Scrape logs written to database.");
                             mongoUtil.closeCxn();
-                            resolve(scrapeResults);
-                        }
+                            resolve(log);
+                        });
                         
-                    })
+                    }
                 });
                 
             });
@@ -112,17 +113,35 @@ module.exports = () => new Promise(function(resolve, reject){
 }
 )
 
-const insertScrapeLog = function(db, log, callback) {
-    // Get the documents collection
+const compileLog = (scrapeArr, db, callback) =>{
+    let result = {}; 
+    result.scrapeDate = new Date();
+    result.newEvents = 0;
+    result.updatedEvents = 0;
+    result.totalEvents = 0;
+    result.venueLogs = scrapeArr;
+    for(let i=0;i<scrapeArr.length;i++){
+        result.newEvents += scrapeArr[i].insertCount;
+        result.updatedEvents+= scrapeArr[i].updateCount;
+        result.totalEvents += scrapeArr[i].searchCount;
+        result.totalEvents += scrapeArr[i].insertCount;
+    }
+    
     const collection = db.collection('scrapelog');
-    // Insert some documents
+
+    // Insert log
     collection.insertOne(
-        log, 
-        function(err, result) {
+        result, 
+        function(err, res) {
             assert.equal(err, null);
             callback(result);
         }
     );
+}
+
+const insertScrapeLog = function(db, log, callback) {
+    // Get the documents collection
+    
 }
 
 
@@ -142,7 +161,8 @@ const insertEvents = function(db, eventList, callback) {
 
 const searchEvent = function(db, location, callback){
     const collection = db.collection('events');
-    let query = { eventDate: { $gte: new Date() }, location: location };
+    let targetDate = new Date(new Date().setDate(new Date().getDate()-1));
+    let query = { eventDate: { $gte: targetDate }, location: location };
     collection.find(query).toArray(function(err, result){
         if(err) throw err;
         callback(result);
@@ -166,6 +186,7 @@ const updateEvent = function(db, event, callback) {
                 location: event.location,
                 doorsTime: event.doorsTime,
                 showTime: event.showTime,
+                locAcronym: event.locAcronym,
                 updateDate: new Date()
             } },
         { upsert: false }, //options

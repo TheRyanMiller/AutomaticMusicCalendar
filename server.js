@@ -17,7 +17,7 @@ app.use(cors());
 const router = express.Router();
 
 // connects our back end code with the database
-let dbString = process.env.MONGODB_CXN || process.env.MONGO_URL_DEV;
+let dbString = process.env.MONGO_PROD_URL|| process.env.MONGO_URL_DEV;
 mongoose.connect(dbString, { useNewUrlParser: true });
 
 let db = mongoose.connection;
@@ -38,6 +38,7 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 // this is our get method
 // this method fetches all available data in our database
 router.get('/getEvents', (req, res) => {
+    //Check if this is for a specfict user
     if(req.query.uid){
       let query = {_id:req.query.uid};
       User.findOne(
@@ -60,13 +61,14 @@ router.get('/getEvents', (req, res) => {
       )
       .sort({ "eventDate": -1 });
     }
+    //Get All Events (not just for one user)
     else{
       let targetDate = new Date(new Date().setDate(new Date().getDate()-1));
       Event.find(
         {eventDate: {$gt: targetDate}},
         (err, data) => {
           if (err) return res.json({ success: false, error: err });
-          return res.json({ success: true, data: data })
+          return res.json({ success: true, data: data})
       })
       .sort({ "eventDate": 1 }, );
     }
@@ -90,7 +92,6 @@ router.get('/getUserById', (req, res) => {
 router.post('/refreshEvents', (req, res) => {
   require('../CharlestonLiveMusicCalendar/databaseAdapters/scraper')()
     .then(function(scrapeLog){
-      console.log("should return a result: ");
       return res.json({ success: true, data: scrapeLog });
     })
     .catch(function(err){

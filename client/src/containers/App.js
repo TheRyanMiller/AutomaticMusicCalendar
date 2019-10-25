@@ -115,7 +115,6 @@ class App extends Component {
   }
   
   checkAdmin = () =>{
-    console.log(this.state.loggedInUser && this.state.loggedInUser.isAdmin)
     if(this.state.loggedInUser && this.state.loggedInUser.isAdmin) return true;
     return false;
   }

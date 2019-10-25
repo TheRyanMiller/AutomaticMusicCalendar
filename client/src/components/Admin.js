@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './Admin.css'
 import Aux from '../hoc/Auxx';
 
 class Admin extends Component {
@@ -10,18 +11,20 @@ class Admin extends Component {
       loggedInUser: null,
       showModal: false,
       hideSpinner: false,
-      activeLoadingOverlay: false
+      activeLoadingOverlay: false,
+      lastRefresh: ""
     }
   }
   
   componentDidMount = () =>{
-    
+
   }
 
   refreshEventData = () => {
+    let scrapeData = {};
     let instance = axios.create({
-      baseURL: "http://localhost:3001/api",
-      //baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
+      //baseURL: "http://localhost:3001/api",
+      baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
     });
@@ -30,16 +33,20 @@ class Admin extends Component {
       
     })
     .then((res) => {
-      console.log(res.data.data);
+      scrapeData=res.data.data;
+      this.setState({
+        lastRefresh: scrapeData.scrapeDate
+      })
     })
   }
 
   render(){
     return (
-        <div>
+        <div className="fontColor">
             <br />
             <br />
             <br />
+            <p>Last Updated: {this.state.lastRefresh}</p>
             <button onClick={()=>{this.refreshEventData()}}>refresh</button>
         </div>
     )

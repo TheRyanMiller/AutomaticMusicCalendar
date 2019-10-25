@@ -6,10 +6,11 @@ const UserSchema = new Schema(
   {
     uid: String,
     name: String,
+    isAdmin: Boolean,
     email: String,
     photoUrl: String,
     lastLoggedIn: Date,
-    rsvpdEventIds: [String]
+    rsvpdEventIds: [String]    
   },
   { timestamps: true }
 );
