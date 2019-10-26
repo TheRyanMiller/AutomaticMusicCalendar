@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
 import './App.css';
 import './nav.css';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import About from '../components/About';
 import Admin from '../components/Admin';
@@ -11,6 +12,7 @@ import axios from 'axios';
 import Modal from 'react-responsive-modal';
 import LoadingOverlay from 'react-loading-overlay';
 import ReactGA from 'react-ga';
+require('firebase/auth');
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

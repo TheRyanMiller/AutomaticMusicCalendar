@@ -187,6 +187,7 @@ const updateEvent = function(db, event, callback) {
                 doorsTime: event.doorsTime,
                 showTime: event.showTime,
                 locAcronym: event.locAcronym,
+                ticketLink: event.ticketLink,
                 updateDate: new Date()
             } },
         { upsert: false }, //options

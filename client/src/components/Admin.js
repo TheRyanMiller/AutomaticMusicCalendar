@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './Admin.css';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 class Admin extends Component {
   constructor(props){
@@ -10,15 +12,19 @@ class Admin extends Component {
       isSignedIn: false,
       loggedInUser: null,
       showModal: false,
-      hideSpinner: false,
+      hideSpinner: true,
       activeLoadingOverlay: false,
-      lastRefresh: ""
+      lastRefresh: "",
+      numNewEvents: null
     }
   }
   
   componentDidMount = () =>{
+    this.getLastRefreshData();
+  }
+
+  getLastRefreshData = () => {
     let instance = axios.create({
-      //baseURL: "http://localhost:3001/api",
       baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
@@ -32,9 +38,7 @@ class Admin extends Component {
         let latestScrape=res.data.data[0];
         let lastScrapeDate = latestScrape.scrapeDate;
         let formattedDate = "";
-        formattedDate = formattedDate+ " " +moment(lastScrapeDate).format('DD');
-        formattedDate = formattedDate+ " " + moment(lastScrapeDate).format('MMM');
-        formattedDate = formattedDate+ " " +moment(lastScrapeDate).format('YYYY');
+        formattedDate = moment(lastScrapeDate).format("dddd, MMMM Do YYYY, h:mm:ss a");
         this.setState({
           lastRefresh: formattedDate
         })
@@ -43,30 +47,9 @@ class Admin extends Component {
     })
   }
 
-  getLastRefreshData = () => {
-    let instance = axios.create({
-      //baseURL: "http://localhost:3001/api",
-      baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
-      timeout: 10000,
-      headers: {'X-Custom-Header': 'foobar'}
-    });
-
-    instance.post('/refreshEvents',{
-      
-    })
-    .then((res) => {
-      let scrapeData;
-      scrapeData=res.data.data;
-      this.setState({
-        lastRefresh: scrapeData.scrapeDate
-      })
-    })
-  }
-
   refreshEventData = () => {
     let scrapeData = {};
     let instance = axios.create({
-      //baseURL: "http://localhost:3001/api",
       baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
       timeout: 10000,
       headers: {'X-Custom-Header': 'foobar'}
@@ -78,19 +61,31 @@ class Admin extends Component {
     .then((res) => {
       scrapeData=res.data.data;
       this.setState({
-        lastRefresh: scrapeData.scrapeDate
+        lastRefresh: moment(scrapeData.scrapeDate).format("dddd, MMMM Do YYYY, h:mm:ss a"),
+        numNewEvents: scrapeData.newEvents,
+        hideSpinner: true
       })
     })
   }
 
   render(){
     return (
-        <div className="fontColor">
+        <div className="fontColor small">
             <br />
             <br />
             <br />
-            <p>Last Updated: {this.state.lastRefresh}</p>
-            <button onClick={()=>{this.refreshEventData()}}>refresh</button>
+            <p><b>Last Updated:  </b>
+              {this.state.lastRefresh}</p>
+            <p style={{display: this.state.numNewEvents || this.state.numNewEvents===0 ? "" : "none"}}><b>
+              New Events Added:  </b>{this.state.numNewEvents}</p>
+            <button onClick={()=>{
+              this.refreshEventData()
+              this.setState({hideSpinner: false})
+            }}>
+              <FontAwesomeIcon 
+              className="nowrap fas fa-spinner fa-spin" icon={faSpinner} 
+              style={{display: this.state.hideSpinner ? "none" : ""}}
+              /> Refresh</button>
         </div>
     )
   }

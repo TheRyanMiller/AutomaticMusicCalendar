@@ -41,6 +41,7 @@ module.exports = new Promise(function(resolve, reject){
             */ 
             event = {};
             infoDiv = $(".rhino-event-info", eventDivs[i]);
+            ticketColumn = $(".rhino-event-list-cta",eventDivs[i]);
 
             //Artist
             title = $("#eventTitle", infoDiv).text().trim();
@@ -50,6 +51,7 @@ module.exports = new Promise(function(resolve, reject){
             eventTimeStr = $(".eventDoorStartDate", infoDiv).text();
             fee = $(".eventCost", infoDiv).text().trim();
             eventTimes = parseTimes(eventTimeStr);
+            ticketLink = $(".btn-primary",ticketColumn).attr('href');
 
             //Date
             dateStr = $(".singleEventDate", eventDivs[i]).text();
@@ -69,7 +71,9 @@ module.exports = new Promise(function(resolve, reject){
             if(fee) event.fee = fee;
             event.locAcronym = "MF";
             if(showUrl) event.showUrl = showUrl;
+            if(ticketLink) event.ticketLink = ticketLink;
             eventList.push(event);
+            console.log(event)
         }
         
         resolve(eventList);

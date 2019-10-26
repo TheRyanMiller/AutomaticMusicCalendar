@@ -26,6 +26,7 @@ module.exports = new Promise(function(resolve, reject){
           event.infoLink = ev.url;
           event.locAcronym = "MF";
           eventList.push(event);
+          console.log(event)
         }
         
       }
