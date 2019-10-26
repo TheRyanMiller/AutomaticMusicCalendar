@@ -90,7 +90,7 @@ router.get('/getUserById', (req, res) => {
 });
 
 router.post('/refreshEvents', (req, res) => {
-  require('../CharlestonLiveMusicCalendar/databaseAdapters/scraper')()
+  require('./databaseAdapters/scraper')()
     .then(function(scrapeLog){
       return res.json({ success: true, data: scrapeLog });
     })
