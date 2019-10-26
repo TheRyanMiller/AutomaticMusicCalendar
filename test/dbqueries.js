@@ -5,7 +5,7 @@ const Event = require('../schemas/event');
 const User = require('../schemas/user');
 const path = require("path");
 require('dotenv').config()
-
+const ScrapeLog = require('../schemas/scrapeLog');
 
 // connects our back end code with the database
 let dbString = 
@@ -82,7 +82,7 @@ User.find(
         return console.log(data)
     }
 )
-*/
+
 
 let targetDate = new Date(new Date().setDate(new Date().getDate()-1));
 Scrape.find(
@@ -92,3 +92,16 @@ Scrape.find(
       return console.log(data);
   })
   .sort({ "eventDate": 1 }, );
+*/
+  ScrapeLog.find(
+      (err, data) => {
+      if (err) return console.log(err)
+      return console.log(data)
+  })
+  .sort({'scrapeDate': -1}).limit(1);
+
+  /*
+  ScrapeLog.deleteMany({},(r)=>{
+    console.log(r)
+  })
+  */

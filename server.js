@@ -6,10 +6,9 @@ const logger = require('morgan');
 const Event = require('./schemas/event');
 const User = require('./schemas/user');
 const path = require("path");
-//const require
-
-
+const ScrapeLog = require('./schemas/scrapeLog');
 require('dotenv').config();
+
 
 const API_PORT = 3001;
 const app = express();
@@ -99,6 +98,7 @@ router.post('/refreshEvents', (req, res) => {
       return res.json({ success: false, error: err });
     });
 });
+
 router.post('/checkUser', (req, res) => {
   let user = req.body.user;
   let query = { uid : user.uid};
@@ -204,9 +204,6 @@ router.post('/removeRsvp', (req, res) => {
     });
   }
   let userObjId = mongoose.Types.ObjectId(userId);
-  console.log("---------------------");
-  console.log(userObjId);
-  console.log(eventId);
   User.countDocuments({ _id: userId },(err,count) => {
     if(count>0){
       User.findByIdAndUpdate( { _id : userObjId }, { $pull: { rsvpdEventIds : eventId }}, (err) => {
@@ -219,6 +216,16 @@ router.post('/removeRsvp', (req, res) => {
     }
   })
   
+});
+
+router.get('/getScrapeData', (req, res) => {
+  query = {};
+  ScrapeLog.find(
+    query
+    ,(err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data })
+  }).sort({'scrapeDate': -1}).limit(1);
 });
 
 // append /api for our http requests
