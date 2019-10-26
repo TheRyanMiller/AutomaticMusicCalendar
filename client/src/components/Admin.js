@@ -31,7 +31,6 @@ class Admin extends Component {
       if(res.data.data && res.data.data.length>0){
         let latestScrape=res.data.data[0];
         let lastScrapeDate = latestScrape.scrapeDate;
-        console.log(latestScrape);
         let formattedDate = "";
         formattedDate = formattedDate+ " " +moment(lastScrapeDate).format('DD');
         formattedDate = formattedDate+ " " + moment(lastScrapeDate).format('MMM');
