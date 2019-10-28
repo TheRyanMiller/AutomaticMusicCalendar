@@ -1,14 +1,19 @@
 import React from 'react';
-import './Event_tile2.css';
+import './Event_tile.css';
 import Aux from '../hoc/Auxx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons'
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
   let location = props.event.location ? props.event.location : "";
+  let upvotes = 0;
   if(location==="The Music Farm - Charleston") location = "Music Farm";
   if(location==="The Pour House") location = "Pour House";
   if(location==="Tin Roof - Charleston") location = "Tin Roof";
   if(location==="The Royal American") location = "Royal American";
+  if(props.event.upvotes) upvotes = props.event.upvotes.length;
+  //if(!props.event.upvotes) props.event.upvote = []
 
   if(props.event.title){
     let deck = "";
@@ -20,6 +25,20 @@ const eventTile = (props) =>{
       );
     }
     tile = (
+      <div className="master center">
+
+        <div className="upvote center" onClick={()=>{
+          let msg = props.upvote(props.event,props.idx);
+          console.log(msg);
+        }}>
+
+          <FontAwesomeIcon 
+                className="nowrap fas white" icon={faArrowAltCircleUp} 
+                style=""
+                />
+          <span>{upvotes}</span>
+        </div>
+
         <div className={"fontColor row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>
           
           <div className="col1">
@@ -32,11 +51,13 @@ const eventTile = (props) =>{
               <span className="locationline">{location}  </span>
               {deck==="" ? "" : deck}
           </div>
+
           <div className={"col3 center"}>
             <img width={props.imgWidth} height={props.imgHeight} src={props.img} alt="Venue logo"></img>
           </div>
-          
-          
+
+        </div>
+
       </div>
     )
   }

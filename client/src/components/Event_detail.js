@@ -21,6 +21,7 @@ class EventDetails extends Component {
           event={this.props.event}
           loggedInUser={this.props.loggedInUser}
           isRsvpd={this.props.visAddRsvp}
+          
           />
       </div>
     );

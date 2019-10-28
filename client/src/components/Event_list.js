@@ -1,5 +1,5 @@
 import React from 'react';
-import EventTile from './Event_tile2';
+import EventTile from './Event_tile_withUpVote';
 import mfimg from '../assets/midimages/mf.png';
 import phimg from '../assets/midimages/ph.png';
 import trimg from '../assets/midimages/tr.png';
@@ -38,7 +38,9 @@ const eventList = (props) =>{
         <EventTile
           className="center"
           event={event}
+          upvote={props.upvote}
           change={(e) => props.changed(e,event._id)}
+          idx={index}
           click={() => {
               props.click(event);
             }

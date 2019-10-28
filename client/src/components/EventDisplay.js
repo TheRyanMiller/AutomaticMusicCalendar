@@ -5,7 +5,7 @@ import Modal from 'react-responsive-modal';
 import axios from 'axios';
 import moment from 'moment';
 import ResultMessage from './ResultMessage';
-import './Event_tile2.css';
+import './Event_tile.css';
 import './EventDisplay.css';
 
 
@@ -48,6 +48,34 @@ class EventDisplay extends Component {
       this.setState({ intervalIsSet: interval });
     }
     */
+  }
+
+  upvote = (event, idx) => {
+    //Check that user is logged in
+    if(!this.props.loggedInUser) return "Must be logged in to upvote."
+      //Enforce single vote on ID
+      if(!event.upvotes) event.upvotes = [];
+      if(!event.upvotes.includes(this.props.loggedInUser._id)){
+        //Push userId to event upvote array
+        let events = JSON.parse(JSON.stringify(this.state.displayedEvents));
+        let numUpvotes = events[idx].upvotes.push(this.props.loggedInUser._id);
+        let allEvents = JSON.parse(JSON.stringify(this.state.events));
+        let allEventsIdx = allEvents.findIndex(ev => ev._id === event._id);
+        if(!allEvents[allEventsIdx].upvotes) allEvents[allEventsIdx].upvotes = [];
+        allEvents[allEventsIdx].upvotes.push(this.props.loggedInUser._id);
+        console.log("num upvotes: ",numUpvotes)
+        console.log(events[idx]);
+        this.setState({
+          displayedEvents: events,
+          events: allEvents
+        })
+      }
+      else{
+        return "You've already upvoted."
+      }
+        
+        //Increment upvote by 1
+        //Add Green class to icon
   }
 
   getDataFromDb = (eventFilter) => {
@@ -312,6 +340,7 @@ class EventDisplay extends Component {
             events={this.state.displayedEvents}
             click={this.selectEventHandler}
             loggedInUser = {this.props.loggedInUser}
+            upvote={this.upvote}
           />
         </div>
         <Modal
@@ -327,6 +356,7 @@ class EventDisplay extends Component {
                 addRsvp={this.addRsvp}
                 removeRsvp={this.removeRsvp}
                 loggedInUser={this.props.loggedInUser}
+                
             />
         </Modal>
       </div>
