@@ -12,6 +12,7 @@
 
 .master{
   display: flex;
+  max-width: 750px;
   flex-direction: row;
   flex-wrap: nowrap;
   width: 97%;
@@ -22,7 +23,7 @@
   max-width: 50px;
   min-width: 25px;
   vertical-align: middle;
-  padding: 2px 0px 0px 0px;
+  padding: 5px 0px 0px 0px;
   margin: auto 0;
   color: white;
 }
@@ -49,7 +50,7 @@
 }
 
 .green{
-  color: rgb(68, 173, 68);
+  color: rgb(82, 206, 82);
 }
 .white{
   color: white;

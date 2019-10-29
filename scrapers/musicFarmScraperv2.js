@@ -72,6 +72,7 @@ module.exports = new Promise(function(resolve, reject){
             event.locAcronym = "MF";
             if(showUrl) event.showUrl = showUrl;
             if(ticketLink) event.ticketLink = ticketLink;
+            event.upvotes = [];
             eventList.push(event);
             console.log(event)
         }

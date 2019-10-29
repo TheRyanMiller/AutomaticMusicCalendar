@@ -152,8 +152,6 @@ router.delete('/deleteEvent', (req, res) => {
 // this method adds new data in our database
 router.post('/addEvent', (req, res) => {
   let event = new Event(req.body);
-  console.log(event.toString());
-  console.log(event);
   //Must use Mongoose ObjectID type to convert string to an acceptable _id data type
   event._id = mongoose.Types.ObjectId(event._id);
   if ((!event._id && event._id !== 0)) {
@@ -164,8 +162,6 @@ router.post('/addEvent', (req, res) => {
   }
   event.save((err) => {
     if (err) return res.json({ success: false, error: err });
-    
-    console.log(event.title);
     return res.json({ success: true });
   });
 });
@@ -179,9 +175,6 @@ router.post('/addRsvp', (req, res) => {
     });
   }
   let userObjId = mongoose.Types.ObjectId(userId);
-  console.log("---------------------");
-  console.log(userObjId);
-  console.log(eventId);
   User.countDocuments({ _id: userId },(err,count) => {
     if(count>0){
       User.findByIdAndUpdate( { _id : userObjId }, { $push: { rsvpdEventIds : eventId }}, (err) => {
@@ -226,6 +219,34 @@ router.get('/getScrapeData', (req, res) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data })
   }).sort({'scrapeDate': -1}).limit(1);
+});
+
+router.post('/upvote', (req, res) => {
+  if(req.query.uid && req.query.eid){
+    let eventId = req.query.eid;
+    let userId = req.query.uid;
+    let action = {};
+    if(req.query.remove === "true"){
+      console.log("IT HIT DIFF!!")
+      action = { $pull: { upvotes: userId } };
+    }
+    else{
+      action = { $push: { upvotes: userId } };
+    }
+    console.log(userId,eventId)
+    let query = {_id:eventId};
+    Event.updateOne(
+      query,
+      action,
+      (err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data })
+    })
+  }
+  else{
+    res.json({ success: false, error: "Invalid inputs" });
+  }
+  
 });
 
 // append /api for our http requests

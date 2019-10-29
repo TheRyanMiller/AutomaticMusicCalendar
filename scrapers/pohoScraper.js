@@ -111,6 +111,7 @@ module.exports = new Promise(function(resolve, reject){
       if(doorsTime) event.doorsTime = doorsTime;
       if(showTime) event.showTime = showTime;
       if(cover) event.cover = cover;
+      event.upvotes = [];
       eventList.push(event);
 
     }

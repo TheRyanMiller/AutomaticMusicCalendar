@@ -7,6 +7,7 @@ import moment from 'moment';
 import ResultMessage from './ResultMessage';
 import './Event_tile.css';
 import './EventDisplay.css';
+import loRemove from 'lodash/remove'
 
 
 class EventDisplay extends Component {
@@ -52,30 +53,54 @@ class EventDisplay extends Component {
 
   upvote = (event, idx) => {
     //Check that user is logged in
-    if(!this.props.loggedInUser) return "Must be logged in to upvote."
+    if(!this.props.loggedInUser){
+      this.props.promptLogin("Must be logged in to upvote.");
+      return "Must be logged in to upvote."
+    }
+      let toRemove = false;
       //Enforce single vote on ID
       if(!event.upvotes) event.upvotes = [];
-      if(!event.upvotes.includes(this.props.loggedInUser._id)){
-        //Push userId to event upvote array
-        let events = JSON.parse(JSON.stringify(this.state.displayedEvents));
-        let numUpvotes = events[idx].upvotes.push(this.props.loggedInUser._id);
-        let allEvents = JSON.parse(JSON.stringify(this.state.events));
-        let allEventsIdx = allEvents.findIndex(ev => ev._id === event._id);
-        if(!allEvents[allEventsIdx].upvotes) allEvents[allEventsIdx].upvotes = [];
-        allEvents[allEventsIdx].upvotes.push(this.props.loggedInUser._id);
-        console.log("num upvotes: ",numUpvotes)
-        console.log(events[idx]);
-        this.setState({
-          displayedEvents: events,
-          events: allEvents
-        })
+      if(event.upvotes.includes(this.props.loggedInUser._id)) toRemove = true;
+
+      let events = JSON.parse(JSON.stringify(this.state.displayedEvents));
+      let allEvents = JSON.parse(JSON.stringify(this.state.events));
+      let allEventsIdx = allEvents.findIndex(ev => ev._id === event._id);
+      if(!allEvents[allEventsIdx].upvotes) allEvents[allEventsIdx].upvotes = [];
+      let userId = this.props.loggedInUser._id;
+      let eventId = event._id;
+
+      console.log("about to post a request. remove = ",toRemove)
+      let instance = axios.create({
+        baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
+        timeout: 10000,
+        headers: {'X-Custom-Header': 'foobar'}
+      });
+      instance.post('/upvote', null, { params: {
+        uid: userId,
+        eid: eventId,
+        remove: toRemove
+      }})
+      .then((response) => {
+        
+      })
+      
+      //Push userId to event upvote array
+      if(!toRemove){
+        let numUpvotes = events[idx].upvotes.push(userId);
+        allEvents[allEventsIdx].upvotes.push(userId);
       }
       else{
-        return "You've already upvoted."
+        loRemove(events[idx].upvotes,(item)=>{
+          return item===userId;
+        })
+        loRemove(allEvents[allEventsIdx].upvotes,(item)=>{
+          return item===userId;
+        })        
       }
-        
-        //Increment upvote by 1
-        //Add Green class to icon
+      this.setState({
+        displayedEvents: JSON.parse(JSON.stringify(events)),
+        events: JSON.parse(JSON.stringify(allEvents))
+      });
   }
 
   getDataFromDb = (eventFilter) => {
@@ -339,8 +364,8 @@ class EventDisplay extends Component {
             className="center"
             events={this.state.displayedEvents}
             click={this.selectEventHandler}
-            loggedInUser = {this.props.loggedInUser}
             upvote={this.upvote}
+            user={this.props.loggedInUser}
           />
         </div>
         <Modal
@@ -356,7 +381,6 @@ class EventDisplay extends Component {
                 addRsvp={this.addRsvp}
                 removeRsvp={this.removeRsvp}
                 loggedInUser={this.props.loggedInUser}
-                
             />
         </Modal>
       </div>

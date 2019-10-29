@@ -12,8 +12,8 @@ const EventSchema = new Schema(
     fee: String,
     location: String,
     locAcronym: String,
-    message: String
-    
+    message: String,
+    upvotes: [String]
   },
   { timestamps: true }
 );

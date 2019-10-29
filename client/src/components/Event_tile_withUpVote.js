@@ -8,12 +8,16 @@ const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
   let location = props.event.location ? props.event.location : "";
   let upvotes = 0;
+  let upvoteColor = "white";
   if(location==="The Music Farm - Charleston") location = "Music Farm";
   if(location==="The Pour House") location = "Pour House";
   if(location==="Tin Roof - Charleston") location = "Tin Roof";
   if(location==="The Royal American") location = "Royal American";
   if(props.event.upvotes) upvotes = props.event.upvotes.length;
-  //if(!props.event.upvotes) props.event.upvote = []
+  if(props.event.upvotes 
+    && props.user
+    && props.event.upvotes.includes(props.user._id)) 
+      upvoteColor = "green"
 
   if(props.event.title){
     let deck = "";
@@ -27,16 +31,16 @@ const eventTile = (props) =>{
     tile = (
       <div className="master center">
 
-        <div className="upvote center" onClick={()=>{
+        <div className="upvote center " onClick={()=>{
           let msg = props.upvote(props.event,props.idx);
           console.log(msg);
         }}>
 
           <FontAwesomeIcon 
-                className="nowrap fas white" icon={faArrowAltCircleUp} 
+                className={"nowrap fas "+ upvoteColor} icon={faArrowAltCircleUp} 
                 style=""
                 />
-          <span>{upvotes}</span>
+          <span className="small">{upvotes}</span>
         </div>
 
         <div className={"fontColor row " + (props.event.isRsvpd ? "rsvpd" : "")} onClick={props.click}>

@@ -92,6 +92,7 @@ module.exports = new Promise(function(resolve, reject){
             //event.infoLink = ev.url;
             //event.fee = feeInTitle ? titleArr.join("") : "";
             if(showUrl && showUrl!="") event.showUrl=royalBaseUrl+showUrl;
+            event.upvotes = [];
             eventList.push(event);
             
         }

@@ -49,6 +49,7 @@ const eventList = (props) =>{
           imgHeight={height}
           imgWidth={width}
           key={event._id}
+          user={props.user}
           />
       )
     }

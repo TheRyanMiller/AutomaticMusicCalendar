@@ -49,9 +49,16 @@ class App extends Component {
     ReactGA.pageview('/homepage');
   }
 
-  loadingSpinner = () =>{
+  loadingSpinner = () => {
     this.setState({
       activeLoadingOverlay: !this.state.activeLoadingOverlay
+    })
+  }
+
+  promptLogin = (modalMsg) => {
+    this.setState({
+      showModal: true,
+      modalMsg: modalMsg
     })
   }
 
@@ -101,6 +108,7 @@ class App extends Component {
         isSignedIn={this.state.isSignedIn}
         loadingSpinner={this.loadingSpinner}
         isMyList={true}
+        promptLogin={this.promptLogin}
       />
     );
   }
@@ -112,6 +120,7 @@ class App extends Component {
         isSignedIn={this.state.isSignedIn}
         loadingSpinner={this.loadingSpinner}
         isMyList={false}
+        promptLogin={this.promptLogin}
       />
     );
   }
@@ -134,7 +143,7 @@ class App extends Component {
     }
     let firebaseAuth = (
       <div className="textcontainer fontColor">
-        <br /><br />Sign in to save your personalized event list and history.
+        <br /><br />{this.state.modalMsg}
         <StyledFirebaseAuth
               uiConfig={uiConfig}
               firebaseAuth={firebase.auth()}
@@ -202,8 +211,9 @@ class App extends Component {
                       color: "rgb(238, 238, 238)"
                     }} to="/admin">Admin</NavLink></li>
                 <li><Link to="/" onClick={
-                    () => {this.setState({showModal: true});
-                    ReactGA.event({
+                    () => {
+                      this.promptLogin("Sign in to save your personalized event list and history.")
+                      ReactGA.event({
                       category: 'User',
                       action: 'Clicked Login'
                     })
