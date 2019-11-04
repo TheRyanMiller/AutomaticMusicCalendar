@@ -80,11 +80,15 @@ class EventDisplay extends Component {
         remove: toRemove
       }})
       .then((response) => {
+        let success = { background: '#66ff66', text: "#000000"};
+        let warning = { background: '#ffff80', text: "#000000"};
+
         if(toRemove){
-          this.props.toast('Removed Upvote',"warning",2000,{});
+          
+          this.props.toast('Removed Upvote',"custom",2000,warning);
         }
         else{
-          this.props.toast('Upvoted!',"success",2000,{});
+          this.props.toast('Upvoted!',"custom",2000,success);
         }
 
       })

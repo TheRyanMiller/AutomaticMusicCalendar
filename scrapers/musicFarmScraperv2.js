@@ -74,7 +74,6 @@ module.exports = new Promise(function(resolve, reject){
             if(ticketLink) event.ticketLink = ticketLink;
             event.upvotes = [];
             eventList.push(event);
-            console.log(event)
         }
         
         resolve(eventList);

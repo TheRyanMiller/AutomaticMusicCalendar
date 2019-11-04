@@ -11,7 +11,7 @@ const ScrapeLog = require('../schemas/scrapeLog');
 let dbString = 
     //process.env.MONGODB_CXN || 
     process.env.MONGO_URL_DEV;
-    //dbString="mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
+dbString="mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
 mongoose.connect(dbString, { useNewUrlParser: true });
 let db = mongoose.connection;
 db.once('open', () => console.log('connected to the database... '+ dbString));
@@ -84,24 +84,37 @@ User.find(
 )
 
 
+
+    
+    Event.find(
+        {eventDate: {$gt: targetDate}},
+        (err, data) => {
+        if (err) console.log(err);
+        return console.log(data);
+    })
+    .sort({ "eventDate": 1 }, );
+*/
 let targetDate = new Date(new Date().setDate(new Date().getDate()-1));
-Scrape.find(
-    {eventDate: {$gt: targetDate}},
+targetDate = new Date("2019-10-26T02:50:25.135+00:00");
+  ScrapeLog.deleteMany(
+    {scrapeDate: {$lt: targetDate}},
     (err, data) => {
       if (err) console.log(err);
       return console.log(data);
   })
   .sort({ "eventDate": 1 }, );
-*/
-  ScrapeLog.find(
-      (err, data) => {
-      if (err) return console.log(err)
-      return console.log(data)
-  })
-  .sort({'scrapeDate': -1}).limit(1);
 
-  /*
-  ScrapeLog.deleteMany({},(r)=>{
-    console.log(r)
-  })
+
+  /* SCRAPE LOG STUFF
+    ScrapeLog.find(
+        (err, data) => {
+        if (err) return console.log(err)
+        return console.log(data)
+    })
+    .sort({'scrapeDate': -1}).limit(1);
+
+    /*
+    ScrapeLog.deleteMany({},(r)=>{
+        console.log(r)
+    })
   */

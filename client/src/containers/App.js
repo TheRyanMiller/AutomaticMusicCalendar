@@ -35,8 +35,9 @@ class App extends Component {
       loggedInUser: null,
       showModal: false,
       hideSpinner: false,
-      activeLoadingOverlay: false
+      activeLoadingOverlay: false,
     }
+    this.showQueue = notify.createShowQueue();
   }
 
   
@@ -137,7 +138,9 @@ class App extends Component {
   }
 
   toast = (msg, type, timer, color) => {
-    notify.show(msg,type,timer,color)
+    this.showQueue(msg,type,timer,color)
+    //notify.hide();
+    //notify.show(msg,type,timer,color)
   }
 
   render() {
