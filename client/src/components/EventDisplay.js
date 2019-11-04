@@ -7,8 +7,7 @@ import moment from 'moment';
 import ResultMessage from './ResultMessage';
 import './Event_tile.css';
 import './EventDisplay.css';
-import loRemove from 'lodash/remove'
-
+import loRemove from 'lodash/remove';
 
 class EventDisplay extends Component {
   constructor(props){
@@ -51,6 +50,7 @@ class EventDisplay extends Component {
     */
   }
 
+
   upvote = (event, idx) => {
     //Check that user is logged in
     if(!this.props.loggedInUser){
@@ -69,7 +69,6 @@ class EventDisplay extends Component {
       let userId = this.props.loggedInUser._id;
       let eventId = event._id;
 
-      console.log("about to post a request. remove = ",toRemove)
       let instance = axios.create({
         baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
         timeout: 10000,
@@ -81,7 +80,13 @@ class EventDisplay extends Component {
         remove: toRemove
       }})
       .then((response) => {
-        
+        if(toRemove){
+          this.props.toast('Removed Upvote',"warning",2000,{});
+        }
+        else{
+          this.props.toast('Upvoted!',"success",2000,{});
+        }
+
       })
       
       //Push userId to event upvote array

@@ -227,7 +227,7 @@ router.post('/upvote', (req, res) => {
     let userId = req.query.uid;
     let action = {};
     if(req.query.remove === "true"){
-      console.log("IT HIT DIFF!!")
+      
       action = { $pull: { upvotes: userId } };
     }
     else{

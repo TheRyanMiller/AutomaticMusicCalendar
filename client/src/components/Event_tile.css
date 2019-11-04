@@ -20,7 +20,7 @@
 
 .upvote {
   flex: 1;
-  max-width: 50px;
+  max-width: 30px;
   min-width: 25px;
   vertical-align: middle;
   padding: 5px 0px 0px 0px;
@@ -34,10 +34,10 @@
   flex-wrap: wrap;
   width: 95%;
   border: 1px solid rgb(0, 0, 0);
-  margin: 5px 5px 5px 5px;
+  margin: 5px 5px 5px 2px;
   border: 2px solid #0e2d57;
   background: rgb(51, 51, 51);
-  padding: 9px;
+  padding: 9px 9px 9px 0px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   box-shadow: 1px 1px 1px #000000;

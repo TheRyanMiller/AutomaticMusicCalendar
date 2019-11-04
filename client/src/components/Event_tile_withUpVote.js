@@ -1,8 +1,9 @@
 import React from 'react';
 import './Event_tile.css';
 import Aux from '../hoc/Auxx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { ToastProvider, useToasts } from 'react-toast-notifications'
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
@@ -33,7 +34,6 @@ const eventTile = (props) =>{
 
         <div className="upvote center " onClick={()=>{
           let msg = props.upvote(props.event,props.idx);
-          console.log(msg);
         }}>
 
           <FontAwesomeIcon 

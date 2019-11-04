@@ -94,7 +94,7 @@ module.exports = new Promise(function(resolve, reject){
             if(showUrl && showUrl!="") event.showUrl=royalBaseUrl+showUrl;
             event.upvotes = [];
             eventList.push(event);
-            
+            console.log(event)
         }
         resolve(eventList);
         

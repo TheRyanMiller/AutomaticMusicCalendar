@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom"
 import './App.css';
 import './nav.css';
 import firebase from 'firebase/app';
-
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import About from '../components/About';
 import Admin from '../components/Admin';
@@ -12,8 +11,10 @@ import axios from 'axios';
 import Modal from 'react-responsive-modal';
 import LoadingOverlay from 'react-loading-overlay';
 import ReactGA from 'react-ga';
+import Notifications, {notify} from 'react-notify-toast';
 require('firebase/auth');
 
+  
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -37,6 +38,8 @@ class App extends Component {
       activeLoadingOverlay: false
     }
   }
+
+  
 
   componentDidMount = () => {
     //Firebase Authentication
@@ -109,6 +112,7 @@ class App extends Component {
         loadingSpinner={this.loadingSpinner}
         isMyList={true}
         promptLogin={this.promptLogin}
+        toast={this.toast}
       />
     );
   }
@@ -121,16 +125,23 @@ class App extends Component {
         loadingSpinner={this.loadingSpinner}
         isMyList={false}
         promptLogin={this.promptLogin}
+        toast={this.toast}
       />
     );
   }
+
   
   checkAdmin = () =>{
     if(this.state.loggedInUser && this.state.loggedInUser.isAdmin) return true;
     return false;
   }
 
+  toast = (msg, type, timer, color) => {
+    notify.show(msg,type,timer,color)
+  }
+
   render() {
+    let container;
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [
@@ -157,7 +168,8 @@ class App extends Component {
         Log Out</button></span>) 
 
     return (
-      <Router >
+      <Router>
+        <Notifications />
         <LoadingOverlay
           active={this.state.activeLoadingOverlay}
           spinner={true}
