@@ -9,9 +9,8 @@ const ScrapeLog = require('../schemas/scrapeLog');
 
 // connects our back end code with the database
 let dbString = 
-    //process.env.MONGODB_CXN || 
+    process.env.MONGODB_CXN || 
     process.env.MONGO_URL_DEV;
-dbString="mongodb+srv://ryan:ryan@cluster0-r2ipi.mongodb.net/chslivemusic?retryWrites=true&w=majority";
 mongoose.connect(dbString, { useNewUrlParser: true });
 let db = mongoose.connection;
 db.once('open', () => console.log('connected to the database... '+ dbString));

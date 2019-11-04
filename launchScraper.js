@@ -1,2 +1,2 @@
-let scraper = require('../CharlestonLiveMusicCalendar/databaseAdapters/scraper')
+let scraper = require('./databaseAdapters/scraper')
 scraper();
