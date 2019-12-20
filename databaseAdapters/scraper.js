@@ -99,7 +99,7 @@ module.exports = () => new Promise(function(resolve, reject){
                     console.log("Db sync "+ completedScrapes +"/"+scrapeObs.length+" successful "+scrapeObs[completedScrapes-1].locAcronym);
                     if(scrapeObs.length === completedScrapes){
                         finalLog = compileLog(scrapeArr,mongoUtil.getDb(),function(log){
-                            console.log("Scrape logs written to database.");
+                            console.log("Scrape logs written to database if new shows detected.");
                             mongoUtil.closeCxn();
                             resolve(log);
                         });
@@ -120,6 +120,7 @@ const compileLog = (scrapeArr, db, callback) =>{
     result.updatedEvents = 0;
     result.totalEvents = 0;
     result.venueLogs = scrapeArr;
+    
     for(let i=0;i<scrapeArr.length;i++){
         result.newEvents += scrapeArr[i].insertCount;
         result.updatedEvents+= scrapeArr[i].updateCount;
@@ -127,21 +128,24 @@ const compileLog = (scrapeArr, db, callback) =>{
         result.totalEvents += scrapeArr[i].insertCount;
     }
     
-    const collection = db.collection('scrapelog');
+    let logNeeded = false;
+    if(result.newEvents > 0) logNeeded = true;
 
-    // Insert log
-    collection.insertOne(
-        result, 
-        function(err, res) {
-            assert.equal(err, null);
-            callback(result);
-        }
-    );
-}
-
-const insertScrapeLog = function(db, log, callback) {
-    // Get the documents collection
-    
+    if(logNeeded){
+        const log = db.collection('scrapelog');
+        if(scrapeArr[i].insertCount)
+        // Insert log
+        log.insertOne(
+            result, 
+            function(err, res) {
+                assert.equal(err, null);
+                callback(result);
+            }
+        );
+    }
+    else{
+        callback(result);
+    }
 }
 
 

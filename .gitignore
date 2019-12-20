@@ -16,6 +16,8 @@ node_modules/
 .env
 frontend/.env
 /frontent/.env
+client/.env
+/client/.env
 .DS_Store
 .env.local
 .env.development.local

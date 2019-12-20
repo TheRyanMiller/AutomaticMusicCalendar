@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './Admin.css';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 class Admin extends Component {
   constructor(props){

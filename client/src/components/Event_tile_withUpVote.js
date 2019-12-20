@@ -3,7 +3,6 @@ import './Event_tile.css';
 import Aux from '../hoc/Auxx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons';
-import { ToastProvider, useToasts } from 'react-toast-notifications'
 
 const eventTile = (props) =>{
   let tile = (<div className="content-row"></div>);
