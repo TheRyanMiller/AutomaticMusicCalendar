@@ -133,7 +133,6 @@ const compileLog = (scrapeArr, db, callback) =>{
 
     if(logNeeded){
         const log = db.collection('scrapelog');
-        if(scrapeArr[i].insertCount)
         // Insert log
         log.insertOne(
             result, 
