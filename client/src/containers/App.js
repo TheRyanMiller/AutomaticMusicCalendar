@@ -118,7 +118,9 @@ class App extends Component {
     );
   }
 
-  EventDisplay = () => {
+  EventDisplay = (props) => {
+    const params = new URLSearchParams(props.location.search);
+    const eventId = params.get("eventid");
     return (
       <EventDisplay 
         loggedInUser={this.state.loggedInUser}
@@ -127,6 +129,7 @@ class App extends Component {
         isMyList={false}
         promptLogin={this.promptLogin}
         toast={this.toast}
+        queryEventId={eventId}
       />
     );
   }
@@ -144,7 +147,6 @@ class App extends Component {
   }
 
   render() {
-    let container;
     let uiConfig = {
       signInFlow: "popup",
       signInOptions: [

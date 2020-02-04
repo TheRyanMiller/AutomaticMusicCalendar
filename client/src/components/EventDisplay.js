@@ -8,6 +8,7 @@ import ResultMessage from './ResultMessage';
 import './Event_tile.css';
 import './EventDisplay.css';
 import loRemove from 'lodash/remove';
+import { withRouter } from 'react-router-dom';
 
 class EventDisplay extends Component {
   constructor(props){
@@ -27,6 +28,7 @@ class EventDisplay extends Component {
       hideSpinner: false,
       activeLoadingOverlay: false,
       hideResultMessage: true,
+      invalidEvent: false,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
@@ -35,19 +37,49 @@ class EventDisplay extends Component {
 
   componentDidMount = () => {
     this.setState(
-      {hideResultMessage: true}
+      {
+        hideResultMessage: true,
+        invalidEvent: false
+      }
     )
     let eventFilter = "";
     if(this.props.isMyList && this.props.loggedInUser && this.props.loggedInUser._id){
       eventFilter = "My List";
     }
     this.getDataFromDb(eventFilter);
-    /*
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb(eventFilter), 1000000);
-      this.setState({ intervalIsSet: interval });
+
+    let event;
+    let eventId = this.props.queryEventId;
+    if(eventId){
+      let instance = axios.create({
+        baseURL: process.env.REACT_APP_PROD_API || process.env.REACT_APP_API,
+        timeout: 10000,
+        headers: {'X-Custom-Header': 'foobar'}
+      });
+      instance.get('/getEvent',{params: {eventId}})
+      .then( response => {
+        event = response.data.data;
+        if(event){
+          event.dateMMM = moment(event.eventDate).format('MMM');
+          event.dateDD = moment(event.eventDate).format('DD');
+          event.dateYYYY = moment(event.eventDate).format('YYYY');
+          event.dateDOW = moment(event.eventDate).format('dddd').substr(0,3);
+          this.setState(
+            {
+              selectedEvent: event,
+              showModal: true
+            }
+          )
+        }
+        else{
+          this.setState({
+            invalidEvent: true,
+            showModal:true
+          })
+        }
+      });
     }
-    */
+    
   }
 
 
@@ -83,19 +115,13 @@ class EventDisplay extends Component {
         let success = { background: '#66ff66', text: "#000000"};
         let warning = { background: '#ffff80', text: "#000000"};
 
-        if(toRemove){
-          
-          this.props.toast('Removed Upvote',"custom",2000,warning);
-        }
-        else{
-          this.props.toast('Upvoted!',"custom",2000,success);
-        }
+        if(toRemove){ this.props.toast('Removed Upvote',"custom",2000,warning); }
+        else{ this.props.toast('Upvoted!',"custom",2000,success); }
 
       })
       
       //Push userId to event upvote array
       if(!toRemove){
-        let numUpvotes = events[idx].upvotes.push(userId);
         allEvents[allEventsIdx].upvotes.push(userId);
       }
       else{
@@ -170,14 +196,25 @@ class EventDisplay extends Component {
     const event = events[eventIdx];
 
     events[eventIdx] = event;
+    let { history } = this.props;
+    history.push({
+        search: "eventid="+ev._id
+      }
+    )
     this.setState({
       selectedEvent:ev,
       showEventDetails:false,
+      invalidEvent: false,
       showModal: true
     });
   }
 
   handleModalClose = () =>{
+    let { history } = this.props;
+    history.push({
+        search: ""
+      }
+    )
     this.setState({
         showModal:false
     });
@@ -385,16 +422,20 @@ class EventDisplay extends Component {
             modal: "customModal"
           }}
         >
-            <EventDetail
+              {this.state.invalidEvent ? 
+                (<>Cannot find an event with that ID.</>) :
+              
+                (<EventDetail
                 event={this.state.selectedEvent}
                 addRsvp={this.addRsvp}
                 removeRsvp={this.removeRsvp}
                 loggedInUser={this.props.loggedInUser}
-            />
+                />)
+              }
         </Modal>
       </div>
     );
   }
 }
 
-export default EventDisplay;
+export default withRouter(EventDisplay);

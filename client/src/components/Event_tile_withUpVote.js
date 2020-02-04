@@ -32,12 +32,11 @@ const eventTile = (props) =>{
       <div className="master center">
 
         <div className="upvote center " onClick={()=>{
-          let msg = props.upvote(props.event,props.idx);
+          props.upvote(props.event,props.idx);
         }}>
 
           <FontAwesomeIcon 
                 className={"nowrap fas "+ upvoteColor} icon={faArrowAltCircleUp} 
-                style=""
                 />
           <span className="small">{upvotes}</span>
         </div>

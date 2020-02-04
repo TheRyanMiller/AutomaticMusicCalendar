@@ -73,6 +73,18 @@ router.get('/getEvents', (req, res) => {
     }
 });
 
+router.get('/getEvent', (req, res) => {
+  let eid = req.query.eventId;
+  let query = {_id: eid}
+  Event.findOne(
+    query,
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      console.log("DATA BABY  ",data)
+      return res.json({ success: true, data: data })
+  })
+});
+
 router.get('/getUsers', (req, res) => {
   User.find((err, data) => {
       if (err) return res.json({ success: false, error: err });
@@ -81,7 +93,6 @@ router.get('/getUsers', (req, res) => {
 });
 
 router.get('/getUserById', (req, res) => {
-  let uid = req.body;
   User.find({_id:""},(err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data })

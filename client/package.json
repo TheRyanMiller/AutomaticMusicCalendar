@@ -12,6 +12,7 @@
     "firebase": "^6.6.2",
     "firebaseui": "^4.2.0",
     "moment": "^2.24.0",
+    "query-string": "^6.10.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-facebook-login": "^4.1.1",
