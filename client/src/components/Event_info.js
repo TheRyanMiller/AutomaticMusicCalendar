@@ -2,8 +2,11 @@ import React from "react";
 //import './Event_detail.css';
 import './Event_list.css';
 import './Event_info.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const eventDetail = (props) => {
     let title;
@@ -65,9 +68,32 @@ const eventDetail = (props) => {
         </button>
       </div>
     )
+
+    let copyUrlDiv = (
+      <div className="center">
+        <CopyToClipboard className="center" text={window.location.href}>
+              <div className="center nowrap">
+                  <button onClick={() => props.copyUrlFxn()}><FontAwesomeIcon icon={faCopy} /> Copy URL
+                  </button>
+              </div>
+            </CopyToClipboard> 
+      </div>
+    )
+
+    let urlCopiedDiv = (
+      <div className="center">
+        <CopyToClipboard className="center" text={window.location.href}>
+              <div className="center nowrap">
+                  <button onClick={() => props.copyUrlFxn()}><FontAwesomeIcon  className="iconColorAdded" icon={faCheck} /> URL Copied!
+                  </button>
+              </div>
+            </CopyToClipboard> 
+      </div>
+    )
+
     if(props.event.title){
       detail = (
-        <div className="eventDetailMain">            
+        <div className="eventDetailMain"> 
             {title}
             {showTime}
             {props.event.fee ? fee : ""}
@@ -75,7 +101,7 @@ const eventDetail = (props) => {
             <br />
             <br />
             {props.loggedInUser ? (props.event.isRsvpd ? removeRsvpButton : addRsvpButton) : "" }
-            
+            {props.urlCopied ? urlCopiedDiv : copyUrlDiv }
         </div>
       )
     }

@@ -25,6 +25,7 @@ class EventDisplay extends Component {
       searchString: "",
       showEvents: true,
       hideSpinner: false,
+      urlCopied: false,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
@@ -41,6 +42,17 @@ class EventDisplay extends Component {
     
   }
 
+  copyUrlFxn = () => {
+    alert("copied")
+    this.setState(
+      {urlCopied: true}
+    )
+    setTimeout(function(){
+      this.setState({urlCopied: false});
+    }.bind(this),5000);
+    console.log(this.state.urlCopeid)
+  }
+  
   getDataFromDb = () => {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
@@ -234,6 +246,8 @@ class EventDisplay extends Component {
                 addRsvp={this.addRsvp}
                 removeRsvp={this.removeRsvp}
                 loggedInUser={this.state.loggedInUser}
+                copyUrlFxn={this.copyUrlFxn}
+                urlCopied={this.state.urlCopied}
             />
         </Modal>
         <div className="center">

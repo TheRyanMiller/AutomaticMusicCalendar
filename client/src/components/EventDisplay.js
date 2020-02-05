@@ -29,6 +29,7 @@ class EventDisplay extends Component {
       activeLoadingOverlay: false,
       hideResultMessage: true,
       invalidEvent: false,
+      urlCopied: false,
       selectedLocations: ["the pour house","the royal american","the music farm - charleston","tin roof - charleston"]
     }
   }
@@ -138,6 +139,8 @@ class EventDisplay extends Component {
       });
   }
 
+ 
+
   getDataFromDb = (eventFilter) => {
     let url = process.env.REACT_APP_PROD_API || process.env.REACT_APP_API;
     url = url+"/getEvents";
@@ -244,6 +247,15 @@ class EventDisplay extends Component {
     .catch(function (error) {
       console.log(error);
     });
+  }
+
+  copyUrlFxn = () => {
+    this.setState(
+      {urlCopied: true}
+    )
+    setTimeout(function(){
+      this.setState({urlCopied: false});
+    }.bind(this),5000);
   }
 
   removeRsvp = (userId,eventId) => {
@@ -426,10 +438,12 @@ class EventDisplay extends Component {
                 (<>Cannot find an event with that ID.</>) :
               
                 (<EventDetail
-                event={this.state.selectedEvent}
-                addRsvp={this.addRsvp}
-                removeRsvp={this.removeRsvp}
-                loggedInUser={this.props.loggedInUser}
+                  event={this.state.selectedEvent}
+                  addRsvp={this.addRsvp}
+                  removeRsvp={this.removeRsvp}
+                  copyUrlFxn={this.copyUrlFxn}
+                  urlCopied={this.state.urlCopied}
+                  loggedInUser={this.props.loggedInUser}
                 />)
               }
         </Modal>

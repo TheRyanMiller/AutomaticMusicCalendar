@@ -21,7 +21,8 @@ class EventDetails extends Component {
           event={this.props.event}
           loggedInUser={this.props.loggedInUser}
           isRsvpd={this.props.visAddRsvp}
-          
+          copyUrlFxn={this.props.copyUrlFxn}
+          urlCopied={this.props.urlCopied}
           />
       </div>
     );
