@@ -219,7 +219,8 @@ class EventDisplay extends Component {
       }
     )
     this.setState({
-        showModal:false
+        showModal:false,
+        urlCopied: false
     });
   }
 
