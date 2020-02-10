@@ -1,5 +1,5 @@
 {
-  "name": "charlestonlivemusiccalendar",
+  "name": "automaticmusiccalendar",
   "version": "1.0.0",
   "description": "",
   "main": "pohoScraper.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheRyanMiller/PoHoScraper.git"
+    "url": "git+https://github.com/TheRyanMiller/AutomaticMusicCalendar"
   },
   "engines": {
     "node": "10.16.0"
@@ -24,9 +24,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheRyanMiller/PoHoScraper/issues"
+    "url": "https://github.com/TheRyanMiller/AutomaticMusicCalendar"
   },
-  "homepage": "https://github.com/TheRyanMiller/PoHoScraper#readme",
+  "homepage": "https://github.com/TheRyanMiller/AutomaticMusicCalendar#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
