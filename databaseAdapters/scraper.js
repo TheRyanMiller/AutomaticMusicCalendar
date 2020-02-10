@@ -12,7 +12,7 @@ let scrapeObs = [{
 {
     locAcronym:"MF",
     location:"The Music Farm - Charleston",
-    scraperFile:'../scrapers/musicFarmScraperv2.js'
+    scraperFile:'../scrapers/musicFarmScraper.js'
 },
 {
     locAcronym:"RA",
