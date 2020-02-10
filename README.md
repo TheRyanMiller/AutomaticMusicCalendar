@@ -2,7 +2,13 @@
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 
-Automated Music Calendar (AMC) is a MERN app built to collect, organize, and present a schedule of upcoming local live music events. While I wrote this app originally to serve the Charleston, South Carolina music scene, AMC was flexibly designed to be open source, and pluggable with any source sites. To do so, simply fork the project, add some custom scrapers, and update some configuration parameters and add custom scrapers. scrape event data from any set of websites you want, simply write a scraper and add it to the configuration directory. Scraped events are pushed to the database, and automatically presented 
+Automated Music Calendar (AMC) is a MERN app built to collect, organize, and present a schedule of upcoming local live music events. While I wrote this app originally to serve the Charleston, South Carolina music scene, AMC was flexibly designed to be open source, and pluggable with any source sites. To do so, simply fork the project, add some custom scrapers, and update some configuration parameters and add custom scrapers. scrape event data from any set of websites you want, simply write a scraper and add it to the configuration directory. Scraped events are pushed to the database, and automatically presented.
+
+
+<img src="http://g.recordit.co/zUtupXvF1n.gif"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />  
+
 
 ## Installation
 AMC requires a running instance of [MongoDB](https://docs.mongodb.com/guides/server/install/). Mongo setup is outside the scope of this guide, but connection details can be found in the `.env` file at the project root.
