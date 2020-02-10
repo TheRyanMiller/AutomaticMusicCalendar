@@ -1,0 +1,2 @@
+MONGO_URL_DEV=mongodb://localhost:27017/chslivemusic
+API_PORT=3001
