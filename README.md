@@ -1,13 +1,15 @@
-# Automated Music Calendar 
+# Automatic Music Calendar 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 
-Automated Music Calendar (AMC) is a MERN app built to collect, organize, and present a schedule of upcoming local live music events. While I wrote this app originally to serve the Charleston, South Carolina music scene, AMC was flexibly designed to be open source, and pluggable with any source sites. To do so, simply fork the project, add some custom scrapers, and update some configuration parameters and add custom scrapers. scrape event data from any set of websites you want, simply write a scraper and add it to the configuration directory. Scraped events are pushed to the database, and automatically presented.
+Automatic Music Calendar (AMC) is a MERN app (MongoDb, Express, React, NodeJS) built to collect, organize, and present an always-up-to-date schedule of upcoming local live music events. While I wrote this app originally to serve the Charleston, South Carolina music scene, AMC was flexibly designed to be open source, and pluggable with any source sites. To do so, simply fork the project, and update it with minimal config options and your custom scraper files. By setting up a recurring job to run the web scraping , you can source your event data from any set of websites you want and expect that your app's event data is always up to date.
 
 
 <img src="http://g.recordit.co/zUtupXvF1n.gif"
-     alt="Markdown Monster icon"
+     alt="App overveiw"
      style="float: left; margin-right: 10px;" />  
+
+  
 
 
 ## Installation
@@ -16,11 +18,11 @@ Once variables are setup, AMC is ready to run out of the box. It comes packaged 
 
 > Clone the repo to your local machine
 ```
-$   git clone https://github.com/TheRyanMiller/CharlestonLiveMusicCalendar.git
+$   git clone https://github.com/TheRyanMiller/AutomaticMusicCalendar.git
 ```
 > Change into the project directory and install the server-side NPM packages, and then the client-side NPM packages.
 ```
-$   cd CharlestonLiveMusicCalendar
+$   cd AutomaticMusicCalendar
 $   npm install
 $   cd client
 $   npm install
