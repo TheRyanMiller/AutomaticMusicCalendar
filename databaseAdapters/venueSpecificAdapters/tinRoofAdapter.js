@@ -116,6 +116,7 @@ const updateEvent = function(db, event, callback) {
         query,
         { $set:
             {
+                title: event.title,
                 time: event.time,
                 infoLink: event.infoLink,
                 fee: event.fee,
