@@ -114,6 +114,7 @@ module.exports = () => new Promise(function(resolve, reject){
 )
 
 const compileLog = (scrapeArr, db, callback) =>{
+    
     let result = {}; 
     result.scrapeDate = new Date();
     result.newEvents = 0;
@@ -129,6 +130,15 @@ const compileLog = (scrapeArr, db, callback) =>{
     }
     
     let logNeeded = false;
+    /*
+        
+        By default, logs are written only when new events 
+        are found and added. Nevertheless, updates are still
+        made to existing events with each scrape job (e.g. hourly),
+        the updates just are not logged.
+        Use this line below to determine when logs are written.
+
+    */
     if(result.newEvents > 0) logNeeded = true;
 
     if(logNeeded){
@@ -182,6 +192,7 @@ const updateEvent = function(db, event, callback) {
         query,
         { $set:
             {
+                title: event.title,
                 time: event.time,
                 infoLink: event.infoLink,
                 fee: event.fee,
