@@ -23,6 +23,10 @@ let exclusions = [
   'food',
   'comedy',
   'comdey!',
+  'serving filipino',
+  'serving thigh',
+  'chicken sandwiches',
+  'crab rolls'
 ]
 
 function wordInString(title, exclusions) {
